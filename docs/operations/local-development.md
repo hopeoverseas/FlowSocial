@@ -10,11 +10,12 @@
 cd apps/flowsocial
 node --version
 npm ci --ignore-scripts --no-audit --no-fund
+npx --no-install playwright install --with-deps chromium
 npm run check
 npm run test:offline
 ```
 
-Windows PowerShell 使用 `npm.cmd` / `npx.cmd`，避免本机脚本策略阻止 `npm.ps1`。安装依赖需要网络；如果已有与锁文件匹配的本地缓存，可在安装命令中加 `--offline`。不要为安装而读取或处理 GitHub Token。图片渲染确需 Chromium 时单独运行 `npx playwright install chromium`；普通产品回归无需安装浏览器。
+Windows PowerShell 使用 `npm.cmd` / `npx.cmd`，避免本机脚本策略阻止 `npm.ps1`。安装依赖和 Chromium 需要网络；如果已有与锁文件匹配的 npm 缓存，可在 npm 安装命令中加 `--offline`。不要为安装而读取或处理 GitHub Token。完整产品回归包含公众号图文和移动预览渲染，必须预先安装与锁文件匹配的 Chromium；Linux 的 `--with-deps` 同时安装系统依赖。安装与离线测试分开执行，回归不自动下载浏览器。
 
 ## 离线回归
 
@@ -81,7 +82,7 @@ FLOWSOCIAL_DATA_DIR="/absolute/path/to/new-sandbox/data" PORT=4274 npm run start
 | 模型 402 | 由操作者确认余额与预算，不自动付费或换凭据 |
 | Provider 超时/响应未知 | 保留同一精确请求与幂等引用，先查效果并对账，禁止自动重试 |
 | 缺少精确原图 | 阻断 image_edit，不猜测引用或覆盖历史图片 |
-| 缺浏览器 | 确需渲染时安装匹配 Playwright Chromium |
+| 缺浏览器 | 在测试前执行 npx --no-install playwright install --with-deps chromium，安装锁定版本对应的浏览器和系统依赖 |
 | 旧接口 410 | 转用现行 unified atomic 主链，不恢复退休写入 |
 
 当前只有本地回环服务方案，没有生产 Docker/Compose、生产发布脚本或多租户认证/RBAC。进程内 mutationQueue 不能保障多实例写入；本地 SQLite/JSON 状态也不等同于并发 SaaS。团队公网部署需独立评审认证、Origin/CORS、权限、持久队列、备份与数据回退，未经评审不暴露服务到公网。

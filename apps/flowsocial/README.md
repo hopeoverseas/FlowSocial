@@ -15,9 +15,9 @@ npm run start:product:offline
 
 Windows PowerShell 使用 `npm.cmd` / `npx.cmd`。工作台地址为 `http://127.0.0.1:4273/`，健康接口为 `/api/v1/health`。`start:product:offline` 只跳过启动付费模型预检，不会阻止页面后续访问外部服务。`test:offline` 才是隔离存储并阻断外网的回归入口。原 `test:product` 不应直接用于活动工作区。
 
-`npm start` 与 `start:product` 都装配同一产品策略并进行真实模型预检；使用前确认授权和预算。`start:offline` 直接启动 server，不能替代产品开关入口。启动器可能停止占用同端口的旧 FlowSocial；不要用活动实例做接手测试。Chromium 仅在确需浏览器渲染时安装：`npx playwright install chromium`。
+`npm start` 与 `start:product` 都装配同一产品策略并进行真实模型预检；使用前确认授权和预算。`start:offline` 直接启动 server，不能替代产品开关入口。启动器可能停止占用同端口的旧 FlowSocial；不要用活动实例做接手测试。完整产品回归包含浏览器渲染，应在测试前运行 `npx --no-install playwright install --with-deps chromium`；安装需要网络，与离线测试分开执行。
 
-当前没有独立 build/lint 命令。本次 Node 24.18.0 的 `test:offline` 退出 0，218 个正式源文件/架构检查、独立外网 guard 自测及 44/44 产品测试通过。范围与剩余风险见 [PROGRESS.md](../../docs/PROGRESS.md)，真实业务验收仍依[输入清单](../../docs/operations/business-acceptance.md)另行确认；本地通过不等于云端 CI 或真实平台通过。
+当前没有独立 build/lint 命令。2026-10-12 Node 24.18.0 的 `test:offline` 退出 0，218 个正式源文件/架构检查、独立外网 guard 自测及 45/45 产品测试通过。范围与云端 CI 实测状态见 [PROGRESS.md](../../docs/PROGRESS.md)，真实业务验收仍依[输入清单](../../docs/operations/business-acceptance.md)另行确认；本地通过不等于云端 CI 或真实平台通过。
 
 ## 运行与数据边界
 

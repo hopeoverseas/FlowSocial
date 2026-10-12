@@ -45,12 +45,13 @@ cd FlowSocial
 nvm use
 cd apps/flowsocial
 npm ci --ignore-scripts --no-audit --no-fund
+npx --no-install playwright install --with-deps chromium
 npm run check
 npm run test:offline
 npm run start:product:offline
 ```
 
-打开 `http://127.0.0.1:4273/`，健康检查为 `GET /api/v1/health`。不要通过 `file://` 打开页面。图片渲染确需 Chromium 时另行运行 `npx playwright install chromium`；依赖和浏览器安装需要网络，普通产品回归不需要浏览器或密钥。
+打开 `http://127.0.0.1:4273/`，健康检查为 `GET /api/v1/health`。不要通过 `file://` 打开页面。完整离线回归包含公众号图文与移动预览渲染，需要先安装与锁文件匹配的 Chromium；Linux 还需要系统依赖。依赖和浏览器安装需要网络，安装完成后的产品回归使用本地合成输入，无需密钥；CI 也将安装与回归分成独立步骤。
 
 `start:product:offline` 装配当前产品开关并跳过启动模型预检，页面后续动作仍可能访问外部服务。它与阻断外网的 `test:offline` 不同。`npm start` / `start:product` 启动时会进行真实模型预检；启用前须确认授权和费用。启动器可能停止占用同端口的旧版 FlowSocial，隔离验收必须使用独立目录、独立数据与端口。
 

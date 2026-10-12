@@ -26,5 +26,7 @@ jobs:
           package-manager-cache: false
       - name: Install locked public dependencies
         run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Install Chromium and operating system dependencies
+        run: npx --no-install playwright install --with-deps chromium
       - name: Run checks and product tests without provider access
         run: npm run test:offline

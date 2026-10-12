@@ -26,10 +26,10 @@
 - **检查命令**：`npm run check`；`rg -n '4173|ContentRun|seedream|gpt-image|manual|feedback' README.md openapi.yaml ../../docs ../../AGENTS.md`，逐项区分历史记录与当前要求，不能以无关键字作为验收。
 - **风险**：写入尚未执行的测试/平台结果；混写代码缺省与模板配置；把 API 文档版本误当应用包版本。
 
-## P1-2 GitHub 准备、历史决策与离线 CI
+## P1-2 GitHub 公开发行与离线 CI
 
-- **目标**：准备可审查的源码提交范围、忽略规则与 CI，保留现有文件和原交接旁证，等待仓库/历史决策；具体方案维护在 [GITHUB_UPLOAD_PLAN.md](GITHUB_UPLOAD_PLAN.md)。
-- **验收**：仅检查敏感文件元数据，不读取/输出值；列出超过 100 MB 文件及运行产物；忽略本机配置/数据库/上传/图片/日志/缓存/交付物；Node 24.18.0 CI 使用锁文件和隔离离线产品测试；给出远程地址、历史策略、提交范围、建议 message 和推送计划。检查到已跟踪敏感文件立即停止。
+- **目标**：按所有者已确定的公开仓库、MIT 和新 main 历史决定，维护可审查的源码提交范围、忽略规则与 CI，保留原本机文件和交接旁证；具体方案维护在 [GITHUB_UPLOAD_PLAN.md](GITHUB_UPLOAD_PLAN.md)。
+- **验收**：仅检查敏感文件元数据，不读取/输出值；列出超过 100 MB 文件及运行产物；忽略本机配置/数据库/上传/图片/日志/缓存/交付物；Node 24.18.0 CI 使用锁文件，独立安装匹配的 Chromium/系统依赖，再运行隔离离线产品测试；给出远程地址、历史策略、提交范围、建议 message 和推送计划，并核实远端可见性、main、MIT 识别和 CI。检查到已跟踪敏感文件立即停止。
 - **影响范围**：`.gitignore`、CI、隔离测试命令、README 与 GitHub 上传计划；2026-10-12 所有者已指定公开 `hopeoverseas/FlowSocial`、MIT、新 `main` 历史，授权初始化、提交和推送；发行结果见 PROGRESS。
 - **检查命令**：`npm run test:offline`；目标仓库确定后才执行 `git status --short`、`git ls-files`、`git diff --check` 和敏感文件名检查。无 `.git` 时这些 Git 命令不适用，应明确报告。
 - **风险**：原提交可追溯性仅保留交接旁证；公开仓库不得承载凭据、客户数据、原 seed 或本机研究/交付材料，项目采用 MIT，依赖保留各自许可。`gh` 未登录仅提示 `gh auth login` 或 SSH，不处理 Token。

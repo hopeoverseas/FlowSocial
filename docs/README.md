@@ -7,7 +7,7 @@
 | [接手说明](HANDOVER.md) | 接手事实、架构入口、风险与待确认输入 |
 | [工程进度](PROGRESS.md) | 完成/进行中/未开始与本次实测状态 |
 | [下一步任务](NEXT_STEPS.md) | P0/P1/P2 目标、验收、影响、命令与风险 |
-| [GitHub 上传计划](GITHUB_UPLOAD_PLAN.md) | 源码提交范围、排除、历史策略与待确认推送计划 |
+| [GitHub 公开发行记录](GITHUB_UPLOAD_PLAN.md) | 公开仓库、许可证、源码范围、排除与历史策略 |
 | [产品路线图](product/product-roadmap.md) | 长期产品方向及明确标注的历史决策 |
 | [系统架构](architecture/system-architecture.md) | 长期模块、合同、数据和兼容边界 |
 | [本地开发](operations/local-development.md) | 当前运行、配置与排障步骤 |

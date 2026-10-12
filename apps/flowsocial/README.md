@@ -8,6 +8,7 @@
 
 ```sh
 npm ci --ignore-scripts --no-audit --no-fund
+npx --no-install playwright install --with-deps chromium
 npm run check
 npm run test:offline
 npm run start:product:offline

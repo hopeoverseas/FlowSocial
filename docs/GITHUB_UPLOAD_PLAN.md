@@ -8,7 +8,7 @@
 | 可见性 | Public，由所有者明确指定 |
 | 许可证 | 根目录 MIT LICENSE；包及 lockfile 标注 MIT，第三方依赖保留自身许可 |
 | 历史 | 新建 main 历史，原交接没有可独立验证的 Git 仓库 |
-| 创建/推送 | 本次执行中；45/45 离线回归及空工作台启动已通过，远端结果与 CI 状态见 PROGRESS |
+| 创建/同步 | 已创建公开仓库并同步 main；远端核实 Public、main 默认分支、MIT，修复后云端 CI 成功；证据见 PROGRESS |
 
 ## 公开范围
 
@@ -27,6 +27,14 @@
 5. 创建新 main 初始提交，创建明确指定的公开仓库并推送；核对远端提交、公开可见性、默认分支、MIT 识别及 CI 实际结果。
 
 `.github/workflows/offline-ci.yml` 只具 `contents: read`，不持久化 checkout 凭据，安装禁用 lifecycle scripts，不部署或访问真实平台。Actions 固定到官方仓库 SHA，参考[GitHub 安全使用说明](https://docs.github.com/en/actions/reference/security/secure-use#using-third-party-actions)。
+
+首轮云端回归暴露 Chromium 未安装；CI 已补独立的浏览器/系统依赖安装步骤，完整 45 项产品回归仍保留。安装按锁定的 Playwright 版本执行，流程参考[Playwright CI 官方说明](https://playwright.dev/docs/ci)。网络安装与隔离回归分开，不能把依赖安装过程称为离线。
+
+## 后续源码同步
+
+远程 origin 为 `https://github.com/hopeoverseas/FlowSocial.git`，分支 main。核对范围并取得上传授权后的常规命令为 `git push origin main`；本次文档提交使用 `docs: record public MIT release and verified CI`。
+
+本次修复同步遇到本机 Git HTTPS 连接错误，改用已登录 gh 的 Git Data API：内容树和提交 SHA 与本地完全一致，远端只做 fast-forward 更新，原初始提交保持为父提交。没有处理或输出 GitHub token；该传输恢复不授权生产部署或真实社媒发布。
 
 ## 执行边界
 

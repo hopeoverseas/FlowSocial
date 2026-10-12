@@ -109,4 +109,11 @@
 
 初次验证在旧本机依赖加载时超时，使用干净副本重新安装锁定依赖后复测通过，没有放宽或跳过测试。交接代码仍有 66 处原有 EOF 多余空行格式诊断，不作为业务修复修改它们。未读取/替换活动数据，未调用真实社媒 Provider 或平台。
 
-远端仓库创建、推送、公开可见性、MIT 识别、提交一致性和云端 CI 结果待本次执行核实。
+### 远端发行与云端验证
+
+- 已创建 [hopeoverseas/FlowSocial](https://github.com/hopeoverseas/FlowSocial)，核实 Public 可见性、默认分支 main、GitHub 识别 MIT License。
+- 初始 main 提交为 [8b7d5a5](https://github.com/hopeoverseas/FlowSocial/commit/8b7d5a5fd692eb1b1459d383f645a0f55e0a71e2)，首次推送后本地与远端 SHA 一致，工作区干净；原交接没有可保留的 Git 历史。
+- [首轮 Actions](https://github.com/hopeoverseas/FlowSocial/actions/runs/38266954711) 安装 npm 依赖成功，但公众号图文交付测试因 Chromium 可执行文件缺失而失败。本机通过依赖预先安装的浏览器，原“完整回归无需浏览器”文档不准确，已修正。
+- 修复提交 [21f52dd](https://github.com/hopeoverseas/FlowSocial/commit/21f52ddcc9496479b3d4b77dd2d1274cc3b23c68) 补入测试前的 `npx --no-install playwright install --with-deps chromium`；安装与离线回归独立，未跳过断言或改动业务代码。
+- [修复后 Actions](https://github.com/hopeoverseas/FlowSocial/actions/runs/38269293209) 于 2026-10-12 15:22 UTC 完成并成功：Ubuntu 24.04、Node 24.18.0，锁定依赖与 Chromium/系统依赖安装成功，完整 `npm run test:offline` 通过；218 个正式源码、架构和外网 guard 检查通过，输出 `product-tests: ok (45 tests)`。
+- 本机 Git HTTPS 传输遇到 HTTP/2/连接失败；通过已登录 gh 的 Git Data API 同步修复。先核实远端父提交，再逐项比对文件树和完整提交 SHA，最后执行非强制的 fast-forward 更新。修复同步后核验本地/远端 main 均为 21f52dd；后续发行文档更新不改动该次验证的业务源码和 CI。

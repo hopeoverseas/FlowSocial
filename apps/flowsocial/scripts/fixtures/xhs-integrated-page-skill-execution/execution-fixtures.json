@@ -1,0 +1,71 @@
+{
+  "schemaVersion": "1.0",
+  "description": "Offline-only 05K execution planning fixtures; no Provider or visual quality evidence",
+  "profiles": {
+    "image2": {
+      "provider": "kie.ai",
+      "model": "gpt-image-2-text-to-image",
+      "adapter": {"id": "kie-jobs-image2", "version": "1.0", "projectionKey": "image2.text-to-image.v1"},
+      "lifecycle": "experimental",
+      "createEndpoint": "/api/v1/jobs/createTask",
+      "requestFields": ["model", "input.prompt", "input.aspect_ratio", "input.resolution"],
+      "inputDefaults": {"aspect_ratio": "3:4", "resolution": "1K"},
+      "nativeOutputDimensions": {"width": 1086, "height": 1448},
+      "normalization": {"mode": "resample", "target": {"width": 1080, "height": 1440}, "nonUniformStretchAllowed": false, "protectedRegionCropAllowed": false},
+      "estimatedCostPerCandidate": 6,
+      "currency": "credits"
+    },
+    "nanoBanana2": {
+      "provider": "kie.ai",
+      "model": "nano-banana-2",
+      "adapter": {"id": "kie-jobs-nano-banana-2", "version": "1.0", "projectionKey": "nano-banana-2.v1"},
+      "lifecycle": "experimental",
+      "createEndpoint": "/api/v1/jobs/createTask",
+      "requestFields": ["model", "input.prompt", "input.image_input", "input.aspect_ratio", "input.resolution", "input.output_format"],
+      "inputDefaults": {"image_input": [], "aspect_ratio": "3:4", "resolution": "1K", "output_format": "png"},
+      "nativeOutputDimensions": {"width": 896, "height": 1200},
+      "normalization": {"mode": "fit_crop", "target": {"width": 1080, "height": 1440}, "nonUniformStretchAllowed": false, "protectedRegionCropAllowed": false},
+      "estimatedCostPerCandidate": 8,
+      "currency": "credits"
+    }
+  },
+  "safeEvidence": {
+    "providerStatus": "succeeded",
+    "nativeDimensions": {"width": 896, "height": 1200},
+    "normalization": {"status": "succeeded", "outputDimensions": {"width": 1080, "height": 1440}, "nonUniformStretch": false, "protectedRegionCrop": false},
+    "gates": {"ocr": "passed", "fact": "passed", "visual": "passed"}
+  },
+  "freshRuntimeInput": {
+    "schemaVersion": "1.0",
+    "contract": "DesignXhsIntegratedPagesRuntimeInput@1.0",
+    "id": "runtime-three-page-operations",
+    "xhsPostPackage": {
+      "status": "success",
+      "data": {
+        "platform": "xiaohongshu",
+        "post_copy": {"cta": "保存这套检查清单"},
+        "deck": {
+          "pages": [
+            {"page": 1, "role": "cover", "text_layers": [{"type": "headline", "text": "一次看清内容执行链"}, {"type": "supporting", "text": "从输入到交付逐页核对"}], "fact_ids": [], "interpretation_ids": [], "must_avoid": []},
+            {"page": 2, "role": "problem", "text_layers": [{"type": "headline", "text": "三个常见断点"}, {"type": "list", "items": [{"text": "方向没有冻结"}, {"text": "提示词绕过审阅"}, {"text": "交付状态提前完成"}]}], "fact_ids": [], "interpretation_ids": [], "must_avoid": ["不得虚构成效"]},
+            {"page": 3, "role": "cta", "text_layers": [{"type": "cta", "text": "保存这套检查清单"}], "fact_ids": [], "interpretation_ids": [], "must_avoid": []}
+          ]
+        }
+      }
+    },
+    "contentVersion": 4,
+    "designDna": {"snapshotId": "design-dna:fresh-runtime", "palette": ["navy", "mint", "coral"], "typographyRoles": ["headline", "body", "cta"], "constraints": ["中文逐字保留", "跨页节奏一致"]},
+    "authorizedAssets": [],
+    "providerCapability": {"integratedChineseTypography": true, "exactDimensions": true, "referenceImages": false},
+    "pageDensity": {"P1": "low", "P2": "medium", "P3": "low"},
+    "visualSelection": {
+      "stylePackId": "friendly-handdrawn-tech",
+      "reason": "原创亲和技术风覆盖封面、问题和 CTA",
+      "pages": [
+        {"pageId": "P1", "archetypeId": "cover.promise", "patternIds": ["pattern.hierarchy.promise-focus"], "referenceAssetIds": [], "verbatimTextOverride": null, "stylePackId": null},
+        {"pageId": "P2", "archetypeId": "explanation.concept-map", "patternIds": ["pattern.map.hub-spokes"], "referenceAssetIds": [], "verbatimTextOverride": null, "stylePackId": null},
+        {"pageId": "P3", "archetypeId": "summary.cta", "patternIds": ["pattern.cta.single-action"], "referenceAssetIds": [], "verbatimTextOverride": null, "stylePackId": null}
+      ]
+    }
+  }
+}

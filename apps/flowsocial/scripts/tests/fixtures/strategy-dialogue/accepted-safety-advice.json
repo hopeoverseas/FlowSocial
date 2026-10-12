@@ -1,0 +1,15 @@
+{
+  "caseId": "accepted_safety_advice_closes_covered_slots",
+  "recommendation": [
+    "不公开未经授权的客户名称",
+    "不虚构案例和效果数据",
+    "不使用保证、一定、百分百等绝对承诺",
+    "敏感数据需要脱敏或标注来源"
+  ],
+  "expectedCapturedSlots": [
+    "confidentialInformation",
+    "forbiddenClaims",
+    "dataSourceRules",
+    "caseAuthorizationRules"
+  ]
+}

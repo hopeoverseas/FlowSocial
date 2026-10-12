@@ -1,0 +1,4 @@
+interface:
+  display_name: "分析诊断轮次"
+  short_description: "Extract traceable claims and choose the next diagnostic question"
+  default_prompt: "Use $analyze-diagnostic-turn to analyze this user reply and choose the next diagnostic question."

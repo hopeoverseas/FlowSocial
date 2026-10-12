@@ -1,0 +1,8 @@
+{"caseId":"audience_explanation","fieldPath":"audiences.primary","intent":"request_clarification","mustContain":["行业","职位","小红书","公众号"]}
+{"caseId":"platform_explanation","fieldPath":"accountStrategy.platformRoles","intent":"request_clarification","mustContain":["小红书","公众号","分工"]}
+{"caseId":"audience_examples","fieldPath":"audiences.primary","intent":"request_examples","mustContain":["示例","决策人"]}
+{"caseId":"platform_examples","fieldPath":"accountStrategy.platformRoles","intent":"request_examples","mustContain":["小红书","公众号"]}
+{"caseId":"audience_recommendation","fieldPath":"audiences.primary","intent":"request_recommendation","mustContain":["客户成功","行业"]}
+{"caseId":"platform_recommendation","fieldPath":"accountStrategy.platformRoles","intent":"request_recommendation","mustContain":["小红书","公众号"]}
+{"caseId":"resources_checklist","fieldPath":"accountStrategy.contentResources","intent":"request_checklist","mustContain":["产品","案例","SOP"]}
+{"caseId":"constraints_checklist","fieldPath":"accountStrategy.constraints","intent":"request_checklist","mustContain":["不能公开","不能承诺"]}

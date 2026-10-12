@@ -1,0 +1,32 @@
+{
+  "schemaVersion": "1.0",
+  "strategySnapshotId": "snapshot_damaishuzhi_demo_v1",
+  "directions": [
+    {
+      "id":"direction_01","name":"外贸工厂AI应用","purpose":"发现外贸销售、获客、跟进、客服和运营中的真实AI需求与变化","pillarIds":["pillar_foreign_trade","pillar_ai_scenarios"],"audienceIds":["audience_owner","audience_manager"],
+      "queryGroups":{"core":["外贸工厂 AI","外贸企业 人工智能","外贸销售 AI"],"scenario":["询盘跟进","客户开发","多语种客服","产品资料整理"],"problem":["外贸销售效率低","客户跟进遗漏","新人培训慢"],"event":["外贸 AI 新产品","跨境平台 AI 更新"],"policy":["人工智能 外贸 政策","跨境数据 合规"],"competitor":["外贸 AI 服务商","外贸智能体"],"case":["外贸工厂 AI 案例","外贸销售智能体案例"],"exclude":["招聘","兼职","跳舞","娱乐","小说","游戏下载"]},
+      "sourcePreferences":["行业媒体","政府与协会","跨境平台官方","企业实践分享"],"freshnessWindowDays":14,"priority":100
+    },
+    {
+      "id":"direction_02","name":"企业知识库建设","purpose":"跟踪知识治理、RAG、内部资料沉淀和知识库落地问题","pillarIds":["pillar_knowledge"],"audienceIds":["audience_manager","audience_ai_owner"],
+      "queryGroups":{"core":["企业知识库","AI 知识库","RAG 企业应用"],"scenario":["销售话术知识库","SOP 知识库","客服知识库","员工培训知识库"],"problem":["企业资料分散","知识库回答不准","知识库维护困难"],"event":["知识库 产品更新","RAG 技术进展"],"policy":["企业数据安全","生成式人工智能 合规"],"competitor":["企业知识库 产品","RAG 平台"],"case":["企业知识库 落地案例","RAG 失败案例"],"exclude":["个人网盘","论文代写","课程广告","招聘"]},
+      "sourcePreferences":["技术厂商官方","研究机构","企业数字化媒体","真实项目复盘"],"freshnessWindowDays":14,"priority":95
+    },
+    {
+      "id":"direction_03","name":"AI员工与岗位工作流","purpose":"发现AI从工具走向岗位任务执行的场景、方法与争议","pillarIds":["pillar_ai_scenarios","pillar_delivery"],"audienceIds":["audience_owner","audience_ai_owner"],
+      "queryGroups":{"core":["AI 员工","数字员工","AI 工作流","企业智能体"],"scenario":["AI 销售助手","AI 客服","AI 培训","AI 内容运营"],"problem":["AI 输出不稳定","智能体无法落地","AI 工作流维护"],"event":["智能体平台更新","AI Agent 发布"],"policy":["AI 治理","人工智能 应用规范"],"competitor":["智能体平台","数字员工 服务商"],"case":["AI 员工 落地案例","智能体 项目复盘"],"exclude":["AI 女友","游戏角色","科幻电影","虚拟币"]},
+      "sourcePreferences":["模型与平台官方","企业服务媒体","实施案例","专业社区"],"freshnessWindowDays":7,"priority":90
+    },
+    {
+      "id":"direction_04","name":"企业AI项目交付与避坑","purpose":"收集需求诊断、知识准备、评测、验收和组织采用中的真实问题","pillarIds":["pillar_delivery"],"audienceIds":["audience_owner","audience_ai_owner"],
+      "queryGroups":{"core":["企业 AI 落地","AI 项目 交付","智能体 验收"],"scenario":["AI 需求诊断","知识库评测","智能体测试","AI 项目培训"],"problem":["AI 项目烂尾","PoC 无法上线","员工不用 AI","AI 幻觉"],"event":["企业 AI 调研","AI 项目报告"],"policy":["数据安全法 AI","生成式 AI 合规"],"competitor":["AI 咨询公司","AI 落地服务"],"case":["企业 AI 失败案例","AI 项目 验收案例"],"exclude":["考证","招生","纯工具测评","提示词售卖"]},
+      "sourcePreferences":["咨询机构报告","企业复盘","监管机构","产业媒体"],"freshnessWindowDays":30,"priority":90
+    },
+    {
+      "id":"direction_05","name":"AI行业变化的企业影响","purpose":"将模型、产品、政策等外部热点转译为企业岗位与经营影响","pillarIds":["pillar_trends","pillar_ai_scenarios"],"audienceIds":["audience_owner","audience_manager","audience_ai_owner"],
+      "queryGroups":{"core":["AI 行业动态","大模型 更新","AI Agent 趋势"],"scenario":["企业应用","销售客服","内容运营","组织管理"],"problem":["企业如何选择大模型","AI 工具更新太快"],"event":["大模型发布","AI产品发布","AI公司融资并购"],"policy":["人工智能 政策","AI 监管"],"competitor":["DeepSeek","OpenAI","字节跳动 AI","阿里云 AI","腾讯 AI"],"case":["企业采用大模型","大模型 企业案例"],"exclude":["明星","娱乐八卦","AI 绘画比赛","币价"]},
+      "sourcePreferences":["厂商官方","监管机构","权威科技媒体","研究报告"],"freshnessWindowDays":7,"priority":80
+    }
+  ]
+}
+

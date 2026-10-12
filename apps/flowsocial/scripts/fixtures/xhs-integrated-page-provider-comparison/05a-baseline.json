@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "1.0",
+  "sourceContract": "FS-V1-XHS-VISUAL-05A",
+  "readOnly": true,
+  "provider": "kie.ai",
+  "model": "seedream/4.5-text-to-image",
+  "paidRequests": 5,
+  "candidatesPerRequest": 1,
+  "automaticRetries": 0,
+  "creditsConsumedDelta": 32.5,
+  "observations": {
+    "providerStatus": "succeeded",
+    "textStatus": "failed",
+    "factStatus": "failed",
+    "visualStatus": "failed",
+    "dimensionStatus": "failed",
+    "referenceIsolationStatus": "failed",
+    "editingStatus": "not_tested",
+    "observedDimensions": {"width": 1680, "height": 2240}
+  }
+}

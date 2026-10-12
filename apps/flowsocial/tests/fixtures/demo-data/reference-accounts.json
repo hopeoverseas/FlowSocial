@@ -1,0 +1,8 @@
+{
+  "schemaVersion":"1.0",
+  "items":[],
+  "status":"needs_user_input",
+  "note":"尚未提供真实参考账号。正式做爆款拆解前，请补充小红书和公众号各3至5个认可账号，避免模型自行杜撰。",
+  "requiredFields":["platform","accountName","accountUrl","whyReference","contentStrength","transferBoundary"]
+}
+

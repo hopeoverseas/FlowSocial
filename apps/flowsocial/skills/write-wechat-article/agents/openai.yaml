@@ -1,0 +1,6 @@
+interface:
+  display_name: "撰写公众号深度文章"
+  short_description: "生成可追溯、可连续阅读和转发的公众号文章"
+  default_prompt: "Use $write-wechat-article to draft an intent-aligned WeChat article with a continuous argument, traceable knowledge, controlled promotion, and one natural primary interaction."
+policy:
+  allow_implicit_invocation: false

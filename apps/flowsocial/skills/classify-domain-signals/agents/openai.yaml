@@ -1,0 +1,4 @@
+interface:
+  display_name: "分类领域信号"
+  short_description: "Classify domain search results before clustering and topic work"
+  default_prompt: "Use $classify-domain-signals to classify these retrieved domain signals."

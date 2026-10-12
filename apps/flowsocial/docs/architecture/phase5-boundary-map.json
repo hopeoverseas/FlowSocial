@@ -1,0 +1,40 @@
+{
+  "schemaVersion": "1.0",
+  "phase": "5A",
+  "frontend": {
+    "bootstrap": "app.js",
+    "domains": [
+      { "id": "runtime-status", "targetModule": "ui/runtime-status.js", "requiredApi": ["getRuntimeStatus"] },
+      { "id": "unified-artifact-workbench", "targetModule": "ui/unified-artifact-workbench.js", "requiredApi": ["listUnifiedContentProjects", "getUnifiedContentArtifactReview"] },
+      { "id": "application-bootstrap", "targetModule": "ui/application-bootstrap.js", "requiredApi": [] }
+    ],
+    "pageIsolationRules": [
+      "active-strategy-summary-only-on-strategy-agent",
+      "artifact-workbench-hidden-when-feature-gate-closed",
+      "no-horizontal-overflow-at-900-and-480"
+    ]
+  },
+  "backend": {
+    "compositionRoot": "server.mjs",
+    "domains": [
+      { "id": "system-health", "targetModule": "http/system-routes.mjs", "routes": ["GET /health"] },
+      { "id": "legacy-content-read-compatibility", "targetModule": "http/legacy-content-routes.mjs", "routes": ["GET /content-tasks/:id", "GET /content-tasks/:id/versions", "GET /content-promotions", "GET /content-promotions/:id", "GET /content-tasks/:id/publications"] },
+      { "id": "legacy-content-effects", "targetModule": "http/legacy-content-routes.mjs", "routes": ["POST /content-promotions/preview", "POST /content-promotions/confirm", "POST /content-tasks/:id/publications", "POST /content-publications/:id/metrics", "PATCH /content-publications/:id"] }
+    ]
+  },
+  "protectedGates": [
+    "explicit-user-selection",
+    "provider-cost-approval",
+    "provider-execution-approval",
+    "publication-confirmation",
+    "feedback-exact-reference",
+    "legacy-write-fail-closed"
+  ],
+  "forbiddenRefactorEffects": [
+    "active-data-write",
+    "provider-call",
+    "platform-upload",
+    "platform-publication",
+    "implicit-legacy-fallback"
+  ]
+}

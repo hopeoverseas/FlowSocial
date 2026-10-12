@@ -1,0 +1,68 @@
+{
+  "schemaVersion": "1.0",
+  "description": "Offline-only direction review, capability, compiler and registry fixtures; not visual-quality evidence",
+  "directionCandidates": [
+    {
+      "id": "direction-structured",
+      "stylePackId": "structured-infographic",
+      "archetypePlan": ["cover.promise", "list.key-points"],
+      "compositionModel": "stable-grid-and-grouped-cards",
+      "hierarchyStrategy": "headline-then-equal-weight-details",
+      "imageRole": "explain-structure",
+      "palette": ["ink", "cream", "amber"],
+      "source": "FlowSocial original FS-V1-XHS-VISUAL-05B",
+      "license": "FlowSocial-Proprietary-Original",
+      "risks": ["high-density-small-text"],
+      "capabilityStatus": {"snapshotRef": "capability-full", "status": "available", "blockers": []}
+    },
+    {
+      "id": "direction-editorial",
+      "stylePackId": "editorial-metaphor",
+      "archetypePlan": ["cover.promise", "comparison.before-after"],
+      "compositionModel": "single-metaphor-with-mirrored-comparison",
+      "hierarchyStrategy": "dominant-concept-then-balanced-columns",
+      "imageRole": "frame-concept",
+      "palette": ["burgundy", "paper", "charcoal"],
+      "source": "FlowSocial original FS-V1-XHS-VISUAL-05B",
+      "license": "FlowSocial-Proprietary-Original",
+      "risks": ["metaphor-may-overpower-text"],
+      "capabilityStatus": {"snapshotRef": "capability-full", "status": "available", "blockers": []}
+    },
+    {
+      "id": "direction-friendly",
+      "stylePackId": "friendly-handdrawn-tech",
+      "archetypePlan": ["cover.promise", "process.vertical-steps"],
+      "compositionModel": "annotated-path-with-step-spine",
+      "hierarchyStrategy": "promise-then-sequential-steps",
+      "imageRole": "guide-reading-flow",
+      "palette": ["navy", "mint", "coral"],
+      "source": "FlowSocial original FS-V1-XHS-VISUAL-05B",
+      "license": "FlowSocial-Proprietary-Original",
+      "risks": ["decoration-may-reduce-legibility"],
+      "capabilityStatus": {"snapshotRef": "capability-full", "status": "available", "blockers": []}
+    }
+  ],
+  "capabilityProfiles": {
+    "full": {"integratedChineseTypography": true, "referenceImages": true, "exactDimensions": true, "supportedDimensions": [{"width": 1080, "height": 1440}], "maxCandidateCount": 3, "maskEditing": false, "preserveRegions": false, "seedControl": false, "asyncJobs": false},
+    "missingTypography": {"integratedChineseTypography": false, "referenceImages": true, "exactDimensions": true, "supportedDimensions": [{"width": 1080, "height": 1440}], "maxCandidateCount": 3, "maskEditing": false, "preserveRegions": false, "seedControl": false, "asyncJobs": false},
+    "missingReferenceImages": {"integratedChineseTypography": true, "referenceImages": false, "exactDimensions": true, "supportedDimensions": [{"width": 1080, "height": 1440}], "maxCandidateCount": 3, "maskEditing": false, "preserveRegions": false, "seedControl": false, "asyncJobs": false},
+    "wrongDimensions": {"integratedChineseTypography": true, "referenceImages": true, "exactDimensions": true, "supportedDimensions": [{"width": 1680, "height": 2240}], "maxCandidateCount": 3, "maskEditing": false, "preserveRegions": false, "seedControl": false, "asyncJobs": false},
+    "singleCandidate": {"integratedChineseTypography": true, "referenceImages": true, "exactDimensions": true, "supportedDimensions": [{"width": 1080, "height": 1440}], "maxCandidateCount": 1, "maskEditing": false, "preserveRegions": false, "seedControl": false, "asyncJobs": false}
+  },
+  "referenceAssets": {
+    "authorized": [{"id":"asset-evidence-01","sourceRef":"fixture://authorized-evidence-01","sourceHash":"0000000000000000000000000000000000000000000000000000000000000001","status":"experimental","license":{"id":"owner-consent-01","allowsOfflineCompilation":true,"allowsGenerationReference":true},"authorization":{"status":"authorized_for_offline_compilation","evidenceHash":"0000000000000000000000000000000000000000000000000000000000000002"},"applicability":{"pageRoles":["evidence"]},"failureModes":["reference-text-leakage"]}],
+    "unauthorized": [{"id":"asset-evidence-01","sourceRef":"fixture://unauthorized-evidence-01","sourceHash":"0000000000000000000000000000000000000000000000000000000000000003","status":"experimental","license":{"id":"unknown","allowsOfflineCompilation":false,"allowsGenerationReference":false},"authorization":null,"applicability":{"pageRoles":["evidence"]},"failureModes":["missing-authorization"]}]
+  },
+  "compilerCases": [
+    {"id":"happy-deterministic","promptFixtureId":"cover-list-exact-numbers","capabilityProfile":"full","referenceAssets":"authorized","mutation":"none","options":{"canvas":{"width":1080,"height":1440},"candidateCount":1,"requestedFeatures":{"mask":null,"preserveRegions":[],"seed":null}},"expectedBlockers":[]},
+    {"id":"missing-capability","promptFixtureId":"cover-list-exact-numbers","capabilityProfile":"missingTypography","referenceAssets":"authorized","mutation":"none","options":{"canvas":{"width":1080,"height":1440},"candidateCount":1,"requestedFeatures":{"mask":null,"preserveRegions":[],"seed":null}},"expectedBlockers":["MISSING_CAPABILITY"]},
+    {"id":"missing-reference-capability","promptFixtureId":"authorized-evidence-asset","capabilityProfile":"missingReferenceImages","referenceAssets":"authorized","mutation":"none","options":{"canvas":{"width":1080,"height":1440},"candidateCount":1,"requestedFeatures":{"mask":null,"preserveRegions":[],"seed":null}},"expectedBlockers":["MISSING_CAPABILITY"]},
+    {"id":"unauthorized-reference","promptFixtureId":"authorized-evidence-asset","capabilityProfile":"full","referenceAssets":"unauthorized","mutation":"none","options":{"canvas":{"width":1080,"height":1440},"candidateCount":1,"requestedFeatures":{"mask":null,"preserveRegions":[],"seed":null}},"expectedBlockers":["UNAUTHORIZED_REFERENCE_ASSET"]},
+    {"id":"fact-rewrite","promptFixtureId":"cover-list-exact-numbers","capabilityProfile":"full","referenceAssets":"authorized","mutation":"fact_rewrite","options":{"canvas":{"width":1080,"height":1440},"candidateCount":1,"requestedFeatures":{"mask":null,"preserveRegions":[],"seed":null}},"expectedBlockers":["FACT_TEXT_MISMATCH"]},
+    {"id":"prompt-injection","promptFixtureId":"cover-list-exact-numbers","capabilityProfile":"full","referenceAssets":"authorized","mutation":"prompt_injection","options":{"canvas":{"width":1080,"height":1440},"candidateCount":1,"requestedFeatures":{"mask":null,"preserveRegions":[],"seed":null}},"expectedBlockers":["PROMPT_CONTENT_INJECTION"]},
+    {"id":"candidate-overflow","promptFixtureId":"cover-list-exact-numbers","capabilityProfile":"singleCandidate","referenceAssets":"authorized","mutation":"none","options":{"canvas":{"width":1080,"height":1440},"candidateCount":2,"requestedFeatures":{"mask":null,"preserveRegions":[],"seed":null}},"expectedBlockers":["CANDIDATE_COUNT_OUT_OF_RANGE"]},
+    {"id":"unsupported-size","promptFixtureId":"cover-list-exact-numbers","capabilityProfile":"wrongDimensions","referenceAssets":"authorized","mutation":"none","options":{"canvas":{"width":1080,"height":1440},"candidateCount":1,"requestedFeatures":{"mask":null,"preserveRegions":[],"seed":null}},"expectedBlockers":["UNSUPPORTED_DIMENSIONS"]},
+    {"id":"mask-misclaim","promptFixtureId":"cover-list-exact-numbers","capabilityProfile":"full","referenceAssets":"authorized","mutation":"none","options":{"canvas":{"width":1080,"height":1440},"candidateCount":1,"requestedFeatures":{"mask":"mask-fixture","preserveRegions":[],"seed":null}},"expectedBlockers":["MASK_OR_PRESERVE_REGION_OUT_OF_SCOPE"]},
+    {"id":"preserve-region-misclaim","promptFixtureId":"cover-list-exact-numbers","capabilityProfile":"full","referenceAssets":"authorized","mutation":"none","options":{"canvas":{"width":1080,"height":1440},"candidateCount":1,"requestedFeatures":{"mask":null,"preserveRegions":[{"x":0,"y":0,"width":100,"height":100}],"seed":null}},"expectedBlockers":["MASK_OR_PRESERVE_REGION_OUT_OF_SCOPE"]}
+  ]
+}

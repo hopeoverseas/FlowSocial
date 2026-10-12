@@ -1,0 +1,66 @@
+{
+  "schemaVersion": "1.0",
+  "library": "PageArchetypeLibrary",
+  "entries": [
+    {
+      "id": "cover.promise",
+      "schemaVersion": "1.0",
+      "source": {"kind": "flowsocial_original", "workItem": "FS-V1-XHS-VISUAL-05B", "license": "FlowSocial-Proprietary-Original"},
+      "status": "experimental",
+      "applicability": {"pageRoles": ["cover", "problem", "method", "warning", "conclusion", "evidence", "case", "summary", "cta"], "density": ["low", "medium", "high"], "purpose": "让首屏主题一眼可懂并产生继续阅读动机，具体视觉形式由内容决定"},
+      "layoutRules": ["建立一个清晰的首屏阅读焦点", "视觉概念必须来自本页主题和语义", "可按内容选择场景、物件、摄影感、编辑设计、抽象隐喻、结构图形或文字主导构图，不规定固定媒介、标题占比或模板"],
+      "failureModes": ["首屏不能一眼看懂主题", "视觉形式与内容无关", "套用固定封面模板"],
+      "remediation": ["回到本页主题重新选择视觉概念", "减少无关元素并恢复清晰阅读焦点"]
+    },
+    {
+      "id": "list.key-points",
+      "schemaVersion": "1.0",
+      "source": {"kind": "flowsocial_original", "workItem": "FS-V1-XHS-VISUAL-05B", "license": "FlowSocial-Proprietary-Original"},
+      "status": "experimental",
+      "applicability": {"pageRoles": ["method", "conclusion", "warning", "evidence"], "density": ["medium", "high"], "purpose": "并列呈现二至五个要点"},
+      "layoutRules": ["各要点视觉权重一致", "序号不成为新事实", "单项不拆散原句"],
+      "failureModes": ["列表项被改写", "卡片数量与真值不符"],
+      "remediation": ["锁定逐项原文", "高密度时改用确定性布局"]
+    },
+    {
+      "id": "process.vertical-steps",
+      "schemaVersion": "1.0",
+      "source": {"kind": "flowsocial_original", "workItem": "FS-V1-XHS-VISUAL-05B", "license": "FlowSocial-Proprietary-Original"},
+      "status": "experimental",
+      "applicability": {"pageRoles": ["method", "case"], "density": ["medium", "high"], "purpose": "表达有顺序的步骤或阶段"},
+      "layoutRules": ["顺序自上而下", "连接线只表示输入已有顺序", "步骤标题与说明成组"],
+      "failureModes": ["步骤顺序漂移", "连接线暗示不存在的因果"],
+      "remediation": ["显式锁定序号", "无法保序时确定性回退"]
+    },
+    {
+      "id": "comparison.before-after",
+      "schemaVersion": "1.0",
+      "source": {"kind": "flowsocial_original", "workItem": "FS-V1-XHS-VISUAL-05B", "license": "FlowSocial-Proprietary-Original"},
+      "status": "experimental",
+      "applicability": {"pageRoles": ["problem", "conclusion", "case"], "density": ["low", "medium"], "purpose": "表达输入已确认的双栏差异"},
+      "layoutRules": ["左右或上下两栏权重对称", "差异标签必须来自真值", "不擅自补充结果数字"],
+      "failureModes": ["把相关性画成因果", "补写夸张前后效果"],
+      "remediation": ["移除未授权箭头或结果", "改用中性并列布局"]
+    },
+    {
+      "id": "explanation.concept-map",
+      "schemaVersion": "1.0",
+      "source": {"kind": "flowsocial_original", "workItem": "FS-V1-XHS-VISUAL-05B", "license": "FlowSocial-Proprietary-Original"},
+      "status": "experimental",
+      "applicability": {"pageRoles": ["problem", "method", "evidence"], "density": ["medium"], "purpose": "解释抽象概念之间已确认的关系"},
+      "layoutRules": ["中心概念必须来自标题或正文", "节点只使用原文术语", "关系线不添加新语义"],
+      "failureModes": ["关系线产生新主张", "抽象装饰替代解释"],
+      "remediation": ["删除无来源关系", "改用列表或确定性流程"]
+    },
+    {
+      "id": "summary.cta",
+      "schemaVersion": "1.0",
+      "source": {"kind": "flowsocial_original", "workItem": "FS-V1-XHS-VISUAL-05B", "license": "FlowSocial-Proprietary-Original"},
+      "status": "experimental",
+      "applicability": {"pageRoles": ["summary", "cta"], "density": ["low", "medium"], "purpose": "收束核心结论并呈现已冻结 CTA"},
+      "layoutRules": ["总结与 CTA 分层", "CTA 原文锁定", "无 CTA 时不补写互动指令"],
+      "failureModes": ["堆叠多个行动", "生成输入中不存在的关注或咨询"],
+      "remediation": ["只保留冻结 CTA", "无 CTA 时切换 summary-only 结构"]
+    }
+  ]
+}

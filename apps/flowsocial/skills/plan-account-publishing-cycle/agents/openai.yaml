@@ -1,0 +1,4 @@
+interface:
+  display_name: "账号发布周期规划"
+  short_description: "Build capacity-aware publishing cycles for social accounts"
+  default_prompt: "Use $plan-account-publishing-cycle to create a capacity-aware publishing cycle for the selected social accounts."

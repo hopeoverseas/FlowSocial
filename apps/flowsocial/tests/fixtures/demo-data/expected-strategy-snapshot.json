@@ -1,0 +1,43 @@
+{
+  "schemaVersion": "1.0",
+  "accountId": "account_damaishuzhi_demo",
+  "business": {
+    "businessModel": "面向企业的AI应用落地服务；具体收费与合同模式待确认",
+    "primaryOffers": ["企业知识库打造", "AI员工打造", "定制智能体打造", "AI工作流落地"],
+    "valueProposition": "从真实业务场景出发，把企业资料和业务经验沉淀为知识资产，并让AI进入岗位承担可交付任务。",
+    "conversionPath": "内容触达 → 场景识别与信任建立 → 企业咨询 → 需求诊断 → 项目方案 → 确认范围后交付"
+  },
+  "audiences": [
+    {"id":"audience_owner","name":"外贸工厂老板或总经理","priority":100,"status":"hypothesis"},
+    {"id":"audience_manager","name":"外贸销售、运营或客服负责人","priority":90,"status":"hypothesis"},
+    {"id":"audience_ai_owner","name":"企业数字化或AI项目负责人","priority":75,"status":"hypothesis"}
+  ],
+  "accountStrategy": {
+    "growthStage": "account_setup",
+    "operatingMode": "diagnosis",
+    "primaryGoal": "通过专业、场景化内容建立企业AI落地信任并获得有效企业咨询",
+    "platformRoles": {
+      "xiaohongshu": "场景触达、认知教育和轻量获客",
+      "wechat": "系统讲解、专业沉淀、信任建立和深度转化"
+    },
+    "contentPillars": [
+      {"id":"pillar_ai_scenarios","name":"岗位AI应用场景"},
+      {"id":"pillar_knowledge","name":"企业知识库方法"},
+      {"id":"pillar_delivery","name":"AI项目落地与交付"},
+      {"id":"pillar_foreign_trade","name":"外贸工厂AI应用"},
+      {"id":"pillar_trends","name":"AI行业动态与企业影响"}
+    ],
+    "contentPortfolio": {"traffic":20,"trust":40,"product":25,"conversion":15},
+    "tone": ["专业", "务实", "克制", "懂业务", "少术语"],
+    "forbiddenTopics": ["虚构客户案例或业绩数据", "承诺确定性效果", "宣称AI完全替代员工", "用无关热点强行关联业务"]
+  },
+  "knowledgeScope": {"folderIds":["kb_damaishuzhi_company","kb_damaishuzhi_services"]},
+  "confirmedClaimIds": ["claim_company_01","claim_business_01","claim_offer_01","claim_audience_01","claim_scenario_01"],
+  "hypotheses": [
+    {"fieldPath":"accountStrategy.primaryGoal","value":"专业信任和企业咨询","confidence":0.75,"needsConfirmation":true},
+    {"fieldPath":"business.conversionPath","value":"内容→咨询→诊断→方案→交付","confidence":0.65,"needsConfirmation":true},
+    {"fieldPath":"accountStrategy.contentPortfolio","value":{"traffic":20,"trust":40,"product":25,"conversion":15},"confidence":0.6,"needsConfirmation":true}
+  ],
+  "missingInformation": ["可公开客户案例与数据", "咨询入口", "服务周期与报价方式", "双平台账号现状与历史数据", "每周内容产能与业务审核人"]
+}
+

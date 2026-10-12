@@ -1,0 +1,93 @@
+# Codex and local workspace metadata
+.agents/
+.codex/
+.worktrees/
+.tmp/
+
+# Local secrets
+**/.env
+**/.env.local
+**/.env.*.local
+**/.env.*
+!**/.env.example
+
+# Dependencies and runtime data
+**/node_modules/
+**/data/*.db
+**/data/*.db-shm
+**/data/*.db-wal
+**/data/**/*.db
+**/data/**/*.db-shm
+**/data/**/*.db-wal
+**/data/knowledge-files/
+**/artifacts/
+**/uploads/
+**/deliveries/
+**/logs/
+**/debug.log
+**/runtime/
+
+# Local provider configuration
+**/provider-config.local.json
+**/.platform-integrations.local.json
+**/data/backups/
+**/data/flowsocial-seed-backup.json
+**/data/*.sqlite
+**/data/*.sqlite3
+
+# Runtime data is private. Public initialization lives in defaults/store.json.
+**/data/*
+**/data/wechat-live-assets/
+
+# Private keys, credentials, captured sessions and database dumps
+**/*.pem
+**/*.key
+**/*.p12
+**/*.pfx
+**/*.jks
+**/*.keystore
+**/*credentials*.json
+**/*secrets*.json
+**/cookies*.json
+**/*.har
+**/*.db
+**/*.db-shm
+**/*.db-wal
+**/*.sqlite
+**/*.sqlite3
+**/*dump*.sql
+**/*dump*.sql.gz
+**/*dump*.sql.zip
+
+# Build output, virtual environments, logs and caches
+**/dist/
+**/build/
+**/.next/
+**/.nuxt/
+**/out/
+**/venv/
+**/.venv/
+**/__pycache__/
+**/*.pyc
+**/.pytest_cache/
+**/.mypy_cache/
+**/.ruff_cache/
+**/coverage/
+**/.nyc_output/
+**/*.tsbuildinfo
+**/.cache/
+**/.runtime-logs/
+**/tmp/
+**/*.log
+**/.DS_Store
+**/Thumbs.db
+
+# Immutable local handoff/export metadata is evidence, not product source.
+/HANDOFF-REPORT.md
+/HANDOFF-MANIFEST.json
+
+# Local research and handoff material is not part of the public source release.
+/research/
+
+# Frozen historical live content packages are local delivery inputs.
+/apps/flowsocial/scripts/fixtures/xhs-publish-complete/

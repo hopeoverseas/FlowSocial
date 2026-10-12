@@ -1,0 +1,6 @@
+{
+  "caseId": "composer-near-duplicate-question",
+  "modelReply": "明白了，你们当前更看重获客。接下来想确认一下，你希望账号优先带来品牌曝光，还是有效咨询？如果暂时不确定，也可以让我给出建议。",
+  "canonicalQuestion": "目前你最希望账号优先带来什么结果？请说明目标对象和判断是否有效的信号。",
+  "expectedAcknowledgement": "明白了，你们当前更看重获客。"
+}

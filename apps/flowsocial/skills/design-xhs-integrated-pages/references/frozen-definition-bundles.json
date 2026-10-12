@@ -1,0 +1,18 @@
+{
+  "schemaVersion": "1.0",
+  "contract": "DesignXhsIntegratedPagesFrozenDefinitionRegistry@1.0",
+  "bundles": [
+    {
+      "definitionHash": "ab5c1c2ddc33203e6117cfe56d692e580db35fea3810f998e57d1d17d7a2fac0",
+      "libraryRefsHash": "4a3d5891bec965f9c6008920c6d31da13711bf63428b0a5e9cba5cecd8e03527",
+      "referenceDocsHash": "437f52656cd5b46b61da7de1043b166af80f46fe086bd418f8912c4223b3dadf",
+      "status": "read_only_compatible"
+    },
+    {
+      "definitionHash": "4a5425fb58fca1a1490af1e51204ffbadd6343ebdbb3699c2df308d33ad2a9d3",
+      "libraryRefsHash": "4a3d5891bec965f9c6008920c6d31da13711bf63428b0a5e9cba5cecd8e03527",
+      "referenceDocsHash": "6602613f4f376cf9406ebf642876be27ccab893ad71535553c0127f8eb9d10b9",
+      "status": "read_only_compatible"
+    }
+  ]
+}

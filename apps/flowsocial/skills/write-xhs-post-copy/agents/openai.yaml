@@ -1,0 +1,4 @@
+interface:
+  display_name: "Write XHS Post Copy"
+  short_description: "Draft authoritative XHS post-copy creative fields"
+  default_prompt: "Use $write-xhs-post-copy to draft XHS post copy from the confirmed content authorities."

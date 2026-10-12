@@ -1,0 +1,223 @@
+{
+  "schemaVersion": "2.0",
+  "contract": "XhsIntegratedPagePromptSet@1.0",
+  "description": "12 complete offline XhsPostPackage projection, selection, Prompt Set and blocker cases",
+  "cases": [
+    {
+      "id": "cover-list-exact-numbers",
+      "coverage": ["cover.promise", "list.key-points", "exact_numbers"],
+      "input": {
+        "contentVersion": 1,
+        "xhsPostPackage": {"status":"success","data":{"platform":"xiaohongshu","post_copy":{"cta":""},"deck":{"pages":[
+          {"page":1,"role":"cover","text_layers":[{"type":"headline","text":"80 条样本，先看 12.5% 差异"},{"type":"body","text":"数字必须逐字保留"}],"fact_ids":["F1"],"interpretation_ids":[],"must_avoid":["不得改写数字"]},
+          {"page":2,"role":"method","text_layers":[{"type":"headline","text":"三项核查"},{"type":"body","text":"样本数 80 条"},{"type":"body","text":"差异值 12.5%"}],"fact_ids":["F1"],"interpretation_ids":[],"must_avoid":[]}
+        ]}}},
+        "designDna":{"snapshotId":"dna-numbers","palette":["ink","cream"],"typographyRoles":["headline","body"],"constraints":["数字高对比"]},
+        "authorizedAssets":[],"providerCapabilities":{"integratedChineseTypography":true,"exactDimensions":true,"referenceImages":false},"pageDensity":{"P1":"medium","P2":"medium"}
+      },
+      "selection":{"stylePackId":"structured-infographic","reason":"数字信息需要稳定网格","pages":[
+        {"pageId":"P1","archetypeId":"cover.promise","patternIds":["pattern.hierarchy.promise-focus"],"referenceAssetIds":[]},
+        {"pageId":"P2","archetypeId":"list.key-points","patternIds":["pattern.list.equal-cards"],"referenceAssetIds":[]}
+      ]},
+      "expectedPromptSet":{"contract":"XhsIntegratedPagePromptSet@1.0","status":"draft","pageCount":2,"stylePackId":"structured-infographic","pageArchetypeIds":{"P1":"cover.promise","P2":"list.key-points"},"promptPatternIdsByPage":{"P1":["pattern.hierarchy.promise-focus"],"P2":["pattern.list.equal-cards"]},"blockerCodes":[]}
+    },
+    {
+      "id": "english-product-name",
+      "coverage": ["cover.promise", "summary.cta", "english_product_name"],
+      "input": {
+        "contentVersion": 2,
+        "xhsPostPackage": {"status":"success","data":{"platform":"xiaohongshu","post_copy":{"cta":""},"deck":{"pages":[
+          {"page":1,"role":"cover","text_layers":[{"type":"headline","text":"ContentRun 串起内容执行"},{"type":"body","text":"英文产品名不能拆写"}],"fact_ids":[],"interpretation_ids":["I1"],"must_avoid":["不得写 Content Run"]},
+          {"page":2,"role":"summary","text_layers":[{"type":"headline","text":"记住 ContentRun"},{"type":"body","text":"从策略走到反馈"}],"fact_ids":[],"interpretation_ids":["I1"],"must_avoid":[]}
+        ]}}},
+        "designDna":{"snapshotId":"dna-product","palette":["navy","mint"],"typographyRoles":["headline","body"],"constraints":["保留英文大小写"]},
+        "authorizedAssets":[],"providerCapabilities":{"integratedChineseTypography":true,"exactDimensions":true,"referenceImages":false},"pageDensity":{"P1":"low","P2":"low"}
+      },
+      "selection":{"stylePackId":"editorial-metaphor","reason":"产品概念适合克制编辑隐喻","pages":[
+        {"pageId":"P1","archetypeId":"cover.promise","patternIds":["pattern.hierarchy.thumbnail-legibility"],"referenceAssetIds":[]},
+        {"pageId":"P2","archetypeId":"summary.cta","patternIds":["pattern.summary.key-takeaway"],"referenceAssetIds":[]}
+      ]},
+      "expectedPromptSet":{"contract":"XhsIntegratedPagePromptSet@1.0","status":"draft","pageCount":2,"stylePackId":"editorial-metaphor","pageArchetypeIds":{"P1":"cover.promise","P2":"summary.cta"},"promptPatternIdsByPage":{"P1":["pattern.hierarchy.thumbnail-legibility"],"P2":["pattern.summary.key-takeaway"]},"blockerCodes":[]}
+    },
+    {
+      "id": "chinese-proper-noun",
+      "coverage": ["cover.promise", "explanation.concept-map", "chinese_proper_noun"],
+      "input": {
+        "contentVersion": 3,
+        "xhsPostPackage": {"status":"success","data":{"platform":"xiaohongshu","post_copy":{"cta":""},"deck":{"pages":[
+          {"page":1,"role":"cover","text_layers":[{"type":"headline","text":"FlowSocial 内容智能体怎么协作"},{"type":"body","text":"专有名词原样锁定"}],"fact_ids":[],"interpretation_ids":["I2"],"must_avoid":[]},
+          {"page":2,"role":"problem","text_layers":[{"type":"headline","text":"策略智能体连接内容智能体"},{"type":"body","text":"通过冻结合同交接"}],"fact_ids":[],"interpretation_ids":["I2"],"must_avoid":["不得新增模块"]}
+        ]}}},
+        "designDna":{"snapshotId":"dna-proper","palette":["charcoal","coral"],"typographyRoles":["headline","body"],"constraints":["专有名词不换行"]},
+        "authorizedAssets":[],"providerCapabilities":{"integratedChineseTypography":true,"exactDimensions":true,"referenceImages":false},"pageDensity":{"P1":"medium","P2":"medium"}
+      },
+      "selection":{"stylePackId":"friendly-handdrawn-tech","reason":"抽象协作关系需要亲和解释","pages":[
+        {"pageId":"P1","archetypeId":"cover.promise","patternIds":["pattern.hierarchy.promise-focus"],"referenceAssetIds":[]},
+        {"pageId":"P2","archetypeId":"explanation.concept-map","patternIds":["pattern.map.hub-spokes"],"referenceAssetIds":[]}
+      ]},
+      "expectedPromptSet":{"contract":"XhsIntegratedPagePromptSet@1.0","status":"draft","pageCount":2,"stylePackId":"friendly-handdrawn-tech","pageArchetypeIds":{"P1":"cover.promise","P2":"explanation.concept-map"},"promptPatternIdsByPage":{"P1":["pattern.hierarchy.promise-focus"],"P2":["pattern.map.hub-spokes"]},"blockerCodes":[]}
+    },
+    {
+      "id": "high-density-fallback",
+      "coverage": ["list.key-points", "high_density", "deterministic_layout"],
+      "input": {
+        "contentVersion": 4,
+        "xhsPostPackage": {"status":"success","data":{"platform":"xiaohongshu","post_copy":{"cta":""},"deck":{"pages":[
+          {"page":1,"role":"cover","text_layers":[{"type":"headline","text":"六项核查不能缩成小字"},{"type":"body","text":"高密度页优先精确排版"}],"fact_ids":[],"interpretation_ids":[],"must_avoid":[]},
+          {"page":2,"role":"method","text_layers":[{"type":"headline","text":"六项核查"},{"type":"body","text":"来源、事实、授权、层级、尺寸、回退全部保留"}],"fact_ids":[],"interpretation_ids":[],"must_avoid":["不得删项"]}
+        ]}}},
+        "designDna":{"snapshotId":"dna-dense","palette":["black","white"],"typographyRoles":["headline","body"],"constraints":["正文不得小于安全字号"]},
+        "authorizedAssets":[],"providerCapabilities":{"integratedChineseTypography":true,"exactDimensions":false,"referenceImages":false},"pageDensity":{"P1":"medium","P2":"high"}
+      },
+      "selection":{"stylePackId":"structured-infographic","reason":"高密度内容需要网格","pages":[
+        {"pageId":"P1","archetypeId":"cover.promise","patternIds":["pattern.hierarchy.promise-focus"],"referenceAssetIds":[]},
+        {"pageId":"P2","archetypeId":"list.key-points","patternIds":["pattern.density.progressive-disclosure"],"referenceAssetIds":[]}
+      ]},
+      "expectedPromptSet":{"contract":"XhsIntegratedPagePromptSet@1.0","status":"blocked","pageCount":2,"stylePackId":"structured-infographic","pageArchetypeIds":{"P1":"cover.promise","P2":"list.key-points"},"promptPatternIdsByPage":{"P1":["pattern.hierarchy.promise-focus"],"P2":["pattern.density.progressive-disclosure"]},"blockerCodes":["DETERMINISTIC_FALLBACK_REQUIRED"]}
+    },
+    {
+      "id": "authorized-evidence-asset",
+      "coverage": ["list.key-points", "authorized_asset", "license_gate"],
+      "input": {
+        "contentVersion": 5,
+        "xhsPostPackage": {"status":"success","data":{"platform":"xiaohongshu","post_copy":{"cta":""},"deck":{"pages":[
+          {"page":1,"role":"cover","text_layers":[{"type":"headline","text":"证据页先核授权"},{"type":"body","text":"参考图不提供新事实"}],"fact_ids":["F2"],"interpretation_ids":[],"must_avoid":[]},
+          {"page":2,"role":"evidence","text_layers":[{"type":"headline","text":"授权证据资产"},{"type":"body","text":"只展示事实 F2"}],"fact_ids":["F2"],"interpretation_ids":[],"must_avoid":["不得抄写截图文字"]}
+        ]}}},
+        "designDna":{"snapshotId":"dna-evidence","palette":["slate","amber"],"typographyRoles":["headline","caption"],"constraints":["证据框与正文分离"]},
+        "authorizedAssets":[{"assetId":"asset-evidence-01","status":"approved","license":{"id":"owner-consent-01","allowsGenerationReference":true}}],"providerCapabilities":{"integratedChineseTypography":true,"exactDimensions":true,"referenceImages":true},"pageDensity":{"P1":"low","P2":"medium"}
+      },
+      "selection":{"stylePackId":"structured-infographic","reason":"证据资产需要明确框位","pages":[
+        {"pageId":"P1","archetypeId":"cover.promise","patternIds":["pattern.hierarchy.promise-focus"],"referenceAssetIds":[]},
+        {"pageId":"P2","archetypeId":"list.key-points","patternIds":["pattern.asset.evidence-frame"],"referenceAssetIds":["asset-evidence-01"]}
+      ]},
+      "expectedPromptSet":{"contract":"XhsIntegratedPagePromptSet@1.0","status":"draft","pageCount":2,"stylePackId":"structured-infographic","pageArchetypeIds":{"P1":"cover.promise","P2":"list.key-points"},"promptPatternIdsByPage":{"P1":["pattern.hierarchy.promise-focus"],"P2":["pattern.asset.evidence-frame"]},"blockerCodes":[]}
+    },
+    {
+      "id": "unauthorized-evidence-blocker",
+      "coverage": ["list.key-points", "unauthorized_asset", "deterministic_layout"],
+      "input": {
+        "contentVersion": 6,
+        "xhsPostPackage": {"status":"success","data":{"platform":"xiaohongshu","post_copy":{"cta":""},"deck":{"pages":[
+          {"page":1,"role":"cover","text_layers":[{"type":"headline","text":"未授权图片不能引用"},{"type":"body","text":"先过来源门"}],"fact_ids":[],"interpretation_ids":[],"must_avoid":[]},
+          {"page":2,"role":"evidence","text_layers":[{"type":"headline","text":"证据资产待授权"},{"type":"body","text":"当前只能使用文字真值"}],"fact_ids":[],"interpretation_ids":[],"must_avoid":[]}
+        ]}}},
+        "designDna":{"snapshotId":"dna-unlicensed","palette":["gray","white"],"typographyRoles":["headline","body"],"constraints":[]},
+        "authorizedAssets":[],"providerCapabilities":{"integratedChineseTypography":true,"exactDimensions":true,"referenceImages":true},"pageDensity":{"P1":"low","P2":"medium"}
+      },
+      "selection":{"stylePackId":"structured-infographic","reason":"离线验证授权阻断","pages":[
+        {"pageId":"P1","archetypeId":"cover.promise","patternIds":["pattern.hierarchy.promise-focus"],"referenceAssetIds":[]},
+        {"pageId":"P2","archetypeId":"list.key-points","patternIds":["pattern.asset.evidence-frame"],"referenceAssetIds":["asset-missing"]}
+      ]},
+      "expectedPromptSet":{"contract":"XhsIntegratedPagePromptSet@1.0","status":"blocked","pageCount":2,"stylePackId":"structured-infographic","pageArchetypeIds":{"P1":"cover.promise","P2":"list.key-points"},"promptPatternIdsByPage":{"P1":["pattern.hierarchy.promise-focus"],"P2":["pattern.asset.evidence-frame"]},"blockerCodes":["UNAUTHORIZED_REFERENCE_ASSET"]}
+    },
+    {
+      "id": "vertical-process",
+      "coverage": ["process.vertical-steps", "multi_page_truth"],
+      "input": {
+        "contentVersion": 7,
+        "xhsPostPackage": {"status":"success","data":{"platform":"xiaohongshu","post_copy":{"cta":""},"deck":{"pages":[
+          {"page":1,"role":"cover","text_layers":[{"type":"headline","text":"三步完成内容核查"},{"type":"body","text":"顺序不能漂移"}],"fact_ids":[],"interpretation_ids":["I3"],"must_avoid":[]},
+          {"page":2,"role":"method","text_layers":[{"type":"headline","text":"先事实，再授权，后版式"},{"type":"body","text":"步骤一核事实；步骤二核授权；步骤三定版式"}],"fact_ids":[],"interpretation_ids":["I3"],"must_avoid":["不得调整步骤顺序"]}
+        ]}}},
+        "designDna":{"snapshotId":"dna-process","palette":["blue","sand"],"typographyRoles":["headline","step"],"constraints":["纵向阅读"]},
+        "authorizedAssets":[],"providerCapabilities":{"integratedChineseTypography":true,"exactDimensions":true,"referenceImages":false},"pageDensity":{"P1":"low","P2":"medium"}
+      },
+      "selection":{"stylePackId":"friendly-handdrawn-tech","reason":"步骤说明需要清晰且亲和","pages":[
+        {"pageId":"P1","archetypeId":"cover.promise","patternIds":["pattern.hierarchy.promise-focus"],"referenceAssetIds":[]},
+        {"pageId":"P2","archetypeId":"process.vertical-steps","patternIds":["pattern.process.numbered-spine"],"referenceAssetIds":[]}
+      ]},
+      "expectedPromptSet":{"contract":"XhsIntegratedPagePromptSet@1.0","status":"draft","pageCount":2,"stylePackId":"friendly-handdrawn-tech","pageArchetypeIds":{"P1":"cover.promise","P2":"process.vertical-steps"},"promptPatternIdsByPage":{"P1":["pattern.hierarchy.promise-focus"],"P2":["pattern.process.numbered-spine"]},"blockerCodes":[]}
+    },
+    {
+      "id": "before-after-comparison",
+      "coverage": ["comparison.before-after", "fact_boundary"],
+      "input": {
+        "contentVersion": 8,
+        "xhsPostPackage": {"status":"success","data":{"platform":"xiaohongshu","post_copy":{"cta":""},"deck":{"pages":[
+          {"page":1,"role":"cover","text_layers":[{"type":"headline","text":"改前改后，只比较已知差异"},{"type":"body","text":"不补效果数字"}],"fact_ids":["F3"],"interpretation_ids":[],"must_avoid":["不得夸大结果"]},
+          {"page":2,"role":"case","text_layers":[{"type":"headline","text":"改前：信息分散；改后：层级集中"},{"type":"body","text":"只陈述事实 F3"}],"fact_ids":["F3"],"interpretation_ids":[],"must_avoid":["不得生成收益数字"]}
+        ]}}},
+        "designDna":{"snapshotId":"dna-compare","palette":["burgundy","cream"],"typographyRoles":["headline","column"],"constraints":["双栏等权"]},
+        "authorizedAssets":[],"providerCapabilities":{"integratedChineseTypography":true,"exactDimensions":true,"referenceImages":false},"pageDensity":{"P1":"medium","P2":"medium"}
+      },
+      "selection":{"stylePackId":"editorial-metaphor","reason":"对比内容适合编辑式双栏","pages":[
+        {"pageId":"P1","archetypeId":"cover.promise","patternIds":["pattern.hierarchy.promise-focus"],"referenceAssetIds":[]},
+        {"pageId":"P2","archetypeId":"comparison.before-after","patternIds":["pattern.compare.mirrored-columns"],"referenceAssetIds":[]}
+      ]},
+      "expectedPromptSet":{"contract":"XhsIntegratedPagePromptSet@1.0","status":"draft","pageCount":2,"stylePackId":"editorial-metaphor","pageArchetypeIds":{"P1":"cover.promise","P2":"comparison.before-after"},"promptPatternIdsByPage":{"P1":["pattern.hierarchy.promise-focus"],"P2":["pattern.compare.mirrored-columns"]},"blockerCodes":[]}
+    },
+    {
+      "id": "abstract-concept-map",
+      "coverage": ["explanation.concept-map", "abstract_concept"],
+      "input": {
+        "contentVersion": 9,
+        "xhsPostPackage": {"status":"success","data":{"platform":"xiaohongshu","post_copy":{"cta":""},"deck":{"pages":[
+          {"page":1,"role":"cover","text_layers":[{"type":"headline","text":"内容闭环不是一条直线"},{"type":"body","text":"策略、执行、反馈互相连接"}],"fact_ids":[],"interpretation_ids":["I4"],"must_avoid":[]},
+          {"page":2,"role":"problem","text_layers":[{"type":"headline","text":"策略连接执行，反馈返回策略"},{"type":"body","text":"关系只来自解释 I4"}],"fact_ids":[],"interpretation_ids":["I4"],"must_avoid":["不得新增因果"]}
+        ]}}},
+        "designDna":{"snapshotId":"dna-concept","palette":["violet","paper"],"typographyRoles":["headline","node"],"constraints":["关系线无箭头"]},
+        "authorizedAssets":[],"providerCapabilities":{"integratedChineseTypography":true,"exactDimensions":true,"referenceImages":false},"pageDensity":{"P1":"medium","P2":"medium"}
+      },
+      "selection":{"stylePackId":"friendly-handdrawn-tech","reason":"抽象关系需要可解释节点","pages":[
+        {"pageId":"P1","archetypeId":"cover.promise","patternIds":["pattern.hierarchy.promise-focus"],"referenceAssetIds":[]},
+        {"pageId":"P2","archetypeId":"explanation.concept-map","patternIds":["pattern.map.layered-system"],"referenceAssetIds":[]}
+      ]},
+      "expectedPromptSet":{"contract":"XhsIntegratedPagePromptSet@1.0","status":"draft","pageCount":2,"stylePackId":"friendly-handdrawn-tech","pageArchetypeIds":{"P1":"cover.promise","P2":"explanation.concept-map"},"promptPatternIdsByPage":{"P1":["pattern.hierarchy.promise-focus"],"P2":["pattern.map.layered-system"]},"blockerCodes":[]}
+    },
+    {
+      "id": "summary-single-cta",
+      "coverage": ["summary.cta", "cta", "verbatim_text"],
+      "input": {
+        "contentVersion": 10,
+        "xhsPostPackage": {"status":"success","data":{"platform":"xiaohongshu","post_copy":{"cta":"收藏这张核查表"},"deck":{"pages":[
+          {"page":1,"role":"cover","text_layers":[{"type":"headline","text":"最后只留一个行动"},{"type":"body","text":"CTA 不得扩写"}],"fact_ids":[],"interpretation_ids":[],"must_avoid":[]},
+          {"page":2,"role":"cta","text_layers":[{"type":"headline","text":"完成来源、事实与授权核查"},{"type":"body","text":"再进入视觉选择"}],"fact_ids":[],"interpretation_ids":[],"must_avoid":["不得补关注或咨询"]}
+        ]}}},
+        "designDna":{"snapshotId":"dna-cta","palette":["forest","cream"],"typographyRoles":["headline","cta"],"constraints":["单一行动区"]},
+        "authorizedAssets":[],"providerCapabilities":{"integratedChineseTypography":true,"exactDimensions":true,"referenceImages":false},"pageDensity":{"P1":"low","P2":"low"}
+      },
+      "selection":{"stylePackId":"editorial-metaphor","reason":"总结与行动需要明确收束","pages":[
+        {"pageId":"P1","archetypeId":"cover.promise","patternIds":["pattern.hierarchy.promise-focus"],"referenceAssetIds":[]},
+        {"pageId":"P2","archetypeId":"summary.cta","patternIds":["pattern.summary.key-takeaway","pattern.cta.single-action"],"referenceAssetIds":[]}
+      ]},
+      "expectedPromptSet":{"contract":"XhsIntegratedPagePromptSet@1.0","status":"draft","pageCount":2,"stylePackId":"editorial-metaphor","pageArchetypeIds":{"P1":"cover.promise","P2":"summary.cta"},"promptPatternIdsByPage":{"P1":["pattern.hierarchy.promise-focus"],"P2":["pattern.summary.key-takeaway","pattern.cta.single-action"]},"blockerCodes":[]}
+    },
+    {
+      "id": "cross-page-style-drift",
+      "coverage": ["cross_page_consistency", "deterministic_layout"],
+      "input": {
+        "contentVersion": 11,
+        "xhsPostPackage": {"status":"success","data":{"platform":"xiaohongshu","post_copy":{"cta":""},"deck":{"pages":[
+          {"page":1,"role":"cover","text_layers":[{"type":"headline","text":"一套页面保持同一视觉语言"},{"type":"body","text":"跨页颜色和字体角色稳定"}],"fact_ids":[],"interpretation_ids":[],"must_avoid":[]},
+          {"page":2,"role":"summary","text_layers":[{"type":"headline","text":"结尾仍沿用同一风格"},{"type":"body","text":"不在单页覆盖 Style Pack"}],"fact_ids":[],"interpretation_ids":[],"must_avoid":[]}
+        ]}}},
+        "designDna":{"snapshotId":"dna-consistency","palette":["teal","cream"],"typographyRoles":["headline","body"],"constraints":["整套单一 Style Pack"]},
+        "authorizedAssets":[],"providerCapabilities":{"integratedChineseTypography":true,"exactDimensions":true,"referenceImages":false},"pageDensity":{"P1":"low","P2":"low"}
+      },
+      "selection":{"stylePackId":"structured-infographic","reason":"整套统一信息图语言","pages":[
+        {"pageId":"P1","archetypeId":"cover.promise","patternIds":["pattern.hierarchy.promise-focus"],"referenceAssetIds":[]},
+        {"pageId":"P2","archetypeId":"summary.cta","patternIds":["pattern.summary.key-takeaway"],"referenceAssetIds":[],"stylePackId":"editorial-metaphor"}
+      ]},
+      "expectedPromptSet":{"contract":"XhsIntegratedPagePromptSet@1.0","status":"blocked","pageCount":2,"stylePackId":"structured-infographic","pageArchetypeIds":{"P1":"cover.promise","P2":"summary.cta"},"promptPatternIdsByPage":{"P1":["pattern.hierarchy.promise-focus"],"P2":["pattern.summary.key-takeaway"]},"blockerCodes":["CROSS_PAGE_STYLE_DRIFT"]}
+    },
+    {
+      "id": "provider-capability-fallback",
+      "coverage": ["provider_capability", "deterministic_layout", "multi_page_blocker"],
+      "input": {
+        "contentVersion": 12,
+        "xhsPostPackage": {"status":"success","data":{"platform":"xiaohongshu","post_copy":{"cta":""},"deck":{"pages":[
+          {"page":1,"role":"cover","text_layers":[{"type":"headline","text":"中文能力未验证就不生图"},{"type":"body","text":"显式回退确定性布局"}],"fact_ids":[],"interpretation_ids":[],"must_avoid":[]},
+          {"page":2,"role":"summary","text_layers":[{"type":"headline","text":"Provider 成功不等于文字准确"},{"type":"body","text":"两页都必须阻断"}],"fact_ids":[],"interpretation_ids":[],"must_avoid":[]}
+        ]}}},
+        "designDna":{"snapshotId":"dna-fallback","palette":["black","yellow"],"typographyRoles":["headline","body"],"constraints":["精确中文优先"]},
+        "authorizedAssets":[],"providerCapabilities":{"integratedChineseTypography":false,"exactDimensions":true,"referenceImages":false},"pageDensity":{"P1":"medium","P2":"medium"}
+      },
+      "selection":{"stylePackId":"structured-infographic","reason":"能力不足时验证确定性回退","pages":[
+        {"pageId":"P1","archetypeId":"cover.promise","patternIds":["pattern.fallback.precision-first"],"referenceAssetIds":[]},
+        {"pageId":"P2","archetypeId":"summary.cta","patternIds":["pattern.fallback.precision-first"],"referenceAssetIds":[]}
+      ]},
+      "expectedPromptSet":{"contract":"XhsIntegratedPagePromptSet@1.0","status":"blocked","pageCount":2,"stylePackId":"structured-infographic","pageArchetypeIds":{"P1":"cover.promise","P2":"summary.cta"},"promptPatternIdsByPage":{"P1":["pattern.fallback.precision-first"],"P2":["pattern.fallback.precision-first"]},"blockerCodes":["DETERMINISTIC_FALLBACK_REQUIRED","DETERMINISTIC_FALLBACK_REQUIRED"]}
+    }
+  ]
+}

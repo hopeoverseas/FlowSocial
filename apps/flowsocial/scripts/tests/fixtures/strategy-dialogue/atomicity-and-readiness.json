@@ -1,0 +1,19 @@
+{
+  "caseId": "strategy-dialogue-atomicity-and-readiness-v1",
+  "conversionAnswer": "用户在内容结尾看到咨询引导后添加销售微信，由销售了解需求，再安排方案沟通并推进合作。",
+  "wrongTargetAssessment": {
+    "targetType": "core_field",
+    "targetId": "accountStrategy.primaryGoal",
+    "capturedSlots": [
+      { "slot": "primaryOutcome", "value": "生成第一篇内容", "confidence": 0.9, "source": "model" }
+    ],
+    "status": "sufficient"
+  },
+  "freeModelQuestion": "你想先规划初步框架，还是直接生成第一篇内容？",
+  "expected": {
+    "pendingTarget": "business.conversionPath",
+    "minimumDraftReady": true,
+    "qualityComplete": false,
+    "nextAction": "offer_minimum_draft"
+  }
+}

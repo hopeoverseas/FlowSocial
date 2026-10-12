@@ -1,0 +1,22 @@
+{
+  "schemaVersion": "1.0",
+  "contentTaskId": "fixture-05f",
+  "contentVersion": 2,
+  "createdAt": "2026-08-03T08:00:00.000Z",
+  "pages": [
+    {"pageId":"P1","pageRole":"cover","headline":"FlowSocial 中文工作流","numbers":["3"],"productNames":["FlowSocial"],"properNouns":["小红书"],"protectedTerms":["中文工作流"],"cta":"向左滑","factIds":["F1"],"native":{"width":1086,"height":1448},"mode":"resample"},
+    {"pageId":"P2","pageRole":"list","headline":"三点清单","numbers":["1","2","3"],"productNames":["FlowSocial"],"properNouns":["内容矩阵"],"protectedTerms":[],"cta":null,"factIds":["F2"],"native":{"width":880,"height":1168},"mode":"fit_pad"},
+    {"pageId":"P3","pageRole":"process","headline":"离线审阅流程","numbers":["4"],"productNames":["FlowSocial"],"properNouns":["确定性画布"],"protectedTerms":[],"cta":"保存这套流程","factIds":["F3"],"native":{"width":896,"height":1200},"mode":"fit_crop"}
+  ],
+  "negativeTextCases": [
+    {"id":"missing_headline","change":{"headline":""},"expected":"failed"},
+    {"id":"missing_number","change":{"numbers":[]},"expected":"failed"},
+    {"id":"wrong_number","change":{"numbers":["8"]},"expected":"failed"},
+    {"id":"wrong_product_name","change":{"productNames":["FlowSocialX"]},"expected":"failed"},
+    {"id":"wrong_proper_noun","change":{"properNouns":["确定性画布X"]},"expected":"failed"},
+    {"id":"wrong_cta","change":{"cta":"立即购买"},"expected":"failed"},
+    {"id":"extra_number","change":{"extraText":["99"]},"expected":"failed"},
+    {"id":"pseudo_text","change":{"pseudoText":true},"expected":"failed"},
+    {"id":"low_confidence","change":{"confidence":0.5},"expected":"review_required"}
+  ]
+}

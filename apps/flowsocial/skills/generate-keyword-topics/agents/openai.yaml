@@ -1,0 +1,6 @@
+interface:
+  display_name: "生成关键词选题"
+  short_description: "Create evidence-backed topics from keyword hotspot clusters"
+  default_prompt: "Use $generate-keyword-topics to create evidence-backed topics from keyword hotspot clusters."
+policy:
+  allow_implicit_invocation: false

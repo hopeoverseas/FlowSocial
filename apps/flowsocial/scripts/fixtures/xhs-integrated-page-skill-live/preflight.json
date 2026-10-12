@@ -1,0 +1,41 @@
+{
+  "schemaVersion": "1.0",
+  "sourceDeckPath": "C:\\Users\\kiera\\Documents\\社媒\\apps\\flowsocial\\.tmp\\fs-v1-b1-09\\run-20260804-evidence-09f\\artifacts\\content_1a2df061\\v3\\deck-spec.json",
+  "expectedSourceFileSha256": "7f195f65012e889d52a6f0b56b1a35e8f22318493b89afd9aa1e29c6d7ecc4e4",
+  "expectedSourcePageHashes": {"P1":"b4c47a6469ef5fcc4e1a3047e5f2fb2e36f1e4c5595fb305b3e571c2fcc04d80","P5":"715036eff595b76b1da5a52af9f1187b064cf36e1963792a29d4ac5be41f83b3","P9":"026a623e67c699316c03971856038b1cfecb37c73288269d0b1012845ee62403"},
+  "contentVersion": 3,
+  "selectedStylePackId": "editorial-metaphor",
+  "selectedDirectionId": "direction-editorial",
+  "selectedPages": [
+    {"pageId":"P1","sourcePageRole":"cover","runtimePageRole":"cover","density":"low","archetypeId":"cover.promise","patternIds":["pattern.hierarchy.promise-focus"]},
+    {"pageId":"P5","sourcePageRole":"content","runtimePageRole":"problem","density":"medium","archetypeId":"explanation.concept-map","patternIds":["pattern.map.hub-spokes"]},
+    {"pageId":"P9","sourcePageRole":"content","runtimePageRole":"cta","density":"low","archetypeId":"summary.cta","patternIds":["pattern.cta.single-action"]}
+  ],
+  "providerProfile": {
+    "provider":"kie.ai",
+    "model":"gpt-image-2-text-to-image",
+    "adapter":{"id":"kie-jobs-image2","version":"1.0","projectionKey":"image2.text-to-image.v1"},
+    "lifecycle":"experimental",
+    "createEndpoint":"/api/v1/jobs/createTask",
+    "requestFields":["model","input.prompt","input.aspect_ratio","input.resolution"],
+    "inputDefaults":{"aspect_ratio":"3:4","resolution":"1K"},
+    "nativeOutputDimensions":{"width":1086,"height":1448},
+    "normalization":{"mode":"resample","target":{"width":1080,"height":1440},"nonUniformStretchAllowed":false,"protectedRegionCropAllowed":false},
+    "estimatedCostPerCandidate":6,
+    "currency":"credits"
+  },
+  "officialEvidence": {
+    "documentationUrl":"https://docs.kie.ai/market/gpt/gpt-image-2-text-to-image",
+    "pricingUrl":"https://kie.ai/gpt-image-2",
+    "creditSourceUrl":"https://kie.ai/qwen/image-edit",
+    "priceUsdPerImage":0.03,
+    "creditUsd":0.005
+  },
+  "budget": {"approvedPaidRequests":3,"candidatesPerRequest":1,"automaticRetries":0,"maxCreditsPerRequest":8,"maxTotalCredits":24},
+  "capabilities": {"integratedChineseTypography":true,"referenceImages":false,"exactDimensions":false,"supportedDimensions":[{"width":1086,"height":1448}],"maxCandidateCount":1,"maskEditing":false,"preserveRegions":false,"seedControl":false,"asyncJobs":true},
+  "directionCandidates": [
+    {"id":"direction-structured","stylePackId":"structured-infographic","archetypePlan":["cover.promise","list.key-points"],"compositionModel":"stable-grid-and-grouped-cards","hierarchyStrategy":"headline-then-equal-weight-details","imageRole":"explain-structure","palette":["ink","cream","amber"],"source":"FlowSocial original FS-V1-XHS-VISUAL-05B","license":"FlowSocial-Proprietary-Original","risks":["high-density-small-text"],"capabilityStatus":{"snapshotRef":"capability-image2-05m","status":"available","blockers":[]}},
+    {"id":"direction-editorial","stylePackId":"editorial-metaphor","archetypePlan":["cover.promise","explanation.concept-map","summary.cta"],"compositionModel":"single-metaphor-with-balanced-information-zones","hierarchyStrategy":"dominant-concept-then-readable-verbatim-text","imageRole":"frame-concept-without-replacing-facts","palette":["burgundy","paper","charcoal"],"source":"FlowSocial original FS-V1-XHS-VISUAL-05B","license":"FlowSocial-Proprietary-Original","risks":["metaphor-may-overpower-text"],"capabilityStatus":{"snapshotRef":"capability-image2-05m","status":"available","blockers":[]}},
+    {"id":"direction-friendly","stylePackId":"friendly-handdrawn-tech","archetypePlan":["cover.promise","process.vertical-steps"],"compositionModel":"annotated-path-with-step-spine","hierarchyStrategy":"promise-then-sequential-steps","imageRole":"guide-reading-flow","palette":["navy","mint","coral"],"source":"FlowSocial original FS-V1-XHS-VISUAL-05B","license":"FlowSocial-Proprietary-Original","risks":["decoration-may-reduce-legibility"],"capabilityStatus":{"snapshotRef":"capability-image2-05m","status":"available","blockers":[]}}
+  ]
+}

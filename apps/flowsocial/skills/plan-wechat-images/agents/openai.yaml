@@ -1,0 +1,6 @@
+interface:
+  display_name: "规划公众号配图"
+  short_description: "Create a sourced image plan for a WeChat article"
+  default_prompt: "Use $plan-wechat-images to create an evidence-aware image plan for this WeChat article."
+policy:
+  allow_implicit_invocation: false

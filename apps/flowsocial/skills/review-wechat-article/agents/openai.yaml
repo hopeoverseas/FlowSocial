@@ -1,0 +1,6 @@
+interface:
+  display_name: "审核公众号文章"
+  short_description: "Review WeChat drafts with scoped actionable findings"
+  default_prompt: "Use $review-wechat-article to review this WeChat draft and return scoped findings."
+policy:
+  allow_implicit_invocation: false

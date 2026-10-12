@@ -1,0 +1,46 @@
+{
+  "schemaVersion": "1.0",
+  "canvas": { "width": 1080, "height": 1440, "aspectRatio": "3:4" },
+  "brandStyle": {
+    "name": "FlowSocial capability fixture",
+    "description": "现代编辑设计，深墨绿色、暖米白和琥珀金配色，清晰网格，大留白，克制的几何装饰"
+  },
+  "samples": [
+    {
+      "id": "cover",
+      "pageRole": "cover",
+      "headline": "社媒运营，先做对方向",
+      "supportingText": "从策略到复盘，建立可持续内容系统",
+      "labels": ["FlowSocial 测试样例"],
+      "promptPurpose": "封面页：一个主标题、一个副标题、一个品牌角标"
+    },
+    {
+      "id": "checklist",
+      "pageRole": "three_point_checklist",
+      "headline": "起号前先确认三件事",
+      "supportingText": "",
+      "labels": ["目标用户是谁", "内容解决什么问题", "发布后看什么数据", "02"],
+      "promptPurpose": "三点清单页：页标题、三项短句、页码"
+    },
+    {
+      "id": "process",
+      "pageRole": "process",
+      "headline": "内容闭环三步走",
+      "supportingText": "每次发布都为下一篇积累证据",
+      "labels": ["策略确认", "内容生成", "发布复盘", "03"],
+      "promptPurpose": "流程信息页：页标题、三步流程、结论句和页码"
+    }
+  ],
+  "referenceStyleSample": {
+    "id": "reference_style",
+    "headline": "参考同一品牌风格",
+    "supportingText": "建立可复用内容系统",
+    "labels": ["风格参考验证"]
+  },
+  "localEdit": {
+    "id": "local_edit",
+    "sourceSampleId": "checklist",
+    "instruction": "只把右下角页码 02 的圆形底色改成琥珀金色。完整保留其余区域、全部中文文字、字号层级、构图、配色和视觉元素，不新增任何文字或事实。",
+    "preserveExpectation": "除右下角页码底色外，其余像素级内容应尽量保持一致"
+  }
+}

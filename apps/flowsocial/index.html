@@ -1,0 +1,1236 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="AI 多平台社媒内容工作台交互 Demo" />
+  <title>FlowSocial - AI 社媒内容工作台</title>
+  <link rel="preconnect" href="https://images.unsplash.com" />
+  <link rel="stylesheet" href="styles.css?v=content-learning-2" />
+</head>
+<body>
+  <div class="runtime-banner checking" id="runtimeBanner" role="status">
+    <span class="runtime-dot"></span>
+    <strong id="runtimeTitle">正在检查本地服务</strong>
+    <small id="runtimeDetail">正在确认 API、数据存储与供应商配置状态</small>
+    <a id="runtimeOpenLink" href="http://127.0.0.1:4173" hidden>打开真实工作台</a>
+  </div>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="主导航">
+      <div class="brand">
+        <span class="brand-mark">F</span>
+        <span>FlowSocial</span>
+      </div>
+
+      <nav class="nav-list">
+        <button class="nav-item" data-view-target="agent"><span class="nav-icon">◈</span>策略 Agent<span class="count" id="agentNavStatus">Demo</span></button>
+        <button class="nav-item active" data-view-target="today"><span class="nav-icon">⌂</span>今日陪伴</button>
+        <button class="nav-item" data-view-target="plan"><span class="nav-icon">◫</span>内容计划<span class="count" id="planNavCount">0</span></button>
+        <button class="nav-item" id="unifiedArtifactReviewNav" data-view-target="artifact-review" hidden><span class="nav-icon">✦</span>内容生产</button>
+        <button class="nav-item" data-view-target="review"><span class="nav-icon">↗</span>发布与复盘</button>
+        <button class="nav-item" data-view-target="assets"><span class="nav-icon">▦</span>资产中心</button>
+      </nav>
+
+      <div class="nav-section-label">资产与设置</div>
+      <nav class="nav-list">
+        <button class="nav-item" data-view-target="settings"><span class="nav-icon">⚙</span>账号与设置</button>
+      </nav>
+
+      <div class="workspace-card">
+        <div class="workspace-avatar">BM</div>
+        <div>
+          <strong>FlowSocial AI</strong>
+          <span id="workspaceAccountSummary">品牌工作区 · 账号加载中</span>
+        </div>
+        <button aria-label="工作区菜单">•••</button>
+      </div>
+    </aside>
+
+    <main class="main-area">
+      <header class="topbar">
+        <div>
+          <div class="breadcrumb" id="pageBreadcrumb">内容生成 / 新建内容任务</div>
+          <h1 id="pageTitle">创建多平台内容</h1>
+        </div>
+        <div class="top-actions" id="generateActions">
+          <span class="save-state"><i></i>已自动保存</span>
+          <button class="btn secondary">保存草稿</button>
+          <button class="btn primary" id="generateTop">生成内容</button>
+        </div>
+      </header>
+
+      <section class="app-view product-page" data-view="agent">
+        <div class="page-wrap agent-page">
+          <section class="agent-hero surface">
+            <div>
+              <span class="eyebrow">Strategy Agent · 策略入口与总控台</span>
+              <h2>先通过对话形成策略，再驱动热点、选题和内容</h2>
+              <p id="agentBusinessDescription">Agent 不再独立生成母选题；所有正式选题统一由热点与选题编排模块创建。</p>
+            </div>
+            <div class="agent-hero-actions">
+              <span class="agent-mode-chip" id="agentProviderStatus">检查服务中</span>
+              <button class="btn secondary" id="viewActiveStrategy" hidden>查看已激活策略</button>
+              <button class="btn secondary" id="newAgentSession">重新诊断</button>
+            </div>
+          </section>
+
+          <section class="agent-model-observability surface" id="agentModelObservability">
+            <article><span>当前模型服务连接状态</span><strong id="agentModelConnectionState">检查中</strong><small id="agentModelConnectionDetail">后端重启后会显示“尚未验证”，不会沿用旧状态。</small></article>
+            <article><span>本轮任务执行模式</span><strong id="agentModelTurnState">本轮尚未调用模型</strong><small id="agentModelTurnDetail">任务降级不等于整个模型服务离线。</small></article>
+            <details><summary>最近模型调用与失败记录</summary><div id="agentModelRecentCalls"><div class="empty-state">当前进程尚无模型调用记录。</div></div></details>
+          </section>
+
+          <section class="surface agent-company-switcher">
+            <div>
+              <span class="eyebrow">Company Workspace</span>
+              <h3>选择本次诊断所属公司</h3>
+              <p>每家公司独立保存诊断、策略版本、领域方向、热点、选题和内容任务。</p>
+            </div>
+            <label>当前公司
+              <select id="agentAccountSelect"></select>
+            </label>
+            <div class="agent-company-create">
+              <input id="newAgentCompanyName" placeholder="输入新公司名称" maxlength="80" />
+              <button class="btn secondary" id="createAgentCompany">创建并切换</button>
+            </div>
+          </section>
+
+          <nav class="agent-strategy-steps surface" id="agentStrategySteps" aria-label="策略生成进度">
+            <span class="active" data-agent-step="core"><b>1</b>业务诊断</span><i>→</i>
+            <span data-agent-step="enrichment"><b>2</b>动态补充</span><i>→</i>
+            <span data-agent-step="decision"><b>3</b>账号与增长策略</span><i>→</i>
+            <span data-agent-step="draft"><b>4</b>策略草案</span><i>→</i>
+            <span data-agent-step="active"><b>5</b>激活完成</span>
+          </nav>
+
+          <section class="surface agent-handoff-status" id="agentHandoffStatus" data-state="diagnosis">
+            <div><span class="eyebrow">Strategy → Content Handoff</span><strong id="agentHandoffTitle">尚未形成可交接策略</strong><small id="agentHandoffDetail">内容 Agent 只接收用户确认并激活后的策略快照。</small></div>
+            <button class="btn primary" id="agentHandoffAction" type="button">继续策略诊断</button>
+          </section>
+
+          <section class="agent-strategy-tracks" id="agentStrategyTracks" aria-label="策略状态双轨">
+            <article data-track="active"><span>当前生效策略</span><strong id="agentActiveTrackTitle">尚未激活策略</strong><small id="agentActiveTrackDetail">内容 Agent 只读取已激活快照。</small><button type="button" class="btn secondary" id="agentUseActiveStrategy" hidden>使用当前策略进入内容计划</button></article>
+            <article data-track="editing"><span>正在编辑的新诊断</span><strong id="agentEditingTrackTitle">尚未开始</strong><small id="agentEditingTrackDetail">新诊断不会覆盖当前生效策略。</small></article>
+          </section>
+
+          <div class="agent-conversation-layout">
+            <section class="surface agent-chat-panel">
+              <div class="surface-head"><div><span class="eyebrow">DiagnosticSession</span><h2>策略诊断对话</h2></div><span class="version-chip" id="agentSessionState">尚未开始</span></div>
+              <div class="agent-chat-log" id="agentDiagnosticChat">
+                <div class="agent-chat-message assistant"><span>AI</span><p>我会先了解业务、客户、账号目标和转化路径，再形成策略草案。点击下方按钮开始。</p></div>
+              </div>
+              <div class="agent-chat-starter" id="agentChatStarter">
+                <small class="agent-restart-hint">首次诊断会从空白会话开始；历史资料、策略和内容不会被物理删除。</small>
+                <button class="btn primary" id="startAgentDiagnosis">开始诊断</button>
+                <button class="btn secondary" id="useDamaishuzhiBrief">载入大卖数智示例资料</button>
+              </div>
+              <div class="agent-chat-compose" id="agentChatCompose" hidden>
+                <div class="agent-post-complete-actions" id="agentPostCompleteActions" hidden>
+                  <span id="agentPostCompleteText">九项核心策略已经完成。你可以生成策略草案，也可以继续确认账号身份、增长打法和其他高价值事实。</span>
+                  <button type="button" class="btn secondary" id="agentStartEnrichment">完善账号打法与动态事实</button>
+                  <button type="button" class="btn secondary" id="agentStopEnrichment" hidden>结束补充，保留当前结果</button>
+                  <button type="button" class="btn secondary" id="agentStartFieldEdit">修改已有策略字段</button>
+                </div>
+                <div class="agent-compose-context" id="agentComposeContext" hidden>
+                  <label>正在修改
+                    <select id="agentEnrichmentField">
+                      <option value="business.primaryOffers">主要产品/服务</option>
+                      <option value="business.businessModel">商业模式</option>
+                      <option value="audiences.primary">核心受众</option>
+                      <option value="business.conversionPath">转化路径</option>
+                      <option value="accountStrategy.primaryGoal">账号主目标</option>
+                      <option value="accountStrategy.growthStage">账号阶段</option>
+                      <option value="accountStrategy.platformRoles">平台目标与分工</option>
+                      <option value="accountStrategy.contentResources">内容证据基础</option>
+                      <option value="accountStrategy.constraints">内容安全规则</option>
+                    </select>
+                  </label>
+                  <button type="button" id="agentExitFieldEdit">退出修改，恢复开放式补充</button>
+                </div>
+                <textarea id="agentMessageInput" placeholder="回答 Agent 的问题，或继续补充业务资料…"></textarea>
+                <div class="agent-compose-toolbar"><div><label class="btn secondary agent-upload-button">＋ 添加资料<input id="agentKnowledgeFileInput" type="file" accept=".pdf,.docx,.txt,.md,.markdown,.csv,.json,.html,.htm" /></label><select id="agentKnowledgePurpose" aria-label="资料处理方式"><option value="answer_current">回答当前问题（只提取当前问题相关信息）</option><option value="extract_strategy">提取策略信息（确认后写入）</option><option value="knowledge_only">只保存资料（不修改策略）</option></select><select id="agentKnowledgeScope" aria-label="资料保存位置"><option value="session">仅本次诊断使用</option><option value="account">同时保存到公司知识库</option></select></div><button class="btn primary" id="sendAgentMessage">发送</button></div>
+                <div class="agent-knowledge-links" id="agentKnowledgeLinks" hidden></div>
+                <div class="agent-assist-actions" aria-label="回答辅助">
+                  <button type="button" data-agent-assist="request_clarification">解释一下</button>
+                  <button type="button" data-agent-assist="request_examples">给我例子</button>
+                  <button type="button" data-agent-assist="request_checklist">生成清单</button>
+                  <button type="button" data-agent-assist="request_recommendation">给我建议</button>
+                  <button type="button" data-agent-assist="skip_question">跳过这个问题</button>
+                  <button type="button" data-agent-assist="skip_field" title="跳过当前策略字段内尚未处理的全部问题">暂不处理整个字段</button>
+                </div>
+              </div>
+            </section>
+
+            <aside class="surface agent-diagnostic-sidebar">
+              <div class="surface-head"><div><span class="eyebrow">Profile Claims</span><h2>诊断进度</h2></div><strong id="agentCompleteness">0%</strong></div>
+              <div class="agent-progress-track"><i id="agentProgressBar"></i></div>
+              <div class="agent-progress-meta"><span id="agentFieldProgress">有效字段 0/9</span><span id="agentConfirmedProgress">已确认完整度 0%</span></div>
+              <div class="agent-missing-fields"><span>当前信息覆盖</span><div id="agentCoverageSummary">核心字段 0/9 · 动态画像尚未开始</div><small id="agentCoverageHint">回答后会显示已经获取和仍需补充的信息</small></div>
+              <div class="agent-readiness-grid">
+                <article><span>画像丰富度</span><strong id="agentProfileRichness">待积累</strong><small id="agentFactCount">0条动态事实</small></article>
+                <article><span>证据准备度</span><strong id="agentEvidenceReadiness">较低</strong><small id="agentEvidenceCount">0条可公开</small></article>
+                <article><span>内容启动度</span><strong id="agentContentReadiness">需要补充</strong><small id="agentContentReadinessDetail">等待内容资源</small></article>
+              </div>
+              <div class="agent-claim-summary"><span>策略骨架字段</span><strong id="agentConfirmedCount">0</strong></div>
+              <div class="agent-claim-list" id="agentClaimList"><div class="empty-state">对话后将在这里整理事实与假设。</div></div>
+              <div class="agent-claim-summary"><span>动态事实库</span><strong id="agentDynamicFactCount">0</strong></div>
+              <div class="agent-fact-list" id="agentDynamicFactList"><div class="empty-state">行业经验、案例、市场、偏好和约束会持续沉淀在这里。</div></div>
+              <details class="agent-history-facts" id="agentHistoricalFacts" hidden><summary>历史资料（未作为本轮结论）<strong id="agentHistoricalFactCount">0</strong></summary><div class="agent-fact-list" id="agentHistoricalFactList"></div></details>
+              <div class="agent-missing-fields"><span>仍缺少</span><div id="agentCriticalMissing">尚未开始诊断</div></div>
+              <button class="btn primary full-width" id="createStrategyDraft" disabled>根据当前信息生成策略草案</button>
+              <div class="agent-draft-feedback" id="agentDraftFeedback" hidden></div>
+              <div class="agent-draft-request-status" id="agentDraftRequestStatus" hidden></div>
+            </aside>
+          </div>
+
+          <section class="surface agent-strategy-decisions" id="agentStrategyDecisionPanel" hidden>
+            <div class="surface-head"><div><span class="eyebrow">Strategy Decisions</span><h2>确认账号身份、矩阵和增长打法</h2><p>AI先根据已确认事实给出可解释推荐；你的选择优先于模型推荐，并会随草案版本保存。</p></div><span class="version-chip" id="agentDecisionStatus">尚未开始</span></div>
+            <div class="agent-decision-empty" id="agentDecisionEmpty"><p>完成九项核心策略后生成推荐。系统会读取当前公司下的小红书和公众号账号。</p><button class="btn primary" id="generateStrategyDecisionPreview">生成账号与增长策略建议</button></div>
+            <div id="agentDecisionWorkspace" hidden>
+              <section class="agent-portfolio-choice"><h3>第一步：单账号还是账号矩阵？</h3><p id="agentPortfolioRationale"></p><div id="agentPortfolioOptions" class="agent-portfolio-options"></div></section>
+              <section><h3>第二步：逐账号确认身份和增长打法</h3><div id="agentAccountDecisionList" class="agent-account-decision-list"></div></section>
+              <div class="agent-decision-policy">完全无关热点、自动删除历史内容、刷量和批量低质发布不会进入推荐策略。</div>
+              <div class="dialog-actions"><button class="btn secondary" id="refreshStrategyDecisionPreview">重新计算推荐</button><button class="btn primary" id="confirmStrategyDecisions">确认账号与增长策略</button></div>
+            </div>
+            <div class="agent-draft-feedback" id="agentDecisionFeedback" hidden></div>
+          </section>
+
+          <section class="surface agent-strategy-draft" id="agentStrategyDraftPanel" hidden>
+            <div class="surface-head"><div><span class="eyebrow" id="agentStrategyEyebrow">StrategySnapshot Draft</span><h2 id="agentStrategyPanelTitle">审阅策略草案</h2></div><span class="version-chip" id="agentStrategyPanelVersion">确认后才会成为当前策略</span></div>
+            <div class="agent-strategy-scope-notice" id="agentStrategyScopeNotice">这里显示本轮编辑草案；上方“当前生效策略”仍会继续服务内容计划，直到你成功激活本草案。</div>
+            <div class="agent-draft-stale" id="agentDraftStale" hidden></div>
+            <div class="agent-draft-quality-gate" id="agentDraftQualityGate" hidden></div>
+            <div class="agent-strategy-review" id="agentStrategyReview"></div>
+            <div class="dialog-actions" id="agentStrategyDraftActions"><button class="btn secondary" id="continueAgentChat">继续补充</button><button class="btn primary" id="activateAgentStrategy">确认并激活策略</button></div>
+            <details class="agent-strategy-history" id="agentStrategyHistory"><summary>策略版本记录 <strong id="agentStrategyHistoryCount">0</strong></summary><div id="agentStrategyHistoryList"></div></details>
+          </section>
+
+          <dialog class="modal agent-restart-dialog" id="agentRestartDialog">
+            <form method="dialog">
+              <div class="dialog-head"><div><span class="eyebrow">New Diagnostic Session</span><h2>如何开始这次新诊断？</h2><p>只影响新会话继承哪些信息。历史策略、知识库和内容任务不会被删除。</p></div><button value="cancel" aria-label="关闭">×</button></div>
+              <div class="agent-restart-options">
+                <label><input type="radio" name="agentRestartChoice" value="fresh" checked /><span><strong>全部重新开始</strong><small>不带入策略骨架和动态事实，从第一问重新了解业务。</small></span></label>
+                <label><input type="radio" name="agentRestartChoice" value="retain_facts" /><span><strong>保留动态事实</strong><small>案例、经验和市场资料作为参考，九项策略骨架重新确认。</small></span></label>
+                <label><input type="radio" name="agentRestartChoice" value="retain_core" /><span><strong>保留策略骨架字段</strong><small>带入上一轮九项字段及来源，继续补充不足信息。</small></span></label>
+                <label><input type="radio" name="agentRestartChoice" value="retain_all" /><span><strong>全部保留并迭代</strong><small>保留骨架和动态事实，进入现有策略的修订模式。</small></span></label>
+              </div>
+              <div class="agent-restart-impact" id="agentRestartImpact">将新建一轮空白诊断；当前激活策略继续有效，直到你激活新版本。</div>
+              <div class="dialog-actions"><button class="btn secondary" value="cancel">取消</button><button class="btn primary" type="button" id="confirmAgentRestart">开始新诊断</button></div>
+            </form>
+          </dialog>
+
+          <section class="surface agent-workflow-panel" id="agentWorkflowPanel" hidden>
+            <div class="surface-head"><div><span class="eyebrow">Active Workflow</span><h2>策略驱动进度</h2></div><span class="version-chip" id="agentSnapshotVersion">未激活</span></div>
+            <div class="agent-flow-line"><span class="done">公司策略已确认</span><i>→</i><span id="agentDirectionStep">解析账号策略</span><i>→</i><span id="agentHotspotStep">等待滚动计划</span><i>→</i><span id="agentTopicStep">形成内容任务</span><i>→</i><span id="agentContentStep">等待发布反馈</span></div>
+            <div class="agent-grid">
+              <section class="agent-inline-section"><h3>账号矩阵与有效策略</h3><p>公司事实和品牌边界统一继承；每个具体账号可以拥有不同角色、受众、内容支柱和平台打法。</p><div class="agent-direction-list" id="agentDirectionList"></div><button class="btn primary" data-jump="plan">进入滚动运营计划</button></section>
+              <section class="agent-inline-section"><h3>执行与反馈结果</h3><div id="agentDownstreamSummary" class="agent-downstream-summary"><div class="empty-state">滚动计划、统一内容项目和反馈会通过正式 ID 回写到这里。</div></div></section>
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <section class="app-view product-page active" data-view="today">
+        <div class="page-wrap companion-page v2-page">
+          <header class="v2-hero">
+            <div><span class="eyebrow">SOCIAL OPERATING AGENT</span><h1>今天，我们把内容往前推进一点</h1><p id="todayAgentSummary">Agent 正在读取当前策略、内容历史和待办状态。</p></div>
+            <div class="strategy-context-card"><span>当前执行策略</span><strong id="todayStrategyName">活动策略</strong><small id="todayStrategyMeta">账号与版本加载中</small><button class="text-btn" data-jump="agent">查看策略</button></div>
+          </header>
+          <div class="companion-grid">
+            <section class="surface daily-focus-card">
+              <div class="surface-head"><div><span class="eyebrow">今日重点</span><h2>Agent 建议先完成这 3 件事</h2></div><button class="btn primary" data-jump="plan">规划下一篇</button></div>
+              <div class="daily-action-list" id="todayActionList"><div class="v2-skeleton">正在整理今日行动…</div></div>
+            </section>
+            <aside class="surface agent-brief-card">
+              <span class="agent-orb">AI</span><div><span class="eyebrow">运营对话</span><h2>直接告诉我你今天想解决什么</h2><p>我会结合当前账号阶段决定是否调用热点、知识库、蓝图或内容生成能力。</p></div>
+              <div class="quick-prompts"><button data-companion-prompt="帮我规划本周内容">规划本周内容</button><button data-companion-prompt="下一篇应该发什么">下一篇发什么</button><button data-companion-prompt="哪些内容需要复盘">检查待复盘内容</button></div>
+              <div class="companion-compose"><textarea id="companionInput" placeholder="例如：我这周想重点获取企业客户线索"></textarea><button id="companionSend">发送</button></div>
+            </aside>
+          </div>
+          <div class="v2-overview-grid">
+            <section class="surface"><div class="surface-head"><div><span class="eyebrow">内容节奏</span><h2>本周运营状态</h2></div><button class="text-btn" data-jump="artifact-review">查看内容</button></div><div class="rhythm-metrics" id="todayRhythmMetrics"></div><div class="pillar-bars" id="todayPillarCoverage"></div></section>
+            <section class="surface"><div class="surface-head"><div><span class="eyebrow">需要确认</span><h2>等待你的决策</h2></div></div><div class="decision-queue" id="todayDecisionQueue"><div class="empty-state">暂时没有需要确认的任务。</div></div></section>
+            <section class="surface"><div class="surface-head"><div><span class="eyebrow">反馈提醒</span><h2>到了观察窗口的内容</h2></div><button class="text-btn" data-jump="review">进入复盘</button></div><div class="feedback-reminders" id="todayFeedbackReminders"><div class="empty-state">暂无待回填数据。</div></div></section>
+          </div>
+        </div>
+      </section>
+
+      <section class="app-view product-page" data-view="plan">
+        <div class="page-wrap v2-page plan-page-v2">
+          <header class="v2-page-head"><div><span class="eyebrow">ROLLING CONTENT PLAN</span><h1>本周期应该发什么</h1><p>Agent 先把长期策略转化为滚动运营计划，再为具体账号安排内容任务；热点、知识库和爆款蓝图按需调用。</p></div><div class="head-actions"><label class="compact-date-field"><span>新周期开始</span><input id="v2CycleStart" type="date" /></label><select id="v2PlanWindow"><option value="7">未来 7 天</option><option value="14">未来 14 天</option><option value="30">未来 30 天</option></select><select id="v2PlanPlatform" disabled aria-label="本次计划范围"><option value="matrix">账号矩阵（小红书 + 公众号）</option></select><button class="btn primary" id="v2RefreshPlan">生成新周期计划</button></div></header>
+          <div class="plan-layout-v2">
+            <main class="plan-main-v2">
+              <div class="plan-summary-strip" id="v2PlanSummary"></div>
+              <div class="direction-card-grid" id="v2DirectionCards"><div class="v2-skeleton">正在生成推荐方向…</div></div>
+              <details class="surface planning-context plan-secondary-panel"><summary><span><strong>查看本周期的规划依据</strong><small>策略、账号打法和资产边界</small></span><span>展开</span></summary><div class="plan-secondary-content"><div id="v2PlanningContext"></div><button class="text-btn" data-jump="assets">检查可用资产</button></div></details>
+              <details class="surface plan-secondary-panel quick-task-panel"><summary><span><strong>临时创建一条内容任务</strong><small>用于周期外的临时主题</small></span><span>展开</span></summary><div class="quick-opportunity-v2"><div><strong>临时内容任务</strong><small>输入主题后仍会经过策略、来源、大纲和质检。</small></div><input id="v2QuickTopic" placeholder="例如：为什么企业知识库是 AI 员工落地的基础" /><select id="v2QuickPlatform" aria-label="临时任务平台"><option value="xiaohongshu">小红书</option><option value="wechat">微信公众号</option></select><select id="v2QuickPurpose"><option value="knowledge_howto">知识干货分享</option><option value="hotspot_industry_explainer">热点/行业解读</option><option value="professional_opinion">专业观点表达</option><option value="product_service_promotion">产品/服务推广</option><option value="case_result_showcase">案例/成果展示</option></select><button class="btn secondary" id="v2CreateQuickOpportunity">创建并生成大纲</button><textarea id="v2QuickEvidence" class="quick-evidence-v2" placeholder="可选：补充本次允许公开使用的事实或素材。没有可用证据时，系统会阻止生成，避免编造。"></textarea></div></details>
+            </main>
+          </div>
+        </div>
+      </section>
+
+      <section class="app-view product-page unified-artifact-review-view" data-view="artifact-review" id="unifiedArtifactReviewView" hidden data-feature-flag="UNIFIED_CONTENT_ARTIFACTS_V1">
+        <div class="page-wrap v2-page unified-artifact-review-page content-production-studio" id="contentProductionStudio" data-studio-mode="projects" data-studio-tab="overview">
+          <aside class="content-production-sidebar" aria-label="内容生产平台">
+            <span class="eyebrow">内容生产</span>
+            <button type="button" class="content-production-sidebar-item" data-production-platform="xiaohongshu"><span class="platform-mark xhs">小红书</span><small>整页图文</small></button>
+            <button type="button" class="content-production-sidebar-item" data-production-platform="wechat"><span class="platform-mark wechat">公众号</span><small>长文章</small></button>
+          </aside>
+          <header class="content-studio-head">
+            <div><span class="eyebrow">内容生产</span><h1>内容生产</h1><p>小红书图文和公众号文章分别进入各自工作区，分别创作、审阅和交付。</p></div>
+            <div class="head-actions"><span class="content-production-entry-hint">从内容计划选择平台后，会自动进入对应工作区</span></div>
+          </header>
+
+          <section class="content-project-home" id="contentProductionHome">
+            <div class="content-project-toolbar surface">
+              <div><strong>内容项目</strong><small id="contentProductionProjectCount">正在读取项目…</small></div>
+              <label class="search-box">⌕<input id="contentProductionSearch" type="search" placeholder="搜索主题或项目名称" /></label>
+            </div>
+            <div class="content-project-grid" id="contentProductionProjectGrid"></div>
+          </section>
+
+          <section class="content-project-detail" id="contentProductionDetail" hidden>
+            <button class="content-studio-back" type="button" id="contentProductionBack">返回内容项目</button>
+            <header class="surface content-project-summary">
+              <div><span class="eyebrow">当前平台任务</span><h2 id="contentProductionTitle">未选择任务</h2><p id="contentProductionSummary">当前只显示所选平台的制作流程；另一平台不会混入此处。</p></div>
+              <div class="content-project-platform-status" id="contentProductionPlatformStatus"></div>
+            </header>
+            <nav class="content-studio-tabs" aria-label="当前平台工作区">
+              <span class="content-studio-scope-label">当前平台专属工作区</span>
+              <button type="button" data-content-studio-tab="versions">交付状态</button>
+            </nav>
+            <section class="surface content-platform-welcome" id="contentProductionWelcome">
+              <div><span class="eyebrow">选择制作平台</span><h2>两个平台分别制作</h2><p>请选择要继续的小红书任务或公众号任务；不会在当前工作区混合另一平台内容。</p></div>
+              <div class="content-platform-paths">
+                <button type="button" data-open-content-platform="xiaohongshu"><span class="platform-mark xhs">小红书</span><strong>整页图文</strong><small>大纲与生图方向 → 生成整页图片 → 对话修改 → 确认版本</small></button>
+                <button type="button" data-open-content-platform="wechat"><span class="platform-mark wechat">公众号</span><strong>长文章</strong><small>文章大纲 → 正文与配图 → 人工审阅 → 交付或创建草稿</small></button>
+              </div>
+            </section>
+            <section class="surface content-candidate-picker" id="contentProductionCandidatePicker" hidden>
+              <div class="surface-head"><div><span class="eyebrow" id="contentProductionPlatformEyebrow">平台工作区</span><h2 id="contentProductionCandidateTitle">选择要继续的版本</h2></div><button class="btn secondary" type="button" id="unifiedArtifactRefresh">刷新当前版本</button></div>
+              <p id="contentProductionCandidateHint">选择精确候选后才能审阅和确认，不会自动采用第一个版本。</p>
+              <div class="content-candidate-grid" id="contentProductionCandidateCards"></div>
+            </section>
+          </section>
+
+          <section class="surface unified-production-entry" id="unifiedProductionEntry" aria-label="创建内容项目" hidden>
+            <div class="surface-head">
+              <div><span class="eyebrow" id="unifiedProductionPlatformEyebrow">小红书制作</span><h2 id="unifiedProductionPlatformTitle">小红书内容生产</h2><p id="unifiedProductionPlatformDescription">从大纲开始，在当前工作台完成正文、视觉提示词和内容包。</p></div>
+              <div class="head-actions"><button class="btn secondary" type="button" id="unifiedProductionRefresh">刷新内容方向</button><button class="btn secondary" type="button" id="contentProductionCancelCreate">取消</button></div>
+            </div>
+            <p class="unified-production-boundary">创建项目和生成大纲不会调用生图服务，也不会上传或发布。图片只会在对应平台工作区由你点击生成；平台上传或发布仍需单独确认。</p>
+            <div class="unified-production-form">
+              <label>当前内容方向<select id="unifiedProductionAuthority"><option value="">请选择已确认的策略与内容方向</option></select></label>
+              <details class="content-platform-advanced technical-field"><summary>项目高级详情</summary><div><label>项目 ID<input id="unifiedProductionProjectId" autocomplete="off" placeholder="自动生成" /></label><label>操作人<input id="unifiedProductionActor" autocomplete="off" value="workspace_user" /></label></div></details>
+            </div>
+            <dl class="unified-production-bindings" id="unifiedProductionBindings"><div><dt>状态</dt><dd>等待选择权威输入</dd></div></dl>
+            <div class="unified-production-outline-grid content-platform-start-grid" id="unifiedProductionOutlines" aria-label="当前平台工作区"></div>
+            <div class="unified-production-actions content-project-next-action">
+              <button class="btn primary" type="button" id="unifiedProductionStart" hidden>生成小红书图文大纲</button>
+              <button class="btn secondary" type="button" id="unifiedProductionReconcile" hidden>刷新请求状态</button>
+              <button class="btn primary" type="button" id="unifiedProductionResume" hidden>生成小红书正文与视觉方案</button>
+            </div>
+            <div class="unified-production-result" id="unifiedProductionResult">尚未创建生产任务。</div>
+          </section>
+          <section class="surface unified-production-control wechat-copy-workbench" id="unifiedProductionControl" hidden aria-label="公众号正文修改">
+            <header><div><span class="eyebrow">公众号人工修改</span><h2>修改当前文章</h2><p>直接编辑标题、开头或正文，保存后会生成一个新版本，旧版本仍会保留。</p></div><button class="btn secondary" type="button" id="unifiedProductionControlInitialize">准备修改</button></header>
+            <div id="unifiedProductionCopyFields" class="unified-production-copy-fields">
+              <label>这次想怎么改<textarea id="unifiedProductionRevisionInstruction" rows="3" placeholder="例如：标题更直接一点，第二部分缩短，结尾不要太营销。"></textarea></label>
+              <label>标题<input id="unifiedProductionCopyTitle" /></label>
+              <label>摘要<input id="unifiedProductionCopyAbstract" /></label>
+              <label>开头<textarea id="unifiedProductionCopyOpening" rows="3"></textarea></label>
+              <label>正文<textarea id="unifiedProductionCopyArticle" rows="14"></textarea></label>
+              <label>结尾行动提示<input id="unifiedProductionCopyCta" /></label>
+              <button class="btn primary" type="button" id="unifiedWechatSaveRevision" disabled>保存修改并生成新版本</button>
+            </div>
+            <div class="unified-production-control-state" id="unifiedProductionControlState">正在读取当前文章。</div>
+            <section class="unified-wechat-image-generation" id="unifiedWechatImageGenerationPanel">
+              <div><span class="eyebrow">公众号配图</span><h3>根据正文生成封面和插图</h3><p>系统会按段落内容选择语义插画或确定性图表，不会把标题原样做成图片。</p></div>
+              <div id="unifiedProductionPromptPlan" class="unified-production-prompt-plan">正在读取本篇配图方案。</div>
+              <div class="unified-wechat-image-actions"><button class="btn primary" type="button" id="unifiedWechatGenerateImages" disabled>生成本篇配图</button><small id="unifiedWechatImageCallBudget">生成前会显示本篇图片数量；点击按钮即授权本次对应次数的生图调用。</small></div>
+            </section>
+            <details class="content-platform-advanced">
+              <summary>高级修改详情</summary>
+              <div class="unified-production-control-grid">
+                <article>
+                  <label>影响范围<select id="unifiedProductionRevisionLayer"><option value="copy">仅正文/标题</option><option value="visual">仅视觉与配图</option><option value="upstream">上游主题/事实/策略</option></select></label>
+                  <button class="btn secondary" type="button" id="unifiedProductionRevisionSubmit" disabled>记录修订请求</button>
+                  <small id="unifiedProductionRevisionImpact">正文修改只生成新的内容版本。</small>
+                  <label>精确新版本载荷<textarea id="unifiedProductionRevisionPayload" rows="8" spellcheck="false"></textarea></label>
+                  <button class="btn secondary" type="button" id="unifiedProductionRevisionExecute" disabled>仅执行已记录请求</button>
+                </article>
+              </div>
+            </details>
+          </section>
+          <details class="surface content-studio-advanced" id="contentProductionAdvanced">
+            <summary><span>高级详情</span><small>技术 ID、版本 Hash、运行引用与恢复信息</small></summary>
+          <section class="unified-artifact-scope" aria-label="统一内容审阅范围">
+            <label>Content Project<select id="unifiedArtifactProject"><option value="">请选择项目</option></select></label>
+            <label>平台<select id="unifiedArtifactPlatform" disabled><option value="">请选择平台</option></select></label>
+            <label>候选版本<select id="unifiedArtifactCandidate" disabled><option value="">请选择候选</option></select></label>
+            <p id="unifiedArtifactScopeHint">必须逐级明确选择项目、平台和候选；系统不会自动采用第一个候选。</p>
+          </section>
+
+          <section class="unified-artifact-reference-grid" id="unifiedArtifactReferences" hidden aria-label="版本引用">
+            <article><span>策略快照</span><code id="unifiedArtifactStrategyRef">—</code></article>
+            <article><span>ContentMaster</span><code id="unifiedArtifactMasterRef">—</code></article>
+            <article><span>Platform Run</span><code id="unifiedArtifactRunRef">—</code></article>
+            <article><span>Candidate</span><code id="unifiedArtifactCandidateRef">—</code></article>
+          </section>
+          </details>
+
+          <section class="unified-artifact-status-grid" id="unifiedArtifactStatusGrid" hidden aria-label="五类独立状态">
+            <article data-status-kind="artifact"><span>1 · 内容已生成</span><strong id="unifiedArtifactTechnicalStatus">等待选择</strong><small id="unifiedArtifactTechnicalDetail">尚未加载</small></article>
+            <article data-status-kind="review"><span>2 · 人工审阅</span><strong id="unifiedArtifactReviewStatus">尚未审阅</strong><small id="unifiedArtifactReviewDetail">审阅不会自动采用版本</small></article>
+            <article data-status-kind="selection"><span>3 · 最终选择</span><strong id="unifiedArtifactSelectionStatus">尚未选择</strong><small id="unifiedArtifactSelectionDetail">需要你明确确认</small></article>
+            <article data-status-kind="promotion"><span>4 · 正式版本</span><strong id="unifiedArtifactPromotionStatus">未确认</strong><small id="unifiedArtifactPromotionDetail">确认后形成不可变版本</small></article>
+            <article data-status-kind="publication"><span>5 · 发布记录</span><strong id="unifiedArtifactPublicationStatus">未登记发布</strong><small>生成、下载或确认都不等于发布</small></article>
+          </section>
+          <section class="surface unified-xhs-production-state" id="unifiedXhsProductionStatePanel" hidden aria-label="小红书生产链路状态">
+            <div class="surface-head"><div><span class="eyebrow">小红书图文</span><h2>整页图文生成与修改</h2></div><span class="version-chip" id="unifiedXhsProductionStatus">未加载</span></div>
+            <p id="unifiedXhsProductionNext">选择小红书候选后，服务端会返回下一步受控动作。</p>
+            <div class="unified-xhs-production-stages" id="unifiedXhsProductionStages"></div>
+            <div class="unified-artifact-blockers" id="unifiedXhsProductionBlockers"></div>
+            <section class="unified-xhs-pre-generation-review" id="unifiedXhsPreGenerationReview">
+              <div class="unified-xhs-step-heading"><span>1</span><div><h3>先检查正文与逐页文字</h3><p>标题、正文和每页要出现的文字会先展示在这里；此时不会调用生图服务。</p></div></div>
+              <div id="unifiedXhsCopyReview"><div class="empty-state">正在读取当前小红书文案。</div></div>
+              <div class="unified-xhs-step-heading"><span>2</span><div><h3>再检查逐页生图提示词</h3><p>生成视觉方案后，可逐页查看必须保留的文字、创意概念、构图和禁用内容。</p></div></div>
+              <div id="unifiedXhsPromptReview"><div class="empty-state">先生成视觉方案，系统才会编译逐页提示词。</div></div>
+            </section>
+            <div class="unified-xhs-step-heading"><span>3</span><div><h3>选择页面风格并生成图片</h3><p>确认视觉方向后直接生成整组图片；调用范围由系统按本组页数自动控制。</p></div></div>
+            <div class="unified-xhs-style-choice">
+              <label>页面呈现方式<select id="unifiedXhsStylePack"><option value="editorial-metaphor" selected>内容自适应（推荐）</option><option value="friendly-handdrawn-tech">轻松手绘</option><option value="structured-infographic">结构化方法卡</option></select></label>
+              <p id="unifiedXhsStyleDescription">系统按每页主题选择媒介、构图、材质和配色；视觉识别资料默认只提供一个品牌色锚点，不套用手册版式。</p>
+            </div>
+            <button class="btn primary" type="button" id="unifiedXhsStartDesign" disabled>生成逐页提示词与视觉方案</button>
+            <div id="unifiedXhsProviderPlanControls" hidden>
+              <label>视觉方向<select id="unifiedXhsDirectionSelect"></select></label>
+              <input id="unifiedXhsPlanApprover" type="hidden" value="workspace_user" />
+              <input id="unifiedXhsPlanMaxCost" type="hidden" value="100" />
+              <input id="unifiedXhsExecutionApprover" type="hidden" value="workspace_user" />
+              <input id="unifiedXhsMaxProviderCalls" type="hidden" value="1" />
+              <input id="unifiedXhsMaxExecutionCredits" type="hidden" value="100" />
+              <button class="btn danger" type="button" id="unifiedXhsApprovePlan" disabled>确认视觉方向并生成整组图片</button>
+            </div>
+            <section class="unified-xhs-light-revision" id="unifiedXhsLightRevisionPanel" hidden>
+              <span class="eyebrow">对话修改</span><h3>告诉 AI 这页要怎么改</h3>
+              <p>文字、标题或版式变化会整页重生；纯视觉变化会以当前图片调用 Seedream Edit。不会运行多模态视觉审阅。</p>
+              <label>目标页面<select id="unifiedXhsLightPage"></select></label>
+              <label>修改要求<textarea id="unifiedXhsLightInstruction" rows="3" placeholder="例如：保持全部文字和版式不变，把背景改成更克制的深蓝科技风"></textarea></label>
+              <button class="btn secondary" type="button" id="unifiedXhsCreateLightPlan" disabled>生成修改方案</button>
+              <div class="unified-xhs-light-plan" id="unifiedXhsLightPlanPreview"><span>尚未生成修改计划。</span></div>
+              <input id="unifiedXhsLightMaxCredits" type="hidden" value="8" />
+              <input id="unifiedXhsLightActor" type="hidden" value="workspace_user" />
+              <button class="btn secondary" type="button" id="unifiedXhsApproveLightPlan" disabled>确认修改方案</button>
+              <button class="btn primary" type="button" id="unifiedXhsExecuteLightPlan" disabled>生成该页新版本</button>
+              <hr />
+              <label>版本标签（可选）<input id="unifiedXhsVersionLabel" placeholder="例如：XHS-首发终稿" /></label>
+              <button class="btn primary" type="button" id="unifiedXhsConfirmVisualSet" disabled>人工确认整套图片并生成版本标签</button>
+              <div class="unified-xhs-version-tags" id="unifiedXhsVersionTags"></div>
+            </section>
+          </section>
+
+          <div class="unified-artifact-layout" id="unifiedArtifactWorkspace" hidden>
+            <main class="surface unified-artifact-material-panel">
+              <div class="surface-head"><div><span class="eyebrow">内容预览</span><h2 id="unifiedArtifactMaterialTitle">待确认内容</h2></div><span class="version-chip" id="unifiedArtifactStateHash">等待载入</span></div>
+              <div class="unified-artifact-blockers" id="unifiedArtifactBlockers"></div>
+              <div id="unifiedArtifactMaterial"><div class="empty-state">请选择候选后加载 Runtime Artifact。</div></div>
+            </main>
+
+            <aside class="surface unified-artifact-action-panel">
+              <span class="eyebrow">当前版本</span><h2>确认并生成内容包</h2>
+              <p>确认后，系统会自动保存你正在查看的文字与图片，并生成本地内容包。不会上传或发布到平台。</p>
+              <label>修改说明（可选）<textarea id="unifiedArtifactReason" rows="3" placeholder="没有问题可直接确认；需要退回时写下修改要求"></textarea></label>
+              <button class="btn primary full" type="button" id="unifiedFinalizeCurrentVersion">确认当前版本并生成内容包</button>
+              <button class="btn secondary full" type="button" id="unifiedRejectCurrentVersion">退回继续修改</button>
+              <div class="unified-promotion-result" id="unifiedFinalizeStatus"><span>等待你确认当前看到的版本。</span></div>
+              <details class="content-platform-advanced unified-delivery-advanced">
+                <summary>高级详情</summary>
+                <p>以下是版本追溯与故障恢复信息，正常使用时不需要操作。</p>
+                <label>操作人<input id="unifiedArtifactReviewer" autocomplete="off" value="workspace_user" /></label>
+                <div id="unifiedArtifactSetActions" class="unified-artifact-set-actions"></div>
+                <section class="unified-content-review-step" id="unifiedContentReviewStep" hidden>
+                  <p id="unifiedContentReviewHint">等待系统检查当前版本。</p>
+                  <button class="btn secondary full" type="button" id="unifiedCreateContentReview" disabled>重新运行内容检查</button>
+                </section>
+                <section class="unified-content-selection-step">
+                  <label class="unified-selection-confirm"><input type="checkbox" id="unifiedSelectionConfirm" /> 采用当前版本</label>
+                  <div class="unified-selection-binding" id="unifiedSelectionBinding">等待内容检查</div>
+                  <button class="btn secondary full" type="button" id="unifiedConfirmSelection" disabled>单独保存版本选择</button>
+                </section>
+                <section class="unified-content-promotion-step" id="unifiedPromotionPanel">
+                  <h3 id="unifiedPromotionTitle">本地交付版本</h3>
+                  <div class="unified-promotion-blockers" id="unifiedPromotionBlockers"></div>
+                  <button class="btn secondary full" type="button" id="unifiedPreviewPromotion" disabled>检查交付版本</button>
+                  <p class="unified-promotion-preview-state" id="unifiedPromotionPreviewState">等待版本选择</p>
+                  <dl class="unified-promotion-bindings" id="unifiedPromotionBindings"></dl>
+                  <label class="unified-selection-confirm"><input type="checkbox" id="unifiedPromotionConfirm" disabled /> 锁定当前交付版本</label>
+                  <button class="btn secondary full" type="button" id="unifiedConfirmPromotion" disabled>单独生成交付版本</button>
+                  <div class="unified-promotion-result" id="unifiedPromotionResult"><span>尚未生成本地内容包。</span></div>
+                  <button class="btn secondary full" type="button" id="unifiedXhsFinalDelivery" disabled>重新生成本地内容包</button>
+                </section>
+              </details>
+              <section class="unified-content-upload-step" id="unifiedWechatUploadPanel" hidden>
+                <span class="eyebrow">CONTROLLED WECHAT RESOURCE UPLOAD</span><h3>公众号资源上传与对账</h3>
+                <p class="unified-publication-warning">这里只上传封面和正文图片，并把正文中的本地图片引用替换为微信 HTTPS 地址；不会创建草稿，也不会发布文章。</p>
+                <div class="unified-upload-blockers" id="unifiedWechatUploadBlockers"></div>
+                <div class="unified-upload-state-grid" id="unifiedWechatUploadState"></div>
+                <button class="btn secondary full" type="button" id="unifiedWechatUploadRefresh">刷新并对账服务端状态</button>
+                <button class="btn secondary full" type="button" id="unifiedWechatUploadPreview" disabled>只读预览精确上传计划</button>
+                <div class="unified-upload-plan" id="unifiedWechatUploadPlan"><span>等待当前公众号 Promotion。</span></div>
+                <label>批准人 ID<input id="unifiedWechatUploadActorId" autocomplete="off" placeholder="user:publisher" /></label>
+                <label class="unified-selection-confirm"><input type="checkbox" id="unifiedWechatUploadConfirm" disabled /> 我批准按上方精确文件、哈希、顺序和调用预算上传资源</label>
+                <button class="btn primary full" type="button" id="unifiedWechatUploadApprove" disabled>记录上传计划人工批准</button>
+                <button class="btn primary full" type="button" id="unifiedWechatUploadExecute" disabled>执行已批准的资源上传</button>
+                <div class="unified-upload-result" id="unifiedWechatUploadResult"><span>尚未执行资源上传。</span></div>
+              </section>
+              <section class="unified-content-upload-step" id="unifiedWechatDraftPanel" hidden>
+                <span class="eyebrow">CONTROLLED WECHAT DRAFT CREATION</span><h3>创建公众号草稿</h3>
+                <p class="unified-publication-warning">草稿创建会调用微信 draft/add，但不会发布文章。必须先完成资源上传与最终交付，并确认下方精确标题、正文 hash 和封面 media_id。</p>
+                <div class="unified-upload-blockers" id="unifiedWechatDraftBlockers"></div>
+                <div class="unified-upload-state-grid" id="unifiedWechatDraftState"></div>
+                <button class="btn secondary full" type="button" id="unifiedWechatDraftRefresh">刷新并对账草稿状态</button>
+                <button class="btn secondary full" type="button" id="unifiedWechatDraftPreview" disabled>只读预览精确草稿载荷</button>
+                <div class="unified-upload-plan" id="unifiedWechatDraftPayload"><span>等待资源上传与最终交付。</span></div>
+                <label>确认人 ID<input id="unifiedWechatDraftActorId" autocomplete="off" placeholder="user:publisher" /></label>
+                <label class="unified-selection-confirm"><input type="checkbox" id="unifiedWechatDraftConfirm" disabled /> 我确认仅为本次测试创建上方精确草稿；不授权发布</label>
+                <button class="btn primary full" type="button" id="unifiedWechatDraftExecute" disabled>创建已确认的公众号草稿</button>
+                <div class="unified-upload-result" id="unifiedWechatDraftResult"><span>尚未调用微信草稿接口。</span></div>
+              </section>
+              <section class="unified-content-publication-step" id="unifiedPublicationPanel" hidden>
+                <span class="eyebrow">MANUAL PUBLICATION RECORD</span><h3>登记人工发布结果</h3>
+                <p class="unified-publication-warning">这里只登记你已经在平台人工完成的结果，不会调用微信、小红书或 Provider 发布 API。</p>
+                <div class="unified-publication-blockers" id="unifiedPublicationBlockers"></div>
+                <div class="unified-publication-state-grid" id="unifiedPublicationStateGrid"></div>
+                <div class="unified-publication-exact-refs" id="unifiedPublicationExactRefs"></div>
+                <label>确认人 ID<input id="unifiedPublicationActorId" autocomplete="off" placeholder="user:publisher" /></label>
+                <label>实际发布时间<input type="datetime-local" id="unifiedPublicationPublishedAt" /></label>
+                <label>平台内容 ID<input id="unifiedPublicationContentId" autocomplete="off" placeholder="平台返回的真实内容 ID" /></label>
+                <label>可验证平台 URL<input type="url" id="unifiedPublicationUrl" autocomplete="off" placeholder="https://…（与内容 ID 至少填写一项）" /></label>
+                <label class="unified-selection-confirm"><input type="checkbox" id="unifiedPublicationManualConfirm" disabled /> 我确认已在当前平台人工完成发布</label>
+                <button class="btn primary full" type="button" id="unifiedRecordPublication" disabled>登记人工 Publication</button>
+                <div class="unified-publication-result" id="unifiedPublicationResult"><span>必须先恢复当前 candidate 的精确 Promotion 与不可变版本。</span></div>
+              </section>
+              <section class="unified-content-feedback-step" id="unifiedFeedbackPanel" hidden>
+                <span class="eyebrow">BOUND FEEDBACK</span><h3>回填当前 Publication</h3>
+                <p>反馈只绑定上方精确 Publication；相同窗口相同载荷复用快照，变化载荷追加 revision。</p>
+                <label>观察窗口<select id="unifiedFeedbackWindow"><option value="72h">72h</option><option value="7d">7d</option><option value="final">final</option></select></label>
+                <label>指标截止时间<input type="datetime-local" id="unifiedFeedbackCutoffAt" /></label>
+                <div class="unified-feedback-metrics"><label>曝光<input type="number" min="0" id="unifiedFeedbackImpressions" /></label><label>浏览<input type="number" min="0" id="unifiedFeedbackViews" /></label><label>点赞<input type="number" min="0" id="unifiedFeedbackLikes" /></label><label>收藏<input type="number" min="0" id="unifiedFeedbackSaves" /></label><label>评论<input type="number" min="0" id="unifiedFeedbackComments" /></label><label>分享<input type="number" min="0" id="unifiedFeedbackShares" /></label></div>
+                <label>平台指标（JSON）<textarea id="unifiedFeedbackPlatformMetrics" rows="2" placeholder='例如 {"coverClicks":12}'></textarea></label>
+                <label>来源证据 ID<input id="unifiedFeedbackEvidenceId" autocomplete="off" placeholder="publication-feedback-evidence:..." /></label>
+                <label>来源证据 SHA-256<input id="unifiedFeedbackEvidenceHash" autocomplete="off" pattern="[a-f0-9]{64}" placeholder="64 位小写十六进制 hash" /></label>
+                <label>定性反馈<textarea id="unifiedFeedbackQualitative" rows="2" placeholder="实际结果、异常和人工判断"></textarea></label>
+                <button class="btn secondary full" type="button" id="unifiedRecordFeedback" disabled>保存反馈快照</button>
+                <div class="unified-feedback-result" id="unifiedFeedbackResult"><span>等待精确 Publication。</span></div>
+              </section>
+              <section class="unified-content-lifecycle-step" id="unifiedLifecyclePanel" hidden>
+                <span class="eyebrow">PLATFORM OBSERVATION</span><h3>记录平台生命周期观察</h3>
+                <p>这里只记录人工已在平台完成并观察到的 correction/takedown/replacement；FlowSocial 不执行平台动作。</p>
+                <label>动作<select id="unifiedLifecycleAction"><option value="takedown">takedown observation</option><option value="correction">evidence correction</option><option value="replacement">replacement observation</option></select></label>
+                <label>Replacement exact request（仅 replacement）<textarea id="unifiedLifecycleReplacementRequest" rows="3" placeholder='{"workspaceId":"…","companyId":"…","accountId":"…","publicationRef":{"id":"…","hash":"…"},"platformContentId":"…","platformUrl":"…"}'></textarea></label>
+                <label>Confirmed takedown ref（仅 replacement）<textarea id="unifiedLifecycleTakedownRef" rows="2" placeholder='{"id":"…","hash":"…"}'></textarea></label>
+                <label class="unified-selection-confirm"><input type="checkbox" id="unifiedLifecycleManualConfirm" /> 我确认该平台动作已由人工执行并观察</label>
+                <button class="btn secondary full" type="button" id="unifiedRecordLifecycle" disabled>记录生命周期事实</button>
+                <div id="unifiedLifecycleResult"><span>等待精确 Publication。</span></div>
+              </section>
+              <p class="unified-artifact-boundary">此工作台仅在公众号上传功能开启且人工批准精确计划后调用微信资源上传 API；资源上传不等于草稿或发布。Provider、下载、批准或选择都不是发布。它不会调用平台发布 API、不会下载内容包，也不会把旧 ContentTask 批准映射到新链。Promotion 与 Publication 始终分开，反馈只绑定已登记的精确 Publication。</p>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      <section class="app-view product-page" data-view="review">
+        <div class="page-wrap v2-page review-page-v2">
+          <header class="v2-page-head"><div><span class="eyebrow">PUBLISH & LEARN</span><h1>发布与复盘</h1><p>先记录发布，再在 72 小时、7 日和最终窗口补充表现数据，不需要每天手工录入。</p></div><button class="btn primary" id="v2BatchFeedback">批量录入数据</button></header>
+          <div class="review-summary-v2" id="v2ReviewSummary"></div>
+          <div class="review-layout-v2"><section class="surface"><div class="surface-head"><div><span class="eyebrow">发布队列</span><h2>内容记录</h2></div></div><div class="publication-queue-tabs" id="v2ReviewFilters"><button class="active" data-review-filter="all">全部 <b id="v2QueueAll">0</b></button><button data-review-filter="needs_completion">待完善 <b id="v2QueueNeedsCompletion">0</b></button><button data-review-filter="ready_to_publish">待发布 <b id="v2QueueReady">0</b></button><button data-review-filter="data_quality_issue">数据需修复 <b id="v2QueueQuality">0</b></button><button data-review-filter="awaiting_72h">等待72h <b id="v2QueueAwaiting72">0</b></button><button data-review-filter="ready_for_72h">可回填72h <b id="v2QueueReady72">0</b></button><button data-review-filter="awaiting_7d">等待7d <b id="v2QueueAwaiting7d">0</b></button><button data-review-filter="ready_for_7d">可回填7d <b id="v2QueueReady7d">0</b></button><button data-review-filter="mature">已成熟 <b id="v2QueueMature">0</b></button></div><div id="v2PublicationList"></div></section><aside class="surface learning-signal-panel"><span class="eyebrow">学习信号</span><h2>Agent 学到了什么</h2><p>只有同账号、同策略版本和同观察窗口的可比内容，才会形成策略候选。</p><div id="v2LearningSignals"></div></aside></div>
+          <div class="review-insight-grid"><section class="surface"><div class="surface-head"><div><span class="eyebrow">FUNNEL DIAGNOSIS</span><h2>单篇漏斗诊断</h2></div></div><div id="v2Diagnoses"><div class="empty-state">形成同类基线后显示诊断。</div></div></section><section class="surface"><div class="surface-head"><div><span class="eyebrow">CYCLE REVIEW</span><h2>周期复盘与策略候选</h2></div></div><div id="v2CycleReviews"><div class="empty-state">至少完成一个内容周期后显示。</div></div></section></div>
+        </div>
+      </section>
+
+      <section class="app-view product-page" data-view="assets">
+        <div class="page-wrap v2-page assets-page-v2">
+          <header class="v2-page-head"><div><span class="eyebrow">CONTENT MEMORY</span><h1>资产中心</h1><p>事实、热点、外部参考和内容规律分库存储，Agent 会在规划时按边界调用。</p></div><button class="btn primary" id="v2UploadAsset">添加资产</button></header>
+          <div class="asset-library-tabs" id="v2AssetTabs"><button class="active" data-v2-asset="knowledge">企业知识库</button><button data-v2-asset="hotspots">热点库</button><button data-v2-asset="references">参考内容库</button><button data-v2-asset="blueprints">爆款蓝图库</button></div>
+          <div class="asset-boundary-note" id="v2AssetBoundary"></div>
+          <section class="asset-upload-v2" id="v2KnowledgeAssetManager">
+            <div class="asset-upload-controls">
+              <label>目标文件夹<select id="v2KnowledgeFolder"></select></label>
+              <button class="btn secondary" id="v2NewKnowledgeFolder" type="button">新建文件夹</button>
+              <label>文件标签<input id="v2KnowledgeTags" placeholder="例如：产品资料, 客户案例" /></label>
+              <label>内容说明<input id="v2KnowledgeDescription" placeholder="说明 Agent 何时可以引用" /></label>
+              <label class="btn primary upload-button">选择文件<input id="v2KnowledgeFiles" type="file" accept=".pdf,.docx,.txt,.md,.markdown,.csv,.json,.html,.htm,.png,.jpg,.jpeg,.webp" multiple /></label>
+            </div>
+            <p class="asset-format-note">支持 PDF、DOCX、TXT、Markdown、CSV、JSON、HTML、PNG、JPG、WebP，单个不超过 25 MB。图片只索引文件名、标签和用户说明，不会伪装成 OCR。</p>
+            <div class="asset-upload-progress" id="v2AssetUploadProgress"></div>
+          </section>
+          <div class="asset-library-grid" id="v2AssetLibrary"><div class="v2-skeleton">加载资产中…</div></div>
+        </div>
+      </section>
+
+      <section class="app-view product-page" data-view="settings">
+        <div class="page-wrap v2-page settings-page-v2">
+          <header class="v2-page-head"><div><span class="eyebrow">ACCOUNT & SYSTEM</span><h1>账号与设置</h1><p>这里管理平台账号、视觉系统和能力连接；受众、目标与内容策略由策略 Agent 统一维护。</p></div></header>
+          <div class="settings-layout-v2"><section class="surface"><div class="surface-head"><div><span class="eyebrow">发布账号</span><h2>账号与品牌视觉</h2></div><button class="btn primary" id="v2AddAccount">新增账号</button></div><div id="v2AccountCards"></div></section><aside class="surface"><span class="eyebrow">系统能力</span><h2>模型、搜索与生图</h2><div id="v2IntegrationCards"></div><button class="btn secondary full" data-jump="sources">高级连接设置</button></aside></div>
+        </div>
+      </section>
+
+      <dialog id="v2FeedbackDialog" class="flow-dialog v2-feedback-dialog">
+        <form method="dialog">
+          <header><div><span class="eyebrow">PUBLISH FEEDBACK</span><h2 id="v2FeedbackTitle">记录发布结果</h2><p>先记录发布信息；表现数据可以到观察窗口后再补。</p></div><button value="cancel" class="icon-btn" aria-label="关闭">×</button></header>
+          <section class="feedback-timeline" id="v2FeedbackTimeline"></section>
+          <section class="feedback-quality-panel" id="v2FeedbackQuality" hidden></section>
+          <section class="feedback-window-comparison" id="v2FeedbackComparison" hidden></section>
+          <div class="feedback-dialog-grid"><label>发布状态<select id="v2FeedbackStatus"><option value="published">已发布</option><option value="scheduled">待发布</option><option value="failed">发布失败</option><option value="archived">已归档</option></select></label><label>内容链接<input id="v2FeedbackUrl" type="url" placeholder="https://..." /><small>可验证链接会自动提取内容 ID；无法识别时请手填。</small></label><label>平台内容 ID<input id="v2FeedbackPlatformContentId" placeholder="无法自动识别时手填" /></label><label>实际发布时间<input id="v2FeedbackPublishedAt" type="datetime-local" /><small>未确认请留空，系统不会用当前时间代替。</small></label><label>观察窗口<select id="v2FeedbackWindow"><option value="72h">发布后72小时</option><option value="7d">发布后7天</option><option value="final">最终数据</option></select></label><label>指标数据截止时间<input id="v2FeedbackCutoffAt" type="datetime-local" /><small>成熟度以实际发布时间与该时间判断。</small></label><label data-feedback-core="impressions">曝光<input id="v2FeedbackImpressions" type="number" min="0" placeholder="未提供请留空" /></label><label data-feedback-core="views">阅读/播放<input id="v2FeedbackViews" type="number" min="0" placeholder="可稍后填写" /></label><label data-feedback-core="likes">点赞<input id="v2FeedbackLikes" type="number" min="0" placeholder="可稍后填写" /></label><label data-feedback-core="saves">收藏<input id="v2FeedbackSaves" type="number" min="0" placeholder="可稍后填写" /></label><label data-feedback-core="comments">评论<input id="v2FeedbackComments" type="number" min="0" placeholder="可稍后填写" /></label><label data-feedback-core="shares">分享<input id="v2FeedbackShares" type="number" min="0" placeholder="可稍后填写" /></label><label data-feedback-core="follows">新增关注<input id="v2FeedbackFollows" type="number" min="0" placeholder="可稍后填写" /></label><label data-feedback-core="leads">咨询/线索<input id="v2FeedbackLeads" type="number" min="0" placeholder="可稍后填写" /></label><label data-feedback-platform="xiaohongshu">封面点击<input id="v2FeedbackCoverClicks" type="number" min="0" placeholder="小红书可见时填写" /></label><label data-feedback-platform="xiaohongshu">主页访问<input id="v2FeedbackProfileVisits" type="number" min="0" placeholder="小红书可见时填写" /></label><label data-feedback-platform="wechat">送达人数<input id="v2FeedbackDelivered" type="number" min="0" placeholder="公众号可见时填写" /></label><label data-feedback-platform="wechat">读完人数<input id="v2FeedbackCompletions" type="number" min="0" placeholder="公众号可见时填写" /></label><label>有效线索<input id="v2FeedbackQualifiedLeads" type="number" min="0" placeholder="业务结果，可稍后填写" /></label><label>成交数<input id="v2FeedbackWonDeals" type="number" min="0" placeholder="业务结果，可稍后填写" /></label><label class="wide">定性结果<input id="v2FeedbackNote" placeholder="例如：评论集中询问实施周期" /></label></div>
+          <footer><button value="cancel" class="btn secondary">取消</button><button type="button" class="btn primary" id="v2SaveFeedback">保存发布与反馈</button></footer>
+        </form>
+      </dialog>
+
+      <dialog id="topicAdjustmentDialog" class="flow-dialog topic-adjustment-dialog">
+        <form method="dialog">
+          <header><div><span class="eyebrow">TOPIC DIRECTION ONLY</span><h2>与 AI 调整选题</h2><p id="topicAdjustmentScope">只调整当前选题方向</p></div><button value="cancel" class="icon-btn" aria-label="关闭">×</button></header>
+          <section class="topic-adjustment-original"><span>当前选题</span><strong id="topicAdjustmentTitle"></strong><small>日期、账号、平台、策略、正文和图片不会在这里改变。</small></section>
+          <div class="topic-adjustment-layout">
+            <section><div class="agent-chat-log" id="topicAdjustmentChat"></div><div class="topic-adjustment-compose"><textarea id="topicAdjustmentInput" rows="3" placeholder="先说说你的想法、疑问或取舍；AI 会先和你探讨"></textarea><div><small id="topicAdjustmentBusy" hidden>AI 正在思考…</small><span><button class="btn secondary" id="requestTopicCandidates" type="button">生成 3 个候选</button><button class="btn primary" id="sendTopicAdjustmentMessage" type="button">发送</button></span></div></div></section>
+            <aside id="topicAdjustmentCandidates"></aside>
+          </div>
+          <footer><small>只有点击“采用这个选题”才会写回计划；采用后仍需重新确认整期排期。</small><button value="cancel" class="btn secondary">暂不调整</button></footer>
+        </form>
+      </dialog>
+
+      <dialog id="metricImportDialog" class="flow-dialog v2-feedback-dialog">
+        <form method="dialog">
+          <header><div><span class="eyebrow">BATCH METRIC IMPORT</span><h2>批量导入平台数据</h2><p>先预览字段映射和内容匹配；标题相同不会自动绑定。</p></div><button value="cancel" class="icon-btn" aria-label="关闭">×</button></header>
+          <div class="feedback-dialog-grid">
+            <label>平台<select id="metricImportPlatform"><option value="xiaohongshu">小红书</option><option value="wechat">微信公众号</option></select></label>
+            <label>CSV 文件<input id="metricImportFile" type="file" accept=".csv,text/csv" /></label>
+            <label class="wide">或粘贴 CSV<textarea id="metricImportCsv" rows="7" placeholder="笔记链接,笔记标题,曝光数,观看数,收藏数,观察窗口,统计截止时间"></textarea></label>
+            <div class="wide integration-result" id="metricImportResult">导入后会先显示精确匹配、待确认匹配和未匹配内容。</div>
+          </div>
+          <footer><button value="cancel" class="btn secondary">取消</button><button type="button" class="btn secondary" id="previewMetricImport">预览映射</button><button type="button" class="btn primary" id="confirmMetricImport" disabled>确认导入精确匹配项</button></footer>
+        </form>
+      </dialog>
+
+      <dialog id="wechatIntegrationDialog" class="flow-dialog v2-feedback-dialog">
+        <form method="dialog">
+          <header><div><span class="eyebrow">WECHAT DATA CONNECTOR</span><h2 id="wechatIntegrationTitle">连接微信公众号</h2><p>使用公众号官方数据接口同步图文表现；AppSecret 只保存在本机服务端，不会返回浏览器。</p></div><button value="cancel" class="icon-btn" aria-label="关闭">×</button></header>
+          <div class="feedback-dialog-grid">
+            <label class="wide">AppID<input id="wechatAppId" autocomplete="off" placeholder="微信公众平台 → 设置与开发 → 基本配置" /></label>
+            <label class="wide">AppSecret<input id="wechatAppSecret" type="password" autocomplete="new-password" placeholder="已保存时留空即可；不要填写公众号登录密码" /></label>
+            <label>首次回溯范围<select id="wechatSyncDays"><option value="7">最近 7 天</option><option value="14">最近 14 天</option><option value="30">最近 30 天</option></select></label>
+            <label>同步方式<input value="官方图文分析 API · T+1" disabled /></label>
+            <div class="wide integration-result" id="wechatIntegrationResult">保存后先测试连接，再同步历史文章与表现数据。</div>
+          </div>
+          <footer><button value="cancel" class="btn secondary">取消</button><button type="button" class="btn secondary" id="testWechatIntegration">测试连接</button><button type="button" class="btn secondary" id="saveWechatIntegration">保存配置</button><button type="button" class="btn primary" id="syncWechatIntegration">同步数据</button></footer>
+        </form>
+      </dialog>
+
+      <section class="app-view product-page" data-view="opportunities">
+        <div class="page-wrap opportunity-page">
+          <div class="direction-switcher">
+            <div class="direction-tabs" id="directionTabs"><button class="active" data-direction-id="direction_ai"><span class="direction-icon ai">AI</span><div><strong>AI定制化智能体</strong><small>企业智能体 · AI员工 · 知识库</small></div><b>12</b></button><button data-direction-id="direction_site"><span class="direction-icon site">站</span><div><strong>独立站建站</strong><small>外贸建站 · SEO · 询盘转化</small></div><b>8</b></button><button class="add-direction" id="addDirection"><span>＋</span><div><strong>新增关注主题</strong><small>设置关键词与更新频率</small></div></button></div>
+            <div class="direction-meta"><span id="directionUpdated">每天 08:00 自动更新 · 上次更新：今天 11:20</span><button class="btn secondary" id="editDirection">主题设置</button><button class="btn primary" id="refreshDirection">更新热点库</button></div>
+          </div>
+          <section class="surface hotspot-radar">
+            <div class="radar-head">
+              <div><span class="eyebrow">热点雷达</span><h2>两种热点池，使用真实来源分别采集</h2><p id="radarModeDescription">全网热点无需关键词，从公开热榜与趋势 RSS 获取当前热议事件。</p></div>
+              <div class="radar-actions"><button class="btn primary" id="runHotspotRadar">开始扫描</button></div>
+            </div>
+            <div class="hotspot-pool-tabs" id="hotspotPoolTabs">
+              <button class="active" data-pool-mode="global"><strong>无关键词全网热点</strong><small>大陆热榜 · 国际趋势</small></button>
+              <button data-pool-mode="keyword"><strong>关键词热点</strong><small>RedFox · 小红书 / 抖音 / 公众号</small></button>
+            </div>
+            <div class="radar-config">
+              <label id="radarKeywordField">搜索关键词<input id="radarKeywords" value="AI Agent, AI营销, 内容自动化, 企业工作流" /><small id="keywordProfileSummary">由主题设置中的核心词、平台词和场景词组成</small></label>
+              <label id="radarDirectionField">当前关注主题<select id="radarDirection"><option value="direction_ai">AI定制化智能体</option><option value="direction_site">独立站建站</option></select></label>
+              <label>时间范围<select id="radarWindow"><option value="7">最近 7 天</option><option value="30">最近 30 天</option><option value="1">最近 24 小时</option></select></label>
+              <label id="targetHotspotField">期待有效热点数量<input id="targetHotspotCount" type="number" min="5" max="30" value="10" /></label>
+              <div class="radar-sources"><span>启用来源</span><div><button class="active global-source" data-global-source="baidu">✓ 百度热搜（大陆）</button><button class="active global-source" data-global-source="toutiao">✓ 今日头条热榜</button><button class="global-source" data-global-source="zhihu">知乎热榜（需验证）</button><button class="active global-source" data-global-source="google_hk">✓ Google 香港</button><button class="active global-source" data-global-source="google_tw">✓ Google 台湾</button><button class="active global-source" data-global-source="google_us">✓ Google 美国</button><button class="active global-source" data-global-source="google_gb">✓ Google 英国</button><button class="global-source" data-global-source="google_jp">Google 日本</button><button class="active keyword-source" data-platform="xiaohongshu" hidden>✓ 小红书</button><button class="active keyword-source" data-platform="douyin" hidden>✓ 抖音</button><button class="active keyword-source" data-platform="wechat" hidden>✓ 公众号</button></div></div>
+            </div>
+            <div class="radar-stages" id="radarStages">
+              <div data-stage="collect"><span>1</span><strong>实时采集</strong><small>等待扫描</small></div><i>→</i>
+              <div data-stage="normalize"><span>2</span><strong>字段标准化</strong><small>等待扫描</small></div><i>→</i>
+              <div data-stage="relevance"><span>3</span><strong>主题相关性</strong><small>等待扫描</small></div><i>→</i>
+              <div data-stage="dedupe"><span>4</span><strong>去重与时效</strong><small>等待扫描</small></div><i>→</i>
+              <div data-stage="cluster"><span>5</span><strong>真实事件聚类</strong><small>等待扫描</small></div><i>→</i>
+              <div data-stage="score"><span>6</span><strong>热点评分</strong><small>等待扫描</small></div>
+            </div>
+            <div class="source-boundary"><strong>数据边界</strong><span>无关键词池使用百度公开热榜和 Google Trends RSS</span><span>关键词池使用 RedFox 授权搜索；来源失败会显示警告，不补造演示数据</span></div>
+          </section>
+          <div class="page-tools">
+            <div class="filter-tabs"><button class="active">有效热点 <span id="directionHotspotCount">1</span></button><button>高价值</button><button>今日新增</button><button>已忽略</button></div>
+            <div class="tool-actions"><label class="search-box">⌕<input type="search" placeholder="搜索热点、行业或来源" /></label><button class="btn secondary">筛选</button><button class="btn primary" id="collectNow">开始热点采集</button></div>
+          </div>
+          <div class="opportunity-layout">
+            <div class="opportunity-list" id="opportunityList">
+              <button class="opp-list-card active" data-opp="opp_ai_demo"><div class="opp-top"><span class="trend-label rising">上升中</span><time>72h 后更新</time></div><h3>AI Agent 正在进入企业营销工作流</h3><p>企业开始关注 AI 如何进入真实业务流程，并与知识、内容和团队协作连接。</p><div class="opp-bottom"><span>热点分 <b>87</b></span><span>7 个来源</span><span>4 个 ideas</span></div></button>
+              <button class="opp-list-card" data-opp="opp_ai_knowledge"><div class="opp-top"><span class="trend-label new">新出现</span><time>96h 后更新</time></div><h3>企业知识库成为智能体落地的关键基础</h3><p>企业开始从模型能力转向关注知识准确性、权限和更新机制。</p><div class="opp-bottom"><span>热点分 <b>85</b></span><span>5 个来源</span><span>4 个 ideas</span></div></button>
+            </div>
+
+            <article class="opportunity-detail" id="opportunityDetail">
+              <div class="detail-head"><div><span class="trend-label rising">上升中</span><span class="risk-low">低风险</span></div></div>
+              <h2 id="detailOppTitle">AI Agent 正在进入企业营销工作流</h2>
+              <p class="detail-summary" id="detailOppSummary">企业开始关注 AI 如何进入真实业务流程，并与知识、内容生产和团队协作连接。</p>
+              <div class="hotspot-card-meta"><div><span>相关关键词</span><p id="detailKeywords"><b>AI Agent</b><b>AI员工</b><b>企业知识库</b><b>工作流自动化</b></p></div><div><span>可连接业务</span><p id="detailProducts"><b>AI定制化智能体</b><b>企业知识库</b></p></div></div>
+              <div class="score-breakdown"><div><strong id="detailScore">91</strong><span>综合热点分</span></div><ul id="detailScoreBreakdown"><li><span>热度</span><b style="width:94%"></b><em>94</em></li><li><span>时效</span><b style="width:88%"></b><em>88</em></li><li><span>跨来源</span><b style="width:76%"></b><em>76</em></li><li><span>互动</span><b style="width:82%"></b><em>82</em></li><li><span>证据</span><b style="width:85%"></b><em>85</em></li></ul></div>
+              <section class="detail-section"><h3>为什么现在值得关注</h3><p id="detailWhyHot">趋势指数、平台讨论和行业资讯同时出现上升信号。</p></section>
+              <section class="detail-section evidence-section"><h3>来源证据 <span>4</span></h3><div class="evidence-item"><i>01</i><div><strong>AI Agent 近7天趋势变化</strong><small>趋势指数 · 今日采集</small><p>相关关键词在企业应用与营销工作流方向持续上升。</p></div><span>有来源</span></div><div class="evidence-item"><i>02</i><div><strong>企业AI应用评论问题</strong><small>平台样本 · 今日聚类</small><p>实施成本、数据安全和真实效果成为高频问题。</p></div><span>有来源</span></div></section>
+              <section class="detail-section risk-section"><h3>风险与边界</h3><div id="detailRisks"><span>避免把单一案例描述为行业必然趋势</span><span>活动档期需要标注有效期</span><span>人物素材必须通过肖像授权检查</span></div></section>
+              <div class="detail-actions"><button class="btn secondary" id="ignoreHotspot">忽略热点</button><button class="btn secondary" id="addHotspotToLibrary">加入热点库</button><button class="btn primary" id="createFromHotspot">用于内容创作</button></div>
+            </article>
+          </div>
+          <section class="surface hotspot-library-panel" id="hotspotLibraryPanel">
+            <div class="topic-workbench-head"><div><span class="eyebrow">累计资产</span><h2>热点库</h2><p>采集结果先进入预览，只有用户明确选择“加入热点库”后才会形成真实热点资产；重复事件合并来源并保留首次发现时间。点击标签可带入内容计划。</p></div><span id="hotspotLibraryCount">0 个有效热点</span></div>
+            <div class="hotspot-library-tags" id="hotspotLibraryTags"><div class="empty-state">尚未采集热点。</div></div>
+          </section>
+          <section class="surface topic-workbench" id="topicWorkbench">
+            <div class="topic-workbench-head">
+              <div><span class="eyebrow">阶段四 · 选题编排</span><h2>从热点生成母选题与平台子选题</h2><p>先由 DeepSeek 生成候选，再经过证据、重复、强行结合与风险门控；选中具体平台子选题后进入该平台内容设置。</p></div>
+              <button class="btn primary" id="generateTopics">生成选题</button>
+            </div>
+            <div class="topic-controls">
+              <div class="topic-type-tabs" id="topicTypeTabs">
+                <button class="active" data-topic-category="keyword"><strong>AI / 业务领域选题</strong><small>关键词热点直接生成，不混入全网热点</small></button>
+                <button data-topic-category="cross_trend"><strong>推荐结合选题</strong><small>全网热点 × 关键词热点，拒绝生硬蹭热点</small></button>
+              </div>
+              <label>期待候选数量<input id="topicCount" type="number" min="1" max="10" value="4" /></label>
+            </div>
+            <div class="selected-hotspots" id="selectedTopicHotspots"><span>尚未选择用于生成选题的热点</span><button class="btn secondary" id="chooseTopicHotspots">选择热点</button></div>
+            <div class="topic-pipeline-status" id="topicPipelineStatus"><span>等待生成</span><span>综合分 ≥ 70</span><span>证据分不足则待研究</span><span>平台适配分 ≥ 60</span></div>
+            <div class="topic-results" id="topicResults"><div class="empty-state">先采集关键词热点，再选择上方一种选题类型生成。</div></div>
+          </section>
+        </div>
+      </section>
+
+      <dialog id="directionDialog" class="flow-dialog">
+        <form method="dialog" id="directionForm">
+          <header><div><span class="eyebrow">主题设置</span><h2 id="directionDialogTitle">新建关注主题</h2></div><button value="cancel" class="icon-btn" aria-label="关闭">×</button></header>
+          <label>关注主题<input id="directionNameInput" required placeholder="例如：海外社媒运营" /></label>
+          <label>主题说明（可选）<textarea id="directionDescriptionInput" rows="2" placeholder="说明重点市场、平台、受众或不希望出现的内容"></textarea></label>
+          <div class="dialog-actions"><button type="button" class="btn secondary" id="generateDirectionKeywords">AI生成关键词建议</button><span id="keywordGenerationStatus">输入主题后生成</span></div>
+          <div class="keyword-profile-grid">
+            <label>核心关键词<textarea id="coreKeywordsInput" rows="3" placeholder="每行一个"></textarea></label>
+            <label>平台关键词<textarea id="platformKeywordsInput" rows="3" placeholder="每行一个"></textarea></label>
+            <label>场景关键词<textarea id="scenarioKeywordsInput" rows="3" placeholder="每行一个"></textarea></label>
+            <label>排除关键词<textarea id="excludeKeywordsInput" rows="3" placeholder="每行一个"></textarea></label>
+          </div>
+          <footer><button value="cancel" class="btn secondary">取消</button><button type="button" class="btn primary" id="saveDirectionProfile">确认并保存</button></footer>
+        </form>
+      </dialog>
+      <dialog id="topicHotspotDialog" class="flow-dialog">
+        <form method="dialog">
+          <header><div><span class="eyebrow" id="topicPickerEyebrow">选题证据范围</span><h2 id="topicPickerTitle">选择热点库中的具体热点</h2><p id="topicPickerDescription">母选题和各平台子选题将只引用所选热点及其证据。</p></div><button value="cancel" class="icon-btn" aria-label="关闭">×</button></header>
+          <div id="topicHotspotChoices" class="topic-hotspot-choices"></div>
+          <footer><button value="cancel" class="btn secondary">取消</button><button type="button" class="btn primary" id="confirmTopicHotspots">确认并生成选题</button></footer>
+        </form>
+      </dialog>
+
+      <section class="app-view product-page" data-view="viral">
+        <div class="page-wrap viral-page">
+          <div class="viral-grid">
+            <section class="surface import-surface">
+              <div class="surface-head"><div><span class="eyebrow">导入参考内容</span><h2>拆解一篇高表现内容</h2></div><span class="privacy-note">仅提取抽象规律</span></div>
+              <div class="import-tabs"><button class="active">粘贴链接</button><button>上传图文</button><button>上传视频</button></div>
+              <label class="url-input"><span>⌁</span><input id="viralUrl" value="https://www.xiaohongshu.com/explore/reference-post" aria-label="参考内容链接" /><button id="clearUrl">×</button></label>
+              <div class="reference-preview">
+                <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=420&q=85" alt="参考内容预览" />
+                <div><span>小红书图文 · 8 页</span><strong>不是越精致，品牌片就越高级</strong><small>2.6k 赞 · 1.1k 收藏 · 168 评论</small></div>
+              </div>
+              <div class="viral-base-data">
+                <div class="viral-data-title"><strong>基础数据</strong><span>前台可见数据</span></div>
+                <label>标题<input id="viralTitle" value="不是越精致，品牌片就越高级" /></label>
+                <div class="viral-data-grid"><label>账号类型<select id="viralAccountType"><option>企业服务/专业内容账号</option><option>老板IP号</option><option>产品科普号</option></select></label><label>笔记形式<select id="viralFormat"><option value="multi_image">多图 / 图文</option><option value="single_image">单图</option><option value="video">视频</option></select></label></div>
+                <div class="viral-metrics"><label>点赞<input id="viralLikes" type="number" value="2600" /></label><label>收藏<input id="viralSaves" type="number" value="1100" /></label><label>评论<input id="viralComments" type="number" value="168" /></label><label>转发<input id="viralShares" type="number" value="94" /></label></div>
+                <label>评论区样本<textarea id="viralCommentSamples">求资料
+企业号也适用吗
+怎么做选题
+有模板可以分享吗
+想了解你们的工作台
+收藏了慢慢看</textarea><small>每行一条。接入创作者后台数据后，可同时分析曝光、阅读和粉丝基线。</small></label>
+              </div>
+              <button class="btn primary full" id="analyzeViral">开始 AI 拆解</button>
+              <p class="legal-note">系统不会复用原文、原图、人物或品牌元素，只提取标题结构、叙事节奏和视觉角色。</p>
+            </section>
+
+            <section class="surface analysis-surface" id="viralAnalysis">
+              <div class="surface-head"><div><span class="eyebrow">拆解结果</span><h2>这篇内容为什么有效？</h2></div><span class="analysis-status">分析完成</span></div>
+              <div class="analysis-score"><strong id="viralOverallScore">89</strong><div><b>收藏与转化价值高</b><span id="viralScoreSummary">收藏/点赞 42.3% · 评论中有明确资料与咨询意图</span></div></div>
+              <div class="analysis-tabs" id="viralAnalysisTabs"><button class="active" data-analysis-tab="value">数据与价值</button><button data-analysis-tab="click">标题与封面</button><button data-analysis-tab="structure">正文与图文页</button><button data-analysis-tab="conversion">互动与风险</button></div>
+              <div class="viral-analysis-panels">
+                <div class="viral-analysis-panel active" data-analysis-panel="value">
+                  <div class="value-score-grid"><article><span>收藏价值</span><strong id="viralSaveScore">94</strong><small>收藏/点赞 42.3%</small></article><article><span>讨论价值</span><strong>88</strong><small>评论/点赞 6.5%</small></article><article><span>转化潜力</span><strong id="viralConversionScore">91</strong><small>3 类高意向表达</small></article></div>
+                  <div class="value-reasons"><h3>用户为什么会行动？</h3><div><span>收藏</span><p>方法清单可复用，可用于团队拍摄前自查。</p></div><div><span>评论</span><p>反常识判断激发讨论，用户想确认自己的行业是否适用。</p></div><div><span>私信</span><p>用户需要模板、案例和具体诊断，存在服务咨询意图。</p></div></div>
+                  <div class="data-confidence"><strong>数据可信度：中</strong><span>目前使用前台可见数据；接入创作者后台后可计算曝光率、阅读率和粉丝基线。</span></div>
+                </div>
+                <div class="viral-analysis-panel" data-analysis-panel="click">
+                  <div class="formula-card"><span>标题公式</span><strong id="viralTitleFormula">反常识否定 + 具体内容场景 + 更重要的判断</strong><p>写给企业老板、运营和品牌负责人；痛点是“投入很多但内容没有说服力”。</p></div>
+                  <div class="feature-checks"><span class="on">✓ 反常识</span><span>无数字</span><span class="on">✓ 情绪词</span><span class="on">✓ 场景词</span><span class="on">✓ 搜索关键词</span></div>
+                  <div class="cover-breakdown"><div class="cover-mock"><strong>不是越精致<br/>品牌片就越高级</strong><small>真实场景人物 + 强对比</small></div><div><span>封面类型</span><strong>痛点问题型封面</strong><p>大标题、低字数、两级文字；主体图占约 76%，标题一眼可读。</p><span>封面公式</span><strong>真实场景图 + 反常识大标题 + 高对比</strong></div></div>
+                  <div class="opening-breakdown"><span>前三行钩子</span><strong>很多品牌把精致当成高级，但用户记住的往往是真实。</strong><p>类型：反常识开头 · 痛点：制作成本高但无法建立连接 · 继续阅读理由：获得三个判断标准</p></div>
+                </div>
+                <div class="viral-analysis-panel" data-analysis-panel="structure">
+                  <div class="narrative-flow"><div><span>01</span><strong>痛点共鸣</strong><small>挑战默认认知</small></div><i>→</i><div><span>02</span><strong>错误做法</strong><small>过度追求棚拍</small></div><i>→</i><div><span>03</span><strong>案例与方法</strong><small>建立判断标准</small></div><i>→</i><div><span>04</span><strong>清单与CTA</strong><small>收藏并讨论</small></div></div>
+                  <div class="page-role-grid" id="viralPageRoles"><span><b>1</b>封面</span><span><b>2</b>问题</span><span><b>3</b>误区</span><span><b>4</b>方法</span><span><b>5</b>方法</span><span><b>6</b>案例</span><span><b>7</b>总结</span><span><b>8</b>CTA</span></div>
+                  <div class="insight-list"><article><span>内容骨架</span><strong>痛点共鸣 → 错误做法 → 案例对比 → 正确方法 → 清单总结 → 轻 CTA</strong><p>系统保存角色和目的，不复述或复用原文。</p></article><article><span>视觉节奏</span><strong>人物大图与留白信息卡交替</strong><p>每页承担一个角色，文字层级控制在两级以内。</p></article></div>
+                </div>
+                <div class="viral-analysis-panel" data-analysis-panel="conversion">
+                  <div class="conversion-signals"><h3>评论区转化信号</h3><span>求资料</span><span>怎么做</span><span>求模板</span><span>想了解产品</span><p>这些表达说明用户不只认可观点，还希望获得下一步解决方案。</p></div>
+                  <div class="interaction-grid"><article><span>收藏引导</span><strong>拍摄前逐项检查</strong></article><article><span>评论问题</span><strong>你的行业更看重精致还是真实？</strong></article><article><span>资料入口</span><strong>品牌内容复盘清单</strong></article><article><span>产品植入</span><strong>方法之后软性介绍</strong></article></div>
+                  <div class="risk-list"><div><b>P0</b><span>不得复用原图、真人、评论截图和独特版式</span></div><div><b>P1</b><span>反常识结论需要案例或行业证据</span></div><div><b>P1</b><span>资料领取与私信引导需符合平台规则</span></div><div><b>P2</b><span>重构后执行文本和视觉相似度检查</span></div></div>
+                </div>
+              </div>
+              <div class="do-not-copy"><strong>不可复用</strong><span>原文句式</span><span>原人物照片</span><span>原案例数据</span><span>独特版式</span></div>
+            </section>
+
+            <section class="surface blueprint-surface">
+              <div class="surface-head"><div><span class="eyebrow">持续学习</span><h2>审核后进入内容蓝图库</h2></div><span class="version-chip" id="viralLearningState">等待拆解</span></div>
+              <div class="pattern-review-card">
+                <p id="viralLearningSummary">每次拆解先生成候选规律，不会自动影响内容生成。批准后创建独立版本，并在内容任务中冻结快照。</p>
+                <div class="pattern-policy"><span>人工审核</span><span>只迁移结构</span><span>不写入策略</span></div>
+                <div class="pattern-review-actions"><button class="btn secondary" id="rejectViralPattern" disabled>不采纳</button><button class="btn primary" id="approveViralPattern" disabled>批准为蓝图 v1</button></div>
+              </div>
+              <div class="pattern-library-mini"><div><strong>可用于生成的蓝图</strong><small id="viralPatternCount">0 个版本</small></div><div id="viralPatternLibrary"><p>还没有已批准蓝图。</p></div></div>
+              <div class="surface-head blueprint-create-head"><div><span class="eyebrow">原创重构</span><h2>生成新的创作简报</h2></div><button class="text-btn">重置</button></div>
+              <div class="blueprint-form"><label>目标账号<select><option>BlueMuse 模特经纪 · 小红书</option><option>BlueMuse Insights · 公众号</option></select></label><label>新主题<select><option>夏季品牌片中的真实生活感</option><option>如何判断模特的动态表现力</option></select></label><label>保留的规律<div class="check-row"><button class="active">✓ 反常识钩子</button><button class="active">✓ 案例后方法</button><button>大图占比</button><button class="active">✓ 轻 CTA</button></div></label><label>调用资产<div class="chosen-assets"><span>林乔 · 模卡与视频</span><span>夏日品牌片计划</span></div></label></div>
+              <div class="originality-box"><div><span>原创性要求</span><strong>严格</strong></div><div class="originality-meter"><i></i></div><small>将重写全部表达、案例和视觉素材，并进行文本与视觉相似度检查。</small></div>
+              <button class="btn primary full" id="createFromViral">生成原创内容</button>
+            </section>
+          </div>
+          <section class="surface learning-center-surface">
+            <div class="surface-head"><div><span class="eyebrow">内容学习中心</span><h2>从案例投喂到蓝图与 Skill 晋级</h2><p>案例、规律和效果分库存储；所有正式变更都需要人工审核。</p></div><span class="version-chip">V0.2</span></div>
+            <div class="learning-center-tabs" id="learningCenterTabs">
+              <button class="active" data-learning-tab="feed">投喂中心</button>
+              <button data-learning-tab="review">聚类与审核</button>
+              <button data-learning-tab="versions">版本蓝图库</button>
+              <button data-learning-tab="performance">效果与 Skill 晋级</button>
+            </div>
+            <div class="learning-center-panel active" data-learning-panel="feed">
+              <div class="learning-feed-grid">
+                <label class="learning-dropzone">选择案例文件夹<input id="learningFolderInput" type="file" webkitdirectory directory multiple accept=".txt,.md,.html,.htm,.json" /><span>支持 TXT、Markdown、HTML、JSON；文件仅作为内容参考，不进入企业事实库。</span><b id="learningFileCount">尚未选择文件</b></label>
+                <div class="learning-feed-form"><label>平台<select id="learningImportPlatform"><option value="xiaohongshu">小红书</option><option value="wechat">微信公众号</option><option value="unknown">自动识别/混合</option></select></label><label>默认内容目的<select id="learningImportFunction"><option value="authority">建立专业信任</option><option value="discovery">扩大内容发现</option><option value="solution">提供解决方案</option><option value="action">促进咨询行动</option></select></label><button class="btn primary" id="importLearningBatch" disabled>导入并生成候选</button></div>
+              </div>
+              <div class="learning-summary-row" id="learningImportSummary"><article><strong>0</strong><span>累计案例</span></article><article><strong>0</strong><span>导入任务</span></article><article><strong>0</strong><span>待审核候选</span></article><article><strong>0</strong><span>重复/失败</span></article></div>
+              <div class="learning-list" id="learningImportJobs"><p>完成第一次批量投喂后，这里会显示导入质量和错误明细。</p></div>
+            </div>
+            <div class="learning-center-panel" data-learning-panel="review">
+              <div class="learning-toolbar"><div><strong>多案例规律发现</strong><span>先按平台、载体和内容目的分桶，再识别重复机制。</span></div><button class="btn secondary" id="runPatternClustering">重新聚类</button><button class="btn primary" id="runUpgradeProposals">生成升级建议</button></div>
+              <div class="learning-review-grid"><div><h3>规律聚类</h3><div class="learning-list" id="learningClusterList"><p>至少需要两个可比案例。</p></div></div><div><h3>审核队列</h3><div class="learning-list" id="learningProposalList"><p>尚无蓝图升级建议。</p></div></div></div>
+            </div>
+            <div class="learning-center-panel" data-learning-panel="versions">
+              <div class="learning-toolbar"><div><strong>蓝图家族与历史版本</strong><span>新版本不会覆盖历史任务引用的旧版本。</span></div></div>
+              <div class="learning-list learning-version-list" id="learningVersionList"><p>尚无正式蓝图版本。</p></div>
+            </div>
+            <div class="learning-center-panel" data-learning-panel="performance">
+              <div class="learning-toolbar"><div><strong>相关性归因与晋级建议</strong><span>按账号基线和内容目的比较，不把相关性描述成因果。</span></div><button class="btn secondary" id="refreshEvaluationSuite">刷新案例评测集</button><button class="btn secondary" id="refreshPatternPerformance">刷新效果</button><button class="btn primary" id="runSkillPromotion">生成 Skill 晋级候选</button></div>
+              <div class="learning-summary-row" id="learningPerformanceSummary"><article><strong>0</strong><span>有反馈发布</span></article><article><strong>0</strong><span>已评分蓝图</span></article><article><strong>0</strong><span>生命周期建议</span></article><article><strong>0</strong><span>Skill 晋级候选</span></article></div>
+              <div class="learning-review-grid"><div><h3>蓝图效果</h3><div class="learning-list" id="learningPerformanceList"><p>发布内容并回填数据后显示。</p></div></div><div><h3>Skill 晋级</h3><div class="learning-list" id="learningPromotionList"><p>只有 validated 且通过评测的蓝图可以晋级。</p></div></div><div><h3>案例回归评测集</h3><div class="learning-list" id="learningEvaluationList"><p>批准案例后自动形成标题、大纲和平台写作评测任务。</p></div></div></div>
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <section class="app-view product-page" data-view="accounts">
+        <div class="page-wrap management-page">
+          <div class="management-layout">
+            <section class="surface list-surface">
+              <div class="surface-head"><div><span class="eyebrow">账号管理</span><h2>内容账号</h2></div><button class="btn primary" id="newAccount">新增账号</button></div>
+              <div class="account-management-list" id="accountManagementList">
+                <div class="empty-state">正在读取账号与设置…</div>
+              </div>
+            </section>
+            <section class="surface account-form-surface">
+              <div class="surface-head"><div><span class="eyebrow">账号属性与视觉系统</span><h2 id="accountFormTitle">选择或新建账号</h2></div><span class="version-chip">自动用于策略与内容</span></div>
+              <form class="settings-form" id="accountForm">
+                <input type="hidden" id="accountId" />
+                <div class="account-source-note">这里是策略 Agent 的唯一账号来源。保存后，策略账号选择会读取同一条记录和同一个账号 ID。</div>
+                <div class="form-grid"><label>所属公司<input id="accountCompanyDisplay" disabled /></label><label>配置状态<input id="accountConfigurationStatus" value="待完善" disabled /></label></div>
+                <div class="form-grid"><label>账号名称<input id="accountName" /></label><label>发布平台<select id="accountPlatform"><option value="xiaohongshu">小红书</option><option value="wechat">微信公众号</option><option value="instagram">Instagram</option><option value="facebook">Facebook</option><option value="douyin">抖音</option><option value="channels">视频号</option></select></label></div>
+                <div class="form-grid"><label>运营主体<input id="accountOperator" placeholder="例如：公司品牌部、创始人本人" /><small>谁实际负责并对该账号内容负责；默认可与所属公司一致。</small></label><label>账号状态<select id="accountStatus"><option value="active">启用</option><option value="disabled">停用</option></select><small>停用账号不会进入策略选择或内容计划。</small></label></div>
+                <div class="form-grid"><label>对外账号身份<select id="accountSubjectType"><option value="">请选择</option><option value="company_official">企业官方号</option><option value="founder_ip">创始人 IP</option><option value="employee_expert">员工/专家号</option><option value="personal_creator">个人创作者</option><option value="product_vertical">产品专号</option><option value="institution_service">机构服务号</option></select></label><label>持续发声者<select id="accountSpeakerType"><option value="">请选择</option><option value="brand_official">品牌官方</option><option value="founder">创始人</option><option value="expert_advisor">专家顾问</option><option value="operations_team">运营团队</option><option value="other">其他</option></select><small>指内容长期以谁的口吻、经验和判断对外表达。</small></label></div>
+                <label>发声者补充说明<input id="accountSpeakerDetail" placeholder="例如：创始人李女士；品牌内容团队统一署名" /></label>
+                <fieldset class="account-trust-field"><legend>主要信任来源</legend><small>用户为什么愿意相信这个账号？至少选择一项，可多选。</small><div class="account-trust-options"><label><input type="checkbox" data-account-trust="professional_knowledge" />专业知识</label><label><input type="checkbox" data-account-trust="real_cases" />真实案例</label><label><input type="checkbox" data-account-trust="founder_experience" />创始人经验</label><label><input type="checkbox" data-account-trust="product_capability" />产品能力</label><label><input type="checkbox" data-account-trust="customer_reputation" />客户口碑</label><label><input type="checkbox" data-account-trust="industry_data" />行业数据</label><label><input type="checkbox" data-account-trust="other" />其他</label></div></fieldset>
+                <div class="form-grid"><label>经营模式<select id="accountMode"><option value="content_as_product">内容即产品</option><option value="professional_lead">专业内容获客</option><option value="product_sales">产品展示销售</option><option value="brand_mix">品牌综合运营</option></select></label><label>单篇任务设置<input value="内容目的与推广方式在生成时选择" disabled /></label></div>
+                <label>目标受众<input id="accountAudience" value="中小企业老板、市场与运营负责人" /></label>
+                <label>表达风格<textarea id="accountTone">专业、务实、观点清楚，不夸大效果</textarea></label>
+                <label>内容方向<input id="accountPillars" value="AI定制化智能体, 企业工作流, 独立站增长, 案例复盘" /><small>使用逗号分隔</small></label>
+                <label>视觉风格描述<textarea id="accountVisualStyle" placeholder="用自然语言描述色彩、构图、字体、图片质感和禁用元素">以深绿和珊瑚红为强调色，白底留白，信息卡片清晰克制，标题有结论感，图片真实明亮，避免夸张科技光效。</textarea></label>
+                <section class="run-focus-card design-dna-authoring visual-guideline-flow" id="accountVisualGuidelines">
+                  <div class="visual-guideline-heading"><div><span class="eyebrow">小红书视觉规范</span><h2>让以后的小红书看起来像你的品牌</h2><p>上传 VI、参考图片或历史内容，系统会自动识别品牌风格。资料仅用于提取视觉规律，不会发布或公开。</p></div><span class="visual-guideline-state" id="accountVisualGuidelineState">尚未设置</span></div>
+                  <ol class="visual-flow-steps" aria-label="视觉规范设置步骤"><li class="active"><b>1</b><span>上传品牌资料</span></li><li><b>2</b><span>识别品牌风格</span></li><li><b>3</b><span>确认并使用</span></li></ol>
+                  <section class="visual-flow-stage"><div class="visual-stage-title"><span>第一步</span><div><h3>上传你已有的品牌资料</h3><p>支持 PDF、PPT、图片和历史文章。视觉型 PDF 会直接读取每一页画面。</p></div></div>
+                    <div class="style-import-grid visual-upload-grid">
+                      <label class="import-box">品牌手册与图片<input id="accountViFiles" type="file" accept=".pdf,.ppt,.pptx,image/png,image/jpeg,image/webp" multiple /><span>VI手册、Logo、色板或参考图片</span><b id="viFileCount">选择文件</b></label>
+                      <label class="import-box">历史内容与模板<input id="accountTemplateFiles" type="file" accept=".ppt,.pptx,.pdf,.docx,.txt,.md,.markdown,.html,.htm,image/png,image/jpeg,image/webp" multiple /><span>小红书图片、模板或品牌文章</span><b id="templateFileCount">选择文件</b></label>
+                    </div>
+                    <div class="design-dna-source-list" id="accountDnaSourceList"><p>还没有上传品牌资料。</p></div>
+                    <div class="visual-analysis-status" id="accountVisualAnalysisStatus">上传资料后，点击“开始识别品牌风格”。</div>
+                    <button type="button" class="btn primary visual-analysis-action" id="analyzeAccountVisualSources">开始识别品牌风格</button>
+                  </section>
+                  <section class="visual-flow-stage visual-review-stage" id="accountVisualReviewStage"><div class="visual-stage-title"><span>第二步</span><div><h3>确认以后的小红书长什么样</h3><p>系统会先给出容易理解的总结；需要精细调整时再展开高级规则。</p></div></div>
+                    <div class="visual-result-grid"><div class="visual-result-card"><small>品牌色</small><div class="visual-color-preview" id="accountDnaColorPreview"><span>等待识别</span></div></div><div class="visual-result-card"><small>页面风格</small><strong id="accountDnaLayoutSummary">等待识别</strong></div><div class="visual-result-card"><small>图片感觉</small><label class="visual-friendly-select"><select id="accountDnaMediaDirection"><option value="">识别后选择</option><option value="editorial_photography">真实、明亮的品牌摄影</option><option value="isometric_illustration">清晰、统一的品牌插画</option></select></label></div></div>
+                    <label class="visual-natural-note">你希望补充或调整什么？<textarea id="accountDnaNotes" placeholder="例如：整体更轻松一点；标题要醒目，但不要像促销海报；不要使用霓虹光效。"></textarea><small>直接用日常语言描述即可。</small></label>
+                    <details class="visual-advanced-details"><summary>高级规则</summary><p>这些是系统生成图片时使用的结构化规则。通常不需要修改。</p><div class="form-grid"><label>品牌颜色<input id="accountDnaColors" placeholder="#D71920, #111111, #FFFFFF" /></label><label>字体表现<input id="accountDnaFonts" placeholder="醒目标题、清晰正文" /></label></div><div class="form-grid"><label>页面结构<input id="accountDnaLayouts" placeholder="大标题、留白、图文平衡" /></label><label>画面质感<input id="accountDnaMaterials" placeholder="平面几何、真实摄影" /></label></div><label>不要出现<input id="accountDnaForbidden" placeholder="水印、第三方Logo、夸张科技光效" /></label><div class="visual-technical-details" id="accountVisualTechnicalDetails">尚无分析详情。</div></details>
+                    <button type="button" class="btn primary" id="generateAccountDesignDna">保存这套风格</button>
+                  </section>
+                  <section class="run-focus-card visual-confirmation-card" id="accountDesignDnaPanel"><span class="eyebrow">当前小红书视觉规范</span><h3>尚未设置</h3><p>识别并保存后，你可以在这里确认最终版本。只有你确认的版本才会用于后续小红书生图。</p></section>
+                </section>
+                <div class="strategy-preview"><div><span>主色</span><strong><i class="style-swatch green"></i>#244F43</strong></div><div><span>强调色</span><strong><i class="style-swatch coral"></i>#E9674E</strong></div><div><span>版式规则</span><strong>白底留白 · 信息卡片 · 真实图片</strong></div></div>
+                <div class="form-actions"><button type="button" class="btn secondary" id="previewAccountStyle">预览视觉风格</button><button type="submit" class="btn primary">保存账号</button></div>
+              </form>
+            </section>
+          </div>
+        </div>
+      </section>
+
+      <section class="app-view product-page" data-view="knowledge">
+        <div class="page-wrap knowledge-page">
+          <div class="page-tools"><div><span class="eyebrow">团队知识库</span><h2>知识与资产</h2></div><div class="tool-actions"><label class="search-box">⌕<input id="knowledgeSearch" type="search" placeholder="搜索文件名、标签或正文" /></label><button class="btn secondary" id="newKnowledgeFolder">新建文件夹</button><label class="btn primary upload-button">上传文件<input id="knowledgeFileInput" type="file" accept=".pdf,.docx,.txt,.md,.markdown,.csv,.json,.html,.htm" multiple /></label></div></div>
+          <div class="knowledge-browser">
+            <aside class="surface folder-sidebar"><div class="folder-head"><strong>文件夹</strong><span id="knowledgeTotalFiles">9 个文件</span></div><div id="knowledgeFolderList"></div></aside>
+            <section class="surface file-browser"><div class="surface-head"><div><span class="eyebrow">当前文件夹</span><h2 id="currentFolderName">产品介绍</h2></div><label class="btn primary upload-button">上传到此文件夹<input id="knowledgeFileInputInline" type="file" accept=".pdf,.docx,.txt,.md,.markdown,.csv,.json,.html,.htm" multiple /></label></div><div class="folder-description" id="currentFolderDescription">产品功能、服务说明、价格与案例资料，生成内容时将检索相关正文片段并保留引用。</div><div class="knowledge-file-grid" id="knowledgeFileList"></div></section>
+          </div>
+          <div class="upload-meta-panel" id="uploadMetaPanel" hidden><div><span class="eyebrow">上传并解析</span><h3 id="uploadFileName">文件名称</h3><small>文件保存在本机，支持 PDF、DOCX、TXT、Markdown、CSV、JSON、HTML，单个不超过 25 MB。</small></div><label>文件标签（必填）<input id="uploadFileTags" placeholder="例如：AI智能体, 产品功能, 客户案例" /></label><label>内容说明<textarea id="uploadFileDescription" placeholder="说明这个文件包含什么，以及 AI 什么时候可以引用"></textarea></label><div><button class="btn secondary" id="cancelKnowledgeUpload">取消</button><button class="btn primary" id="confirmKnowledgeUpload">保存并建立索引</button></div></div>
+        </div>
+      </section>
+
+      <section class="app-view product-page" data-view="sources">
+        <div class="page-wrap source-page"><div class="integration-status" id="integrationStatus"><div><span class="eyebrow">供应商配置</span><h2>真实服务接入状态</h2><p>“已配置”只表示本地已保存密钥；实际请求失败时会直接显示错误，不再自动切换演示结果。</p></div><div class="integration-pills"><span data-integration="model">模型 · 检查中</span><span data-integration="search">搜索 · 检查中</span><span data-integration="image">生图 · 检查中</span></div></div><div class="source-layout"><section class="surface source-list-surface"><div class="surface-head"><div><span class="eyebrow">热点来源</span><h2>采集连接器</h2></div><button class="btn primary" id="runSources">运行全部来源</button></div><div class="source-config-list" id="sourceConfigList"><article data-source-id="source_rss"><span class="source-icon rss">RSS</span><div><strong>行业媒体 RSS</strong><small>每2小时 · 上次成功：今天 16:00</small></div><i class="source-health healthy">正常</i><label class="switch"><input type="checkbox" checked /><span></span></label></article><article data-source-id="source_search"><span class="source-icon search">搜</span><div><strong>网页与新闻搜索</strong><small>每4小时 · 当前使用演示适配器</small></div><i class="source-health demo">演示</i><label class="switch"><input type="checkbox" checked /><span></span></label></article><article data-source-id="source_manual"><span class="source-icon manual">＋</span><div><strong>人工链接与素材导入</strong><small>实时 · 支持链接、文本、图片和视频</small></div><i class="source-health healthy">正常</i><label class="switch"><input type="checkbox" checked /><span></span></label></article><article data-source-id="source_platform"><span class="source-icon platform">趋</span><div><strong>平台趋势服务</strong><small>需要官方或授权数据服务</small></div><i class="source-health off">未配置</i><label class="switch"><input type="checkbox" /><span></span></label></article></div></section><section class="surface source-rule-surface"><div class="surface-head"><div><span class="eyebrow">采集策略</span><h2>AI与独立站业务</h2></div><span class="version-chip">已自动保存</span></div><form class="settings-form"><label>核心关键词<textarea>AI智能体, AI员工, 企业知识库, 独立站, 外贸建站, SEO</textarea></label><label>事件关键词<textarea>AI Agent, 企业数字化, 出海增长, 网站转化</textarea></label><label>排除关键词<input value="纯学术论文, 盗版模板, 无关消费硬件" /></label><div class="form-grid"><label>采集地区<select><option>中国大陆 + 全球</option><option>中国大陆</option><option>全球</option></select></label><label>内容语言<select><option>中文 + 英文</option><option>中文</option><option>英文</option></select></label></div><label>热点推送阈值<input type="range" min="50" max="100" value="78" /><small>仅推送综合热点分 78 以上的内容</small></label><div class="form-actions"><button type="button" class="btn secondary">预览搜索语句</button><button type="button" class="btn primary">保存采集策略</button></div></form></section></div></div>
+      </section>
+
+      <section class="app-view" data-view="generate">
+      <section class="workflow-strip" aria-label="内容生成步骤">
+        <div class="step complete"><span>1</span><b>选择平台子选题</b></div>
+        <div class="step-line complete"></div>
+        <div class="step complete"><span>2</span><b>选择内容目的</b></div>
+        <div class="step-line active"></div>
+        <div class="step current"><span>3</span><b>生成内容包</b></div>
+        <div class="step-line"></div>
+        <div class="step"><span>4</span><b>AI修改与版本</b></div>
+      </section>
+
+      <div class="workspace-grid">
+        <section class="config-panel" aria-label="生成设置">
+          <div class="panel-section">
+            <div class="section-head">
+              <div>
+                <span class="eyebrow">内容任务</span>
+                <h2>这次想发布什么？</h2>
+              </div>
+              <button class="icon-btn" aria-label="更多设置">•••</button>
+            </div>
+
+            <label class="field-label">创作方式</label>
+            <div class="generation-mode-tabs" id="generationModeTabs">
+              <button data-generation-mode="agent"><strong>Agent 推荐</strong><span>结合策略、历史和素材推荐下一篇</span></button>
+              <button class="active" data-generation-mode="idea"><strong>从热点选题生成</strong><span>使用已选择的热点与 idea</span></button>
+              <button data-generation-mode="custom"><strong>自由创作</strong><span>描述选题或上传图片起稿</span></button>
+            </div>
+
+            <label class="field-label" for="accountSelect">账号风格</label>
+            <div class="select-wrap account-select">
+              <span class="account-dot"></span>
+              <select id="accountSelect">
+                <option value="company">大卖数智企业号 · 专业顾问型</option>
+                <option value="founder">创始人IP号 · 观点与案例型</option>
+                <option value="product">AI产品号 · 产品科普型</option>
+              </select>
+            </div>
+            <small id="generationOwnershipContext">内容、策略与知识资料将按所选公司隔离。</small>
+
+            <label class="field-label" for="generationPlatformSelect">发布平台</label>
+            <select class="field-select" id="generationPlatformSelect"><option value="xiaohongshu">小红书</option><option value="wechat">微信公众号</option><option value="instagram">Instagram</option><option value="facebook">Facebook</option><option value="douyin">抖音</option><option value="channels">视频号</option></select>
+
+            <label class="field-label">这篇内容主要想做什么？</label>
+            <div class="purpose-grid" id="purposeControl">
+              <button data-value="hotspot_industry_explainer"><strong>热点/行业解读</strong><small>讲清发生了什么、为什么重要，以及可能带来的影响</small></button>
+              <button class="active" data-value="knowledge_howto"><strong>知识干货分享</strong><small>提供方法、步骤、清单、工具或避坑建议</small></button>
+              <button data-value="professional_opinion"><strong>专业观点表达</strong><small>给出有依据的判断、分析和立场</small></button>
+              <button data-value="product_service_promotion"><strong>产品/服务推广</strong><small>介绍产品服务解决的问题、适用场景和价值</small></button>
+              <button data-value="case_result_showcase"><strong>案例/成果展示</strong><small>用真实案例、过程或成果证明专业能力</small></button>
+              <button data-value="brand_story"><strong>品牌形象宣传</strong><small>展示公司理念、团队、故事或品牌动态</small></button>
+              <button data-value="interactive_discussion"><strong>互动话题讨论</strong><small>通过问题、争议或共鸣点吸引用户参与</small></button>
+              <button data-value="event_announcement"><strong>活动/信息发布</strong><small>发布活动、直播、课程、报告、招聘或更新</small></button>
+            </div>
+          </div>
+
+          <div class="panel-section content-agent-panel" id="contentAgentPanel" hidden>
+            <div class="section-head compact">
+              <div><span class="eyebrow">下一篇内容建议</span><h3>Agent 为什么推荐现在发这些？</h3></div>
+              <button class="text-btn" id="refreshContentPlan">重新规划</button>
+            </div>
+            <p class="content-agent-note" id="contentAgentPlanNote">读取当前账号的已确认策略、内容组合和可用素材后生成建议。</p>
+            <div class="content-recommendation-list" id="contentRecommendationList"><div class="empty-state">点击“重新规划”生成建议。</div></div>
+          </div>
+
+          <section class="panel-section content-workflow-card" id="contentWorkflowPanel" hidden>
+            <div class="content-workflow-steps" id="contentWorkflowSteps">
+              <span data-workflow-step="direction">1 方向已选择</span>
+              <span data-workflow-step="outline">2 确认大纲</span>
+              <span data-workflow-step="content">3 生成正文</span>
+            </div>
+            <div class="content-workflow-head">
+              <div><small id="contentWorkflowState">等待选择方向</small><h4 id="contentWorkflowTopic"></h4></div>
+              <button class="text-btn" id="regenerateOutline" type="button">重新生成大纲</button>
+            </div>
+            <div class="outline-editor" id="outlineEditor"><div class="empty-state">选择方向后生成大纲。</div></div>
+            <div class="outline-actions">
+              <button class="btn secondary" id="saveOutline" type="button">保存大纲修改</button>
+              <button class="btn primary" id="confirmOutline" type="button">确认大纲</button>
+            </div>
+          </section>
+
+          <div class="panel-section opportunity-block" id="ideaSourcePanel">
+            <div class="section-head compact">
+              <div>
+                <span class="eyebrow">内容来源</span>
+                <h3>已选内容 idea</h3>
+              </div>
+              <button class="text-btn" data-jump="opportunities">更换</button>
+            </div>
+            <div class="opportunity-card">
+              <div class="opportunity-meta"><span class="live-dot"></span>正在上升 · 预计 36 小时有效</div>
+              <h4 id="opportunityTitle">企业为什么需要AI员工，而不是更多AI工具？</h4>
+              <p id="selectedIdeaMeta">来自 AI定制化智能体 · 7 个来源证据</p>
+              <div class="score-row"><span>热点分 <strong>87</strong></span><span>待选择账号</span><span>待选择平台</span></div>
+            </div>
+          </div>
+
+          <div class="panel-section custom-source-panel" id="customSourcePanel" hidden>
+            <div class="section-head compact"><div><span class="eyebrow">自由创作</span><h3>描述你的选题</h3></div></div>
+            <textarea id="customTopicInput" placeholder="例如：写一篇给外贸企业老板看的内容，讲清楚为什么独立站上线后没有询盘，以及首页应该如何改。"></textarea>
+            <label class="custom-image-upload">上传参考图片<input id="customImageInput" type="file" accept="image/*" multiple /><span>上传产品图、现场图或参考图片，AI 将基于图片生成标题、正文和图文页。</span></label>
+            <div class="custom-image-list" id="customImageList"><span>暂未上传图片</span></div>
+          </div>
+
+          <div class="panel-section">
+            <div class="section-head compact">
+              <div>
+                <span class="eyebrow">知识与资产</span>
+                <h3>选择 AI 可引用内容</h3>
+              </div>
+              <button class="text-btn" data-jump="knowledge">管理资产</button>
+            </div>
+            <div class="setting-row knowledge-switch-row"><div><strong>调用已上传的企业知识</strong><span id="knowledgeHint">当前不调用产品或公司资料</span></div><label class="switch"><input id="knowledgeToggle" type="checkbox" /><span></span></label></div>
+            <div id="knowledgeAssets" hidden>
+            <div class="asset-list" id="assetList">
+              <button class="asset-card selected" data-asset="folder_product">
+                <span class="asset-thumb company">AI</span>
+                <span><strong>产品介绍文件夹</strong><small>3 个文件 · AI智能体、独立站</small></span>
+                <i>✓</i>
+              </button>
+              <button class="asset-card" data-asset="folder_cases">
+                <span class="asset-thumb campaign">例</span>
+                <span><strong>客户案例文件夹</strong><small>2 个文件 · AI知识库、独立站</small></span>
+                <i>+</i>
+              </button>
+              <button class="asset-card selected" data-asset="folder_company">
+                <span class="asset-thumb company">DM</span>
+                <span><strong>公司简介文件夹</strong><small>2 个文件 · 品牌、团队、能力</small></span>
+                <i>✓</i>
+              </button>
+            </div>
+            <button class="add-asset">＋ 从知识与资产中心添加</button>
+            </div>
+          </div>
+
+          <div class="panel-section settings-section">
+            <div class="setting-row">
+              <div><strong>使用内容钩子</strong><span>让开头更快吸引目标用户</span></div>
+              <label class="switch"><input id="hookToggle" type="checkbox" checked /><span></span></label>
+            </div>
+            <div id="hookOptions">
+              <label class="field-label">钩子类型</label>
+              <div class="chip-row" id="hookTypes">
+                <button class="chip active" data-hook="scene">场景</button>
+                <button class="chip" data-hook="person">人物亮相</button>
+                <button class="chip" data-hook="question">提问</button>
+                <button class="chip" data-hook="contrast">反常识</button>
+              </div>
+            </div>
+
+            <label class="field-label">是否需要自然带出产品或服务？</label>
+            <div class="segmented wide" id="marketingControl">
+              <button class="active" data-value="none">不需要</button>
+              <button data-value="soft">轻度带出</button>
+              <button data-value="focused">重点推广</button>
+            </div>
+            <div class="ratio-note" id="promotionNote"><span>内容价值</span><div><i style="width:100%"></i></div><span>不插入推广</span></div>
+          </div>
+        </section>
+
+        <section class="editor-panel" aria-label="内容编辑器">
+          <div class="editor-toolbar">
+            <div class="platform-tabs" id="platformTabs">
+              <button class="active" data-platform="xiaohongshu">小红书</button>
+              <button data-platform="wechat">公众号</button>
+              <button data-platform="instagram">Instagram</button>
+              <button data-platform="facebook">Facebook</button>
+              <button data-platform="douyin">抖音</button>
+              <button data-platform="channels">视频号</button>
+            </div>
+            <div class="delivery-actions"><button class="regenerate" id="regenerate">✦ 重新生成</button><button id="naturalizeAudit" disabled>自然化审计</button><button id="visualReview" disabled>生成卡片预览</button><button id="generateAssets" disabled>生成场景底图</button><button id="downloadPackage" disabled>生成交付包</button></div>
+          </div>
+
+          <div class="editor-canvas">
+            <div class="editor-status">
+              <span>内容包 v3</span>
+              <span class="source-badge">引用 2 项资产</span>
+              <span class="quality-badge">质量检查通过</span>
+            </div>
+
+            <section class="skill-execution-panel" id="skillExecutionPanel" hidden>
+              <div class="skill-execution-head">
+                <div><span class="eyebrow">Agent 执行轨迹</span><h3>本次内容调用了哪些能力？</h3><p id="skillExecutionNote">根据平台、来源和用户选择动态生成。</p></div>
+                <button class="text-btn" id="refreshSkillExecution" type="button">刷新状态</button>
+              </div>
+              <div class="skill-execution-summary" id="skillExecutionSummary"></div>
+              <div class="skill-execution-list" id="skillExecutionList"></div>
+              <details class="skill-trace-details"><summary>查看 Skill 调用记录</summary><div id="skillTraceList"></div></details>
+            </section>
+
+            <label class="field-label">标题</label>
+            <div class="title-input" contenteditable="true" id="titleEditor">企业为什么需要AI员工，而不是更多AI工具？</div>
+            <div class="title-meta"><span>22 / 20 字</span><button>查看 3 个备选标题</button></div>
+
+            <label class="field-label">图文内容</label>
+            <div class="carousel-editor" id="carouselEditor">
+              <article class="slide-card selected">
+                <div class="slide-number">01</div>
+                <div class="slide-copy">
+                  <span>封面 · 场景钩子</span>
+                  <strong>企业需要的不是更多AI工具<br/>而是能执行流程的AI员工</strong>
+                  <small>大卖数智 · AI商业观察</small>
+                </div>
+                <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=520&q=85" alt="企业AI工作流" />
+                <button class="slide-action">编辑图片</button>
+              </article>
+              <article class="slide-card">
+                <div class="slide-number">02</div>
+                <div class="slide-copy light">
+                  <span>趋势观察</span>
+                  <strong>从单点AI工具<br/>走向完整业务流程</strong>
+                  <small>企业知识 · 固定任务 · 团队协作</small>
+                </div>
+                <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=520&q=85" alt="企业团队工作流" />
+                <button class="slide-action">编辑图片</button>
+              </article>
+              <article class="slide-card promo-slide">
+                <div class="slide-number">03</div>
+                <div class="slide-copy">
+                  <span>知识与服务</span>
+                  <strong>让AI说出<br/>真实的企业内容</strong>
+                  <small>引用产品介绍 · 公司资料 · 客户案例</small>
+                </div>
+                <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=520&q=85" alt="企业知识与业务分析" />
+                <button class="slide-action">编辑图片</button>
+              </article>
+              <button class="add-slide">＋<span>添加图文页</span></button>
+            </div>
+            <section class="content-asset-status" id="contentAssetStatus" hidden>
+              <div class="content-asset-head"><strong>图片交付状态</strong><span id="contentAssetSummary">等待生成</span></div>
+              <div class="content-asset-list" id="contentAssetList"></div>
+            </section>
+
+            <label class="field-label">正文</label>
+            <div class="body-editor" contenteditable="true" id="bodyEditor">
+              <p>很多企业已经购买了不少 AI 工具，但内容、知识和业务流程仍然彼此割裂。</p>
+              <p>真正有价值的 AI 员工，不只是回答问题，而是理解企业知识、执行固定任务，并在关键节点与团队协作。</p>
+              <p>真正可落地的 AI 员工，需要读取经过授权的企业知识，执行明确流程，并在关键节点由人审核。大卖数智可根据企业场景定制智能体与知识库。</p>
+              <p class="hashtags">#AI智能体 #AI员工 #企业数字化 #工作流自动化</p>
+            </div>
+            <div class="citation-strip"><span>引用</span><button>产品介绍文件夹</button><button>公司简介文件夹</button></div>
+          </div>
+          <section class="ai-revision-panel">
+            <div class="ai-revision-head"><div><span class="ai-avatar">AI</span><div><strong>和 AI 一起修改</strong><small>直接说明想改哪里，AI 会保留当前账号视觉风格</small></div></div><div class="version-controls"><select id="versionSelect" aria-label="历史版本"><option value="3">v3 当前版本</option></select><button id="restoreVersion" disabled>恢复所选版本</button><span id="revisionVersion">当前版本 v3</span></div></div>
+            <div class="ai-chat-log" id="aiChatLog"><div class="ai-message"><span>AI</span><p>内容已经生成。你可以让我缩短标题、换一种开头、调整营销比例、重写某一页，或者替换图片方向。</p></div></div>
+            <section class="revision-diff" id="revisionDiff" hidden><strong>本次正文变化</strong><div id="revisionDiffSummary"></div><details><summary>查看变更字段</summary><div id="revisionDiffPaths"></div></details></section>
+            <section class="upstream-revision-panel" id="upstreamRevisionPanel" hidden>
+              <div class="upstream-revision-head"><div><strong>这项修改需要回到内容上游</strong><p id="upstreamRevisionSummary">当前版本不会被覆盖。补充新输入后，Agent 会创建新 Run 并重新确认大纲。</p></div><span id="upstreamRevisionStatus">等待确认</span></div>
+              <div class="upstream-revision-form">
+                <label>新选题或方向<input id="upstreamTopic" type="text" /></label>
+                <label>内容目的<select id="upstreamPurpose"><option value="hotspot_industry_explainer">热点/行业解读</option><option value="knowledge_howto">知识干货分享</option><option value="professional_opinion">专业观点表达</option><option value="product_service_promotion">产品/服务推广</option><option value="case_result_showcase">案例/成果展示</option><option value="brand_story">品牌形象宣传</option><option value="interactive_discussion">互动话题讨论</option><option value="event_announcement">活动/信息发布</option></select></label>
+                <label>推广方式<select id="upstreamPromotion"><option value="none">不推广</option><option value="soft">轻度带出</option><option value="focused">重点推广</option></select></label>
+                <label class="upstream-evidence">补充事实、案例或资料说明<textarea id="upstreamEvidence" placeholder="请写明可以公开使用的新事实；如果来自知识库，也请说明资料名称。"></textarea></label>
+              </div>
+              <div class="upstream-revision-actions"><button class="btn secondary" id="dismissUpstreamRevision" type="button">暂不处理</button><button class="btn primary" id="startUpstreamRevisionRun" type="button">创建新 Run 并重做大纲</button></div>
+            </section>
+            <div class="revision-suggestions"><button data-revision="标题更有冲突感，但不要夸张">标题更有冲突感</button><button data-revision="减少营销内容，更像行业干货">减少营销感</button><button data-revision="把正文改得更口语、更适合小红书">改得更口语</button></div>
+            <div class="ai-chat-input"><textarea id="aiRevisionInput" placeholder="例如：第2页太空泛，增加一个企业真实使用场景，并把结尾营销内容再弱一些。"></textarea><button class="btn primary" id="aiRevisionSend">发送修改</button></div>
+          </section>
+          <section class="delivery-download-state" id="deliveryDownloadState" hidden>
+            <strong id="deliveryDownloadTitle">交付包</strong>
+            <p id="deliveryDownloadMessage"></p>
+            <div><a id="deliveryFallbackLink" href="#" download hidden>点击下载交付包</a><button id="retryDeliveryDownload" type="button" hidden>重新生成并下载</button></div>
+          </section>
+          <section class="publication-feedback-panel">
+            <div class="section-head compact">
+              <div><span class="eyebrow">发布与复盘</span><h3>记录发布结果</h3></div>
+              <span id="publicationFeedbackState">尚未记录</span>
+            </div>
+            <div class="publication-grid">
+              <label>发布状态<select id="publicationStatus"><option value="published">已发布</option><option value="scheduled">待发布</option><option value="failed">发布失败</option><option value="archived">已归档</option></select></label>
+              <label>内容链接<input id="publicationUrl" type="url" placeholder="https://..." /></label>
+              <label>数据观察窗口<select id="metricWindow"><option value="72h">发布后 72 小时</option><option value="7d">发布后 7 天</option><option value="final">阶段最终数据</option><option value="custom">自定义时间</option></select></label>
+              <label>阅读/播放<input id="metricViews" type="number" min="0" placeholder="可不填" /></label>
+              <label>点赞<input id="metricLikes" type="number" min="0" placeholder="可不填" /></label>
+              <label>收藏<input id="metricSaves" type="number" min="0" placeholder="可不填" /></label>
+              <label>评论<input id="metricComments" type="number" min="0" placeholder="可不填" /></label>
+              <label>新增关注<input id="metricFollows" type="number" min="0" placeholder="可不填" /></label>
+              <label>咨询/线索<input id="metricLeads" type="number" min="0" placeholder="可不填" /></label>
+              <label>采用情况<select id="contentAdoptionStatus"><option value="adopted">基本采用 Agent 内容</option><option value="modified">修改后发布</option><option value="rewritten">大幅重写后发布</option><option value="unknown">暂不记录</option></select></label>
+              <label class="publication-note">定性结果<input id="publicationQualitativeResult" type="text" placeholder="例如：收到3个目标客户咨询；评论集中询问价格" /></label>
+            </div>
+            <button class="btn primary" id="savePublicationFeedback" type="button" disabled>保存发布与表现数据</button>
+          </section>
+        </section>
+
+        <aside class="preview-panel" aria-label="平台预览">
+          <div class="preview-head">
+            <div><span class="eyebrow">实时预览</span><h2 id="previewPlatform">小红书图文</h2></div>
+            <div class="preview-controls"><button aria-label="缩小预览">−</button><span>92%</span><button aria-label="放大预览">＋</button></div>
+          </div>
+
+          <div class="phone-frame" id="phoneFrame">
+            <div class="phone-status"><span>9:41</span><b>•••</b></div>
+            <div class="social-head"><span>‹</span><strong id="mobilePlatformName">图文详情</strong><span>•••</span></div>
+            <div class="social-author">
+              <div class="author-avatar">BM</div>
+              <div><strong>大卖数智企业号</strong><small>上海 · 2小时前</small></div>
+              <button>关注</button>
+            </div>
+            <div class="preview-media">
+              <img id="previewImage" src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=800&q=88" alt="企业AI内容预览图" />
+              <div class="preview-overlay"><strong id="previewOverlay">企业为什么需要AI员工<br/>而不是更多AI工具？</strong><small>大卖数智 · AI商业观察</small></div>
+              <span class="page-count">1 / 3</span>
+            </div>
+            <div class="preview-copy">
+              <strong id="previewTitle">企业为什么需要AI员工，而不是更多AI工具？</strong>
+              <p id="previewBody">这个夏天，越来越多品牌把镜头从“完美棚拍”转向真实生活。自然光、轻松的动作，还有人与场景之间真实的连接，反而更容易让人记住...</p>
+              <p class="preview-tags">#AI智能体 #AI员工 #企业数字化</p>
+            </div>
+            <div class="engagement"><button>♡<small>86</small></button><button>☆<small>收藏</small></button><button>◯<small>12</small></button><button>⌁<small>分享</small></button></div>
+          </div>
+
+          <div class="review-card style-consistency-card">
+            <div class="review-title"><span class="shield">VI</span><div><strong>账号视觉风格已应用</strong><small id="activeStyleName">大卖数智企业号 · 视觉系统 v1</small></div></div>
+            <div class="review-items"><span>主色与字体一致</span><span>版式模板已应用</span><span>图片风格一致</span></div>
+          </div>
+        </aside>
+      </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="toast" id="toast" role="status">内容已根据新设置生成</div>
+  <script src="api-client.js?v=topic-adjustment-1"></script>
+  <script src="app-foundation.js?v=phase2-modules-1"></script>
+  <script src="ui/topic-adjustment-workbench.js?v=topic-adjustment-2"></script>
+  <script src="ui/publishing-cycle-controls.js?v=feedback-cycle-1"></script>
+  <script src="app.js?v=topic-adjustment-1"></script>
+  <script src="ui/strategy-adjustment-workbench.js?v=phase8c-strategy-feedback-1"></script>
+  <script src="ui/runtime-status.js?v=phase5-frontend-modules-1"></script>
+  <script src="ui/unified-artifact-workbench.js?v=phase5-frontend-modules-1"></script>
+  <script src="ui/application-bootstrap.js?v=phase5-frontend-modules-1"></script>
+</body>
+</html>

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Plan XHS Visual Assets"
+  short_description: "Plan XHS visuals without generating images"
+  default_prompt: "Use $plan-xhs-visual-assets to plan page visuals and no-text image specifications without generating images."

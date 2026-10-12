@@ -1,0 +1,18 @@
+{
+  "schemaVersion": "1.0",
+  "caseId": "logistics_cold_start_repeat_question",
+  "source": "sanitized_real_failure",
+  "turns": [
+    { "role": "user", "summary": "介绍跨境物流业务与获客目标" },
+    { "role": "user", "summary": "明确优先从小红书开始" },
+    { "role": "user", "summary": "受众同时包括出海商家与行业同行" },
+    { "role": "user", "summary": "暂时跳过案例公开授权和内容资源问题" },
+    { "role": "user", "summary": "补充转化路径、平台分工与内容边界" }
+  ],
+  "expectedInvariants": [
+    "platform_not_reasked",
+    "audience_not_reasked",
+    "skipped_resource_not_reasked",
+    "minimum_ready_enters_draft"
+  ]
+}

@@ -1,0 +1,4 @@
+interface:
+  display_name: "生成领域方向"
+  short_description: "Convert strategy snapshots into structured monitoring directions"
+  default_prompt: "Use $generate-monitoring-directions to derive monitoring directions from this strategy snapshot."

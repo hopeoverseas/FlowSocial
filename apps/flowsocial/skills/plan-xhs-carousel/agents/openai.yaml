@@ -1,0 +1,4 @@
+interface:
+  display_name: "Plan XHS Carousel"
+  short_description: "Plan traceable Xiaohongshu carousel narratives"
+  default_prompt: "Use $plan-xhs-carousel to turn an approved outline and post copy into a traceable Xiaohongshu carousel plan."

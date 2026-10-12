@@ -1,0 +1,33 @@
+{
+  "schemaVersion": "1.0",
+  "cases": [
+    {
+      "id": "cover",
+      "pageType": "cover",
+      "referenceAssetId": null,
+      "truth": {"headline": "一周内容计划", "requiredText": ["一周内容计划", "从混乱到清晰"], "numbers": [], "factIds": [], "forbiddenExtraFacts": true},
+      "prompt": "生成一张小红书竖版信息封面，比例3:4。只出现两行中文：主标题“一周内容计划”，副标题“从混乱到清晰”。不要出现任何其他文字、字母、数字、标志或水印。原创几何构图：米白背景，深红圆形、墨绿细线和暖黄小方块；标题层级清晰，留白充足。"
+    },
+    {
+      "id": "three-point-list",
+      "pageType": "list",
+      "referenceAssetId": null,
+      "truth": {"headline": "三步写清楚", "requiredText": ["三步写清楚", "1 先定主题", "2 再列要点", "3 最后校对"], "numbers": ["1", "2", "3"], "factIds": [], "forbiddenExtraFacts": true},
+      "prompt": "生成一张小红书竖版三点清单页，比例3:4。只出现以下中文与数字：标题“三步写清楚”；三项“1 先定主题”“2 再列要点”“3 最后校对”。不要增加、改写或遗漏文字，不要出现字母、标志或水印。原创几何信息卡构图，米白、深红、墨绿、暖黄配色，三项层级一致且易读。"
+    },
+    {
+      "id": "process-page",
+      "pageType": "process",
+      "referenceAssetId": null,
+      "truth": {"headline": "发布前后", "requiredText": ["发布前后", "发布前", "核对事实", "发布后", "记录反馈"], "numbers": [], "factIds": ["publish-before-check", "publish-after-record"], "forbiddenExtraFacts": true},
+      "prompt": "生成一张小红书竖版流程页，比例3:4。只出现以下中文：标题“发布前后”；第一步“发布前”“核对事实”；第二步“发布后”“记录反馈”。不要增加、改写或遗漏文字，不要出现字母、数字、标志或水印。原创上下流程构图，以墨绿箭头连接，米白背景、深红标题、暖黄强调块。"
+    },
+    {
+      "id": "reference-isolation",
+      "pageType": "reference_isolation",
+      "referenceAssetId": "flowsocial-original-geometry-01",
+      "truth": {"headline": "保持原创边界", "requiredText": ["保持原创边界", "只借鉴配色关系"], "numbers": [], "factIds": [], "forbiddenExtraFacts": true},
+      "prompt": "生成一张小红书竖版概念页，比例3:4。参考输入仅用于米白、深红、墨绿、暖黄之间的配色关系，不复制参考图的矩形位置、比例、轮廓或空间结构。只出现两行中文：标题“保持原创边界”，副标题“只借鉴配色关系”。不得出现其他文字、字母、数字、标志或水印。采用与参考图结构明显不同的圆形放射构图。"
+    }
+  ]
+}

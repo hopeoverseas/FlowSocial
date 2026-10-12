@@ -1,0 +1,6 @@
+interface:
+  display_name: "生成内容大纲"
+  short_description: "把 ContentMaster 单元映射为可确认的平台大纲"
+  default_prompt: "Use $generate-content-outline to declare ordered master unit IDs for a confirmable platform-native outline while trusted runtime code resolves exact refs."
+policy:
+  allow_implicit_invocation: false

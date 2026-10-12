@@ -1,0 +1,10 @@
+{"caseId":"diagnostic_contract_valid","contract":"DiagnosticTurnResult@2.0","value":{"intent":"direct_answer","coreClaimOperations":[]},"valid":true}
+{"caseId":"diagnostic_contract_invalid","contract":"DiagnosticTurnResult@2.0","value":{"coreClaimOperations":[]},"valid":false}
+{"caseId":"assistance_contract_valid","contract":"DiagnosticAssistanceResult@2.0","value":{"assistantMessage":"解释内容","assistanceType":"clarification"},"valid":true}
+{"caseId":"reply_contract_invalid","contract":"ConsultativeReply@2.0","value":{"assistantMessage":""},"valid":false}
+{"caseId":"recommendation_bundle_valid","contract":"RecommendationBundle@2.0","value":{"targetFieldPath":"business.conversionPath","options":[{"optionId":"option_1","completeValue":{"summary":"内容到咨询"}}]},"valid":true}
+{"caseId":"recommendation_bundle_invalid","contract":"RecommendationBundle@2.0","value":{"targetFieldPath":"business.conversionPath","options":[]},"valid":false}
+{"caseId":"post_completion_turn_valid","contract":"PostCompletionTurnResult@1.0","value":{"intent":"add_dynamic_fact","factOperations":[]},"valid":true}
+{"caseId":"strategy_patch_valid","contract":"StrategyPatch@1.0","value":{"affectedFields":[],"claimOperations":[]},"valid":true}
+{"caseId":"document_extraction_valid","contract":"DocumentDiagnosticExtraction@1.0","value":{"summary":"公司资料","candidateClaims":[{"targetFieldPath":"business.primaryOffers","value":["企业知识库"],"confidence":0.9,"evidence":[]}]},"valid":true}
+{"caseId":"document_extraction_invalid","contract":"DocumentDiagnosticExtraction@1.0","value":{"summary":"公司资料","candidateClaims":[{"confidence":0.9}]},"valid":false}

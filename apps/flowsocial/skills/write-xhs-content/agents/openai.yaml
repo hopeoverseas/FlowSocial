@@ -1,0 +1,6 @@
+interface:
+  display_name: "生成小红书图文包"
+  short_description: "生成笔记文案、逐页卡片和生图提示词"
+  default_prompt: "Use $write-xhs-content to create an intent-aligned Xiaohongshu package from the ContentIntentProfile and ContentMaster, including copy, cards, visual plan, image specs, and one natural primary interaction."
+policy:
+  allow_implicit_invocation: false

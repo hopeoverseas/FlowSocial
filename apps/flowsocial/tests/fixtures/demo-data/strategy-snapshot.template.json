@@ -1,0 +1,27 @@
+{
+  "business": {
+    "businessModel": "",
+    "primaryOffers": [],
+    "valueProposition": "",
+    "conversionPath": ""
+  },
+  "audiences": [],
+  "accountStrategy": {
+    "growthStage": "exploration",
+    "operatingMode": "guided",
+    "primaryGoal": "",
+    "platformRoles": {},
+    "contentPillars": [],
+    "contentPortfolio": {
+      "traffic": 0,
+      "trust": 0,
+      "product": 0,
+      "conversion": 0
+    },
+    "tone": [],
+    "forbiddenTopics": []
+  },
+  "knowledgeScope": { "folderIds": [] },
+  "hypotheses": [],
+  "missingInformation": []
+}

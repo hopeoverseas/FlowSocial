@@ -1,0 +1,18 @@
+{
+  "contentTaskId": "fixture-xhs-direct-delivery",
+  "contentVersion": 3,
+  "createdAt": "2026-08-04T10:00:00.000Z",
+  "actor": "offline-controller-fixture",
+  "pages": [
+    { "pageId": "P1", "pageRole": "cover", "headline": "从策略到发布", "factId": "F1", "color": [26, 65, 52, 255] },
+    { "pageId": "P2", "pageRole": "content", "headline": "先冻结内容真值", "factId": "F2", "color": [42, 82, 67, 255] },
+    { "pageId": "P3", "pageRole": "content", "headline": "再确认视觉方向", "factId": "F3", "color": [58, 99, 82, 255] },
+    { "pageId": "P4", "pageRole": "content", "headline": "整页生成候选", "factId": "F4", "color": [74, 116, 97, 255] },
+    { "pageId": "P5", "pageRole": "content", "headline": "逐页质量门禁", "factId": "F5", "color": [90, 133, 112, 255] },
+    { "pageId": "P6", "pageRole": "content", "headline": "用户明确选择", "factId": "F6", "color": [106, 150, 127, 255] },
+    { "pageId": "P7", "pageRole": "content", "headline": "冻结不可变版本", "factId": "F7", "color": [122, 167, 142, 255] },
+    { "pageId": "P8", "pageRole": "content", "headline": "整套快照可恢复", "factId": "F8", "color": [138, 184, 157, 255] },
+    { "pageId": "P9", "pageRole": "cta", "headline": "交付后等待发布", "factId": "F9", "color": [154, 201, 172, 255] }
+  ],
+  "mixedDeterministicPageId": "P5"
+}

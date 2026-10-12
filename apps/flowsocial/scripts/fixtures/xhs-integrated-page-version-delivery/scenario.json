@@ -1,0 +1,6 @@
+{
+  "schemaVersion":"1.0",
+  "actor":"offline-reviewer",
+  "createdAt":"2026-08-03T09:00:00.000Z",
+  "legacyManifest":{"schemaVersion":"2.0","id":"legacy-manifest-2","contentTaskId":"fixture-05f","version":2,"createdAt":"2026-07-01T00:00:00.000Z","pages":[{"pageId":"P1"}]}
+}

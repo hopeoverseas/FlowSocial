@@ -1,0 +1,10 @@
+{
+  "schemaVersion":"1.0",
+  "patterns":[
+    {"id":"pattern_problem_checklist","name":"业务问题自查清单","bestFor":["xiaohongshu","wechat"],"goals":["traffic","trust"],"structure":["点名目标角色","描述可识别症状","给出3至7项自查","解释优先级","邀请分享具体场景"],"requiredEvidence":["真实业务逻辑"],"forbidden":["用虚构数据制造焦虑"]},
+    {"id":"pattern_misconception_method","name":"误区纠偏加方法","bestFor":["xiaohongshu","wechat"],"goals":["trust","product"],"structure":["指出常见误区","说明失败原因","给出正确判断框架","说明适用边界","自然关联服务"],"requiredEvidence":["清晰因果与边界"],"forbidden":["贬低所有工具或培训"]},
+    {"id":"pattern_trend_business_impact","name":"热点到业务影响","bestFor":["wechat","xiaohongshu"],"goals":["traffic","trust"],"structure":["准确说明事件","判断与目标企业的关系","拆解岗位影响","给出现在可做的动作","标注不确定性"],"requiredEvidence":["可访问来源","事件日期","事实与判断分离"],"forbidden":["强行蹭无关热点"]},
+    {"id":"pattern_delivery_breakdown","name":"项目交付拆解","bestFor":["wechat"],"goals":["trust","product","conversion"],"structure":["场景与目标","输入资料","工作流设计","评测与验收","维护机制","适用企业与咨询入口"],"requiredEvidence":["真实流程或明确标注的示例"],"forbidden":["虚构客户名称和结果"]}
+  ]
+}
+

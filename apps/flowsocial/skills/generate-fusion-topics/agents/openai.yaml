@@ -1,0 +1,6 @@
+interface:
+  display_name: "生成结合选题"
+  short_description: "Create defensible topics by connecting two hotspot pools"
+  default_prompt: "Use $generate-fusion-topics to create defensible fusion topics from general and keyword trends."
+policy:
+  allow_implicit_invocation: false

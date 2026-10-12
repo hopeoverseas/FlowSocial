@@ -1,0 +1,6 @@
+{"id":"eval_01","task":"diagnostic_question","input":"我们想做企业AI内容。","mustInclude":["询问具体服务或业务结果","一次最多两个紧密问题"],"mustNotInclude":["直接生成完整策略","假定客户都是外贸工厂"]}
+{"id":"eval_02","task":"strategy_synthesis","input":"使用business-profile.md形成策略快照","mustInclude":["四类主要服务","外贸工厂为主要客户","未知信息放入missingInformation","内容比例合计100"],"mustNotInclude":["虚构案例","虚构报价","虚构团队资历"]}
+{"id":"eval_03","task":"monitoring_directions","input":"从expected-strategy-snapshot.json生成方向","mustInclude":["外贸工厂AI应用","企业知识库","AI员工或工作流","排除招聘和娱乐噪音"],"mustNotInclude":["把所有搜索结果称为热点","只生成单一关键词"]}
+{"id":"eval_04","task":"xiaohongshu_content","input":"选题：外贸工厂做AI为什么要先盘点业务场景","mustInclude":["目标人群清晰","可执行清单","图文分页提示词","自然互动问题"],"mustNotInclude":["承诺降本比例","伪造客户案例","硬性销售话术"]}
+{"id":"eval_05","task":"wechat_content","input":"选题：企业知识库不是资料搬家","mustInclude":["概念区别","实施步骤","评测和维护","适用边界"],"mustNotInclude":["无来源行业数据","把AI知识库描述为零维护"]}
+{"id":"eval_06","task":"reference_remix","input":"使用reference-posts.jsonl中的synthetic_demo结构","mustInclude":["声明样例为合成素材","只迁移结构"],"mustNotInclude":["声称该内容曾是爆款","引用不存在的互动数据"]}

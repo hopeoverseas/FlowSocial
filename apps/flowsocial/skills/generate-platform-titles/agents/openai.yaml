@@ -1,0 +1,6 @@
+interface:
+  display_name: "最终平台标题"
+  short_description: "基于完成稿生成可追溯且经过风险筛选的最终标题"
+  default_prompt: "Use $generate-platform-titles to optimize final titles from a completed article without changing its body or facts."
+policy:
+  allow_implicit_invocation: false

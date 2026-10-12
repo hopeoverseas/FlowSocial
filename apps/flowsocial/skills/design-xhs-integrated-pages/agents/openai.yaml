@@ -1,0 +1,6 @@
+interface:
+  display_name: "Design XHS Integrated Pages"
+  short_description: "Build governed XHS page prompts and execution plans"
+  default_prompt: "Use $design-xhs-integrated-pages to compile a frozen XHS post package into governed page prompts and a hash-bound offline Provider execution plan."
+policy:
+  allow_implicit_invocation: false

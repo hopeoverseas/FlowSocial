@@ -1,0 +1,12 @@
+* text=auto eol=lf
+*.cmd text eol=crlf
+*.bat text eol=crlf
+# Two trailing spaces are intentional Markdown hard line breaks.
+*.md whitespace=-blank-at-eol
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.pdf binary
+*.docx binary
+*.zip binary

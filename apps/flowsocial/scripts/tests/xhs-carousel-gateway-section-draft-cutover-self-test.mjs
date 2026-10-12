@@ -1,0 +1,21 @@
+import assert from "node:assert/strict";
+import { contractExample, validateXhsCarouselCreativeDraftGateway } from "../../llm/contracts.mjs";
+import { buildSecretSafeProviderRequestSnapshot } from "../../llm/provider-adapters.mjs";
+import { resolveLlmProfile, resolveLlmTaskBudget } from "../../llm/task-registry.mjs";
+import { compileXhsCreativeDraft } from "../../content-agent/xhs-creative-draft-compiler.mjs";
+
+const example = contractExample("XhsCarouselPlanCreativeOutput@1.0");
+assert.ok(Array.isArray(example.data.section_drafts));
+assert.equal(Object.hasOwn(example.data, "pages"), false);
+assert.equal(Object.hasOwn(example.data, "deck_id"), false);
+assert.equal(validateXhsCarouselCreativeDraftGateway(example).errors.length, 0);
+const legacy = structuredClone(example);
+legacy.data.pages = legacy.data.section_drafts;
+delete legacy.data.section_drafts;
+assert.ok(validateXhsCarouselCreativeDraftGateway(legacy).errors.some((item) => item.includes("section_drafts")));
+const sections = ["hook", "problem", "diagnosis", "evidence", "method", "action"].map((outlineRole, i) => ({ sectionId: `S${i + 1}`, outlineRole }));
+const compiled = compileXhsCreativeDraft({ capability: "plan-xhs-carousel", draft: example, confirmedOutline: { sections } });
+assert.equal(compiled.data.pages.length, 6);
+const snapshot = buildSecretSafeProviderRequestSnapshot({ payload: { input: { outline_cardinality: { sectionCount: 6, sectionOrder: sections } } }, contract: "XhsCarouselPlanCreativeOutput@1.0", profile: resolveLlmProfile("xhs_carousel_creative_draft"), capabilities: { jsonObject: true, reasoningControl: "thinking_toggle" }, taskBudget: resolveLlmTaskBudget("plan_xhs_carousel") });
+assert.match(snapshot.messages.find((m) => m.content.includes("CARDINALITY"))?.content || "", /section drafts/);
+console.log(JSON.stringify({ status: "xhs carousel gateway section-draft cutover self-test passed", providerCalls: 0, externalEffects: 0 }, null, 2));

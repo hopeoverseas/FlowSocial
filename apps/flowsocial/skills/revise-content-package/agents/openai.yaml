@@ -1,0 +1,6 @@
+interface:
+  display_name: "对话修改内容包"
+  short_description: "把用户的内容修改要求转成可审计局部补丁、重跑范围与新版本计划"
+  default_prompt: "Use $revise-content-package to revise only the requested part of this generated content package and return an auditable patch."
+policy:
+  allow_implicit_invocation: false

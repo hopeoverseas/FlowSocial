@@ -1,0 +1,4 @@
+interface:
+  display_name: "选择增长打法"
+  short_description: "比较垂直、热点实验与混合起号方案并输出可审核选择"
+  default_prompt: "Use $select-growth-playbook to compare suitable growth playbooks and produce an auditable recommendation."

@@ -1,0 +1,9 @@
+{
+  "caseId": "no_materials_closes_resource_branch",
+  "userAnswer": "目前没有可以用于内容创作的资料",
+  "expectedDisposition": "none_declared",
+  "forbiddenNextCategories": [
+    "case_evidence",
+    "compliance_risk"
+  ]
+}

@@ -1,0 +1,6 @@
+interface:
+  display_name: "建立内容母版"
+  short_description: "建立带共享 semantic spine 的事实与结构母版"
+  default_prompt: "Use $build-content-master to produce a cross-platform ContentMaster with semantic unit IDs while trusted runtime code materializes the frozen spine and hashes."
+policy:
+  allow_implicit_invocation: false

@@ -1,0 +1,76 @@
+{
+  "schema_version": "4.5.0",
+  "orchestrator": "SocialMediaAgentOrchestrator",
+  "product_profile": "local-package",
+  "implicit_invocation": false,
+  "feature_flags": {
+    "viralLearningV1": false,
+    "automaticSkillPromotion": false,
+    "xhsIntegratedPageDesignSkill": false,
+    "xhsIntegratedPageSkillExecutionPlan": false
+  },
+  "testing": [],
+  "invocation_boundaries": {
+    "hotspot_source": {
+      "kind": "SourceAdapterAsset",
+      "implicit_search_during_content_generation": false,
+      "required_trace_fields": ["sourceUrl", "collectedAt", "freshness", "contentRunId"]
+    },
+    "raw_reference": {
+      "invokes": "analyze-viral-content",
+      "production_evidence": false,
+      "next_gate": "HumanPatternReview"
+    },
+    "approved_blueprint": {
+      "snapshot": "ContentPatternSnapshot",
+      "fact_policy": "structure_only",
+      "human_review_required": true
+    }
+  },
+  "p0": [
+    {"capability": "analyze-diagnostic-turn", "input": "DiagnosticSessionClaimsAndUserTurn", "output": "DiagnosticTurnResult@3.0", "lifecycle": "stable", "reference_bundle": ["SKILL.md", "references/contract.md"], "next": ["coach-diagnostic-field", "compose-consultative-reply", "synthesize-account-strategy"]},
+    {"capability": "coach-diagnostic-field", "input": "PendingQuestionClaimsFactsAndAssistanceIntent", "output": "DiagnosticAssistanceResult@2.0", "lifecycle": "stable", "reference_bundle": ["SKILL.md", "references/contract.md"], "next": ["UserAnswerOrRecommendationConfirmation"]},
+    {"capability": "compose-consultative-reply", "input": "ValidatedDiagnosticStateAndNextQuestion", "output": "ConsultativeReply@2.0", "lifecycle": "stable", "reference_bundle": ["SKILL.md", "references/contract.md"], "next": ["DiagnosticStateResolver"]},
+    {"capability": "select-growth-playbook", "input": "StrategyInputBundleAndCandidatePlaybooks", "output": "GrowthPlaybookSelection@1.0", "lifecycle": "stable", "reference_bundle": ["SKILL.md", "references/contract.md"], "next": ["synthesize-account-strategy"]},
+    {"capability": "synthesize-account-strategy", "input": "StrategyInputBundle@1.0WithStrategyDecisions", "output": "StrategyDocument@2.0", "lifecycle": "stable", "reference_bundle": ["SKILL.md", "references/contract.md"], "next": ["UserStrategyConfirmation"]},
+    {"capability": "generate-monitoring-directions", "input": "ActiveStrategySnapshot", "output": "StrategyDirectionSet@1.0", "lifecycle": "stable", "reference_bundle": ["SKILL.md", "references/contract.md"], "next": ["SourceAdapters"]},
+    {"capability": "generate-keyword-topics", "input": "KeywordEventClusters", "output": "KeywordTopicCandidateList@1.0", "lifecycle": "stable", "reference_bundle": ["SKILL.md", "references/contract.md"], "next": ["rank-and-gate-topics"]},
+    {"capability": "generate-fusion-topics", "input": "GeneralAndKeywordEventClusters", "output": "FusionTopicCandidateList@1.0", "lifecycle": "stable", "reference_bundle": ["SKILL.md", "references/contract.md"], "next": ["rank-and-gate-topics"]},
+    {"capability": "rank-and-gate-topics", "input": "TopicCandidates", "output": "TopicGateReview@1.0", "lifecycle": "stable", "reference_bundle": ["SKILL.md", "references/contract.md"], "next": ["adapt-topic-to-platforms"]},
+    {"capability": "adapt-topic-to-platforms", "input": "ApprovedMotherTopic", "output": "PlatformTopicPair@2.0", "lifecycle": "stable", "reference_bundle": ["SKILL.md", "references/contract.md"], "next": ["ContentIntentProfileBuilder"]},
+    {"capability": "build-content-master", "input": "SelectedPlatformTopicIntentEvidenceAndKnowledge", "output": "ContentMaster@2.0", "lifecycle": "stable", "reference_bundle": ["SKILL.md", "references/contract.md"], "next": ["generate-content-outline"]},
+    {"capability": "generate-content-outline", "input": "DirectionCardContentTaskBriefContentSourcePlanAndContentMaster", "output": "ContentOutline@1.0", "lifecycle": "stable", "reference_bundle": ["SKILL.md", "references/contract.md"], "next": ["UserOutlineConfirmation"]},
+    {"capability": "write-xhs-content", "input": "XhsPlatformTopicIntentContentMasterAndConfirmedOutline", "output": "XhsPostPackage@2.0", "lifecycle": "stable", "reference_bundle": ["SKILL.md", "references/contract.md", "references/xhs-platform-playbook.md"], "next": ["naturalize-copy", "generate-platform-titles", "ImageProviderAdapter", "XhsHtmlRenderer", "review-xhs-visuals", "revise-content-package"]},
+    {"capability": "write-wechat-article", "input": "WechatPlatformTopicIntentContentMasterAndConfirmedOutline", "output": "WechatArticle@2.0", "lifecycle": "stable", "reference_bundle": ["SKILL.md", "references/contract.md", "references/wechat-platform-playbook.md"], "next": ["review-wechat-article", "naturalize-copy", "generate-platform-titles", "plan-wechat-images", "revise-content-package"]},
+    {"capability": "revise-content-package", "input": "CurrentPackageVersionUserInstructionIntentAndMaster", "output": "ContentPackagePatch@1.0", "lifecycle": "stable", "reference_bundle": ["SKILL.md", "references/revision-rules.md"], "next": ["PatchValidator", "ContentVersionService"]}
+  ],
+  "p1": [
+    {"capability": "write-xhs-post-copy", "input": "WriteXhsPostCopyInput@1.0", "output": "XhsPostCopyCreativeOutput@1.0", "lifecycle": "stable_conditional", "reference_bundle": ["SKILL.md", "references/contract.md"], "default_enabled": false, "feature_flag": "unifiedContentAtomicProductV1", "product_tier": "baseline", "product_profiles": ["local-package"], "invocation": "only_when_atomic_xhs_component_runtime_is_explicitly_authorized", "production_eligible_output": false, "automatic_promotion": false, "next": ["XhsAtomicSkillDeterministicAdapter"]},
+    {"capability": "plan-xhs-carousel", "input": "PlanXhsCarouselInput@1.0", "output": "XhsCarouselPlanCreativeOutput@1.0", "lifecycle": "stable_conditional", "reference_bundle": ["SKILL.md", "references/contract.md"], "default_enabled": false, "feature_flag": "unifiedContentAtomicProductV1", "product_tier": "baseline", "product_profiles": ["local-package"], "invocation": "only_when_atomic_xhs_component_runtime_is_explicitly_authorized", "production_eligible_output": false, "automatic_promotion": false, "next": ["XhsAtomicSkillDeterministicAdapter"]},
+    {"capability": "plan-xhs-visual-assets", "input": "PlanXhsVisualAssetsInput@1.0", "output": "XhsVisualAssetPlanCreativeOutput@1.0", "lifecycle": "stable_conditional", "reference_bundle": ["SKILL.md", "references/contract.md"], "default_enabled": false, "feature_flag": "unifiedContentAtomicProductV1", "product_tier": "baseline", "product_profiles": ["local-package"], "invocation": "only_when_atomic_xhs_component_runtime_is_explicitly_authorized", "production_eligible_output": false, "automatic_promotion": false, "next": ["XhsAtomicSkillDeterministicAdapter"]},
+    {"capability": "generate-platform-titles", "input": "CompletedContentContentMasterPreliminaryTitlesAndOptionalSameAccountSignals", "output": "PlatformTitleList@1.0", "lifecycle": "stable", "reference_bundle": ["SKILL.md", "references/contract.md"], "next": ["TitleContentConsistencyGate"]},
+    {"capability": "naturalize-copy", "input": "AuthorizedCopyRangesOrAuditRequest", "output": "NaturalizationResult@1.0", "lifecycle": "stable", "reference_bundle": ["SKILL.md", "references/contract.md"], "next": ["UserNaturalizationConfirmation", "SchemaAndReferenceGate"]},
+    {"capability": "review-xhs-visuals", "input": "RenderedXhsPagesAndContentContracts", "output": "XhsVisualReview@1.0", "lifecycle": "stable", "reference_bundle": ["SKILL.md", "references/contract.md"], "next": ["revise-content-package"]},
+    {"capability": "plan-wechat-images", "input": "ApprovedWechatArticleAndContentMaster", "output": "WechatImagePlan@1.0", "lifecycle": "stable", "reference_bundle": ["SKILL.md", "references/contract.md"]},
+    {"capability": "review-wechat-article", "input": "CompletedWechatArticleAndContentContracts", "output": "WechatArticleReview@1.0", "lifecycle": "stable", "reference_bundle": ["SKILL.md", "references/contract.md"]},
+    {"capability": "design-xhs-integrated-pages", "input": "DesignXhsIntegratedPagesRuntimeInput@1.0", "output": "XhsIntegratedPagePromptSet@1.0|IntegratedPageExecutionPlan@1.0", "lifecycle": "stable_conditional", "reference_bundle": ["SKILL.md", "references/contract.md", "references/provider-execution.md"], "default_enabled": false, "feature_flag": "xhsIntegratedPageDesignSkill", "execution_feature_flag": "xhsIntegratedPageSkillExecutionPlan", "product_tier": "baseline", "product_profiles": ["local-package"], "invocation": "when_explicit_visual_design_flag_enabled", "production_eligible_output": false, "automatic_provider_execution": false, "automatic_promotion": false, "next": ["IntegratedPageExecutionPlanValidator", "HumanProviderExecutionApproval"]},
+    {"capability": "analyze-viral-content", "input": "ReferencePostOrComparableReferenceBatch", "output": "ViralContentAnalysis@1.0", "lifecycle": "stable_conditional", "reference_bundle": ["SKILL.md", "references/contract.md", "references/xiaohongshu.md", "references/wechat.md"], "invocation": "only_when_raw_reference_selected", "production_eligible_output": false, "human_review_required": true, "next": ["HumanPatternReview"]},
+    {"capability": "viral-content-remixer", "input": "ReferencePostAndAuthorization", "output": "OriginalContentBlueprint", "lifecycle": "compatibility", "reference_bundle": ["SKILL.md"], "status": "compatibility_only", "default_enabled": false, "automatic_promotion": false}
+  ],
+  "workflows": {
+    "agent_strategy_pipeline": ["analyze-diagnostic-turn", "coach-diagnostic-field?", "compose-consultative-reply", "DiagnosticStateResolver", "StrategyInputAssembler", "select-growth-playbook", "synthesize-account-strategy", "StrategyDocumentV2Validator", "UserStrategyConfirmation", "ExactDraftActivationGate", "StrategySnapshotService", "generate-monitoring-directions"],
+    "domain_signal_pipeline": ["SourceAdapters", "SignalRelevanceClassifier", "HotspotEventClusterService"],
+    "topic_pipeline": ["HotspotEventClusterService", "generate-keyword-topics|generate-fusion-topics", "rank-and-gate-topics", "adapt-topic-to-platforms"],
+    "reference_learning_pipeline": ["ReferenceIngestion", "analyze-viral-content", "HumanPatternReview", "ContentPatternBlueprintVersionService", "ContentPatternSnapshotService"],
+    "content_agent_planning_pipeline": ["ActiveStrategySnapshotV2", "StrategyToContentAdapter", "ContentStrategyProfileV1", "ContentDirectionCardV1", "FactSnapshotV1", "KnowledgeSnapshotService", "ContentPatternSnapshotService?", "ContentExecutionContextV1"],
+    "xhs_pipeline": ["ContentExecutionContextV1", "ContentIntentProfileBuilder", "KnowledgeResolver?", "build-content-master", "generate-content-outline", "UserOutlineConfirmation", "write-xhs-content", "naturalize-copy?", "UserNaturalizationConfirmation?", "generate-platform-titles", "TitleContentConsistencyGate", "SchemaAndReferenceGate", "design-xhs-integrated-pages?", "HumanProviderExecutionApproval", "ImageProviderAdapter", "XhsHtmlRenderer", "review-xhs-visuals", "revise-content-package?", "PatchValidator", "RevisionImpactPlanner", "ContentVersionService"],
+    "wechat_pipeline": ["ContentExecutionContextV1", "ContentIntentProfileBuilder", "KnowledgeResolver?", "build-content-master", "generate-content-outline", "UserOutlineConfirmation", "write-wechat-article", "review-wechat-article", "naturalize-copy?", "UserNaturalizationConfirmation?", "generate-platform-titles", "TitleContentConsistencyGate", "plan-wechat-images", "ImageProviderAdapter", "WechatHtmlFormatter", "WechatHtmlValidator", "revise-content-package?", "PatchValidator", "RevisionImpactPlanner", "ContentVersionService"]
+  },
+  "retired_capabilities": ["hotspot-collector", "topic-generator", "content-package-generator", "plan-xhs-deck", "plan-xhs-image-prompts", "classify-domain-signals", "cluster-hotspot-events"],
+  "retirement_notes": {
+    "classify-domain-signals": "Replaced by deterministic SignalRelevanceClassifier to preserve explainable thresholds and stable evidence filtering.",
+    "cluster-hotspot-events": "Replaced by deterministic HotspotEventClusterService to preserve reproducible grouping and scoring."
+  },
+  "contract_tokens": ["ActiveStrategySnapshotV2", "FactSnapshotV1"],
+  "non_skill_services": ["UserAnswerOrRecommendationConfirmation", "DiagnosticStateResolver", "StrategyInputAssembler", "StrategyDocumentV2Validator", "UserStrategyConfirmation", "ExactDraftActivationGate", "StrategySnapshotService", "StrategyToContentAdapter", "ContentStrategyProfileV1", "ContentDirectionCardV1", "ContentExecutionContextV1", "UserOutlineConfirmation", "UserNaturalizationConfirmation", "ReferenceIngestion", "HumanPatternReview", "ContentPatternBlueprintVersionService", "ContentPatternSnapshotService", "SourceAdapters", "SignalRelevanceClassifier", "HotspotEventClusterService", "EvidenceNormalizer", "ContentIntentProfileBuilder", "KnowledgeResolver", "KnowledgeSnapshotService", "SchemaValidator", "SchemaAndReferenceGate", "TitleContentConsistencyGate", "HumanProviderExecutionApproval", "PatchValidator", "PatchApplier", "RevisionImpactPlanner", "ContentVersionService", "ImageProviderAdapter", "XhsHtmlRenderer", "WechatHtmlFormatter", "WechatHtmlValidator", "ArtifactPackager"]
+}

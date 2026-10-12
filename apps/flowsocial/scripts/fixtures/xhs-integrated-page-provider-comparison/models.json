@@ -1,0 +1,41 @@
+{
+  "schemaVersion": "1.0",
+  "frozenAt": "2026-08-03T00:00:00.000Z",
+  "provider": "kie.ai",
+  "creditUsd": 0.005,
+  "creditSourceUrl": "https://kie.ai/qwen/image-edit",
+  "maxModels": 2,
+  "requestsPerModel": 3,
+  "candidatesPerRequest": 1,
+  "maxPaidRequests": 6,
+  "maxCreditsPerRequest": 20,
+  "maxTotalCredits": 100,
+  "requiredDimensions": {"width": 1080, "height": 1440},
+  "automaticRetries": 0,
+  "models": [
+    {
+      "id": "gpt-image-2-text-to-image",
+      "lifecycle": "experimental",
+      "documentationUrl": "https://docs.kie.ai/market/gpt/gpt-image-2-text-to-image",
+      "pricingUrl": "https://kie.ai/gpt-image-2",
+      "priceUsdPerImage": 0.03,
+      "estimatedCreditsPerRequest": 6,
+      "estimatedCreditsForThreeRequests": 18,
+      "createEndpoint": "/api/v1/jobs/createTask",
+      "requestFields": ["model", "input.prompt", "input.aspect_ratio", "input.resolution"],
+      "input": {"aspect_ratio": "3:4", "resolution": "1K"}
+    },
+    {
+      "id": "nano-banana-2",
+      "lifecycle": "experimental",
+      "documentationUrl": "https://docs.kie.ai/market/google/nanobanana2",
+      "pricingUrl": "https://kie.ai/",
+      "priceUsdPerImage": 0.04,
+      "estimatedCreditsPerRequest": 8,
+      "estimatedCreditsForThreeRequests": 24,
+      "createEndpoint": "/api/v1/jobs/createTask",
+      "requestFields": ["model", "input.prompt", "input.image_input", "input.aspect_ratio", "input.resolution", "input.output_format"],
+      "input": {"image_input": [], "aspect_ratio": "3:4", "resolution": "1K", "output_format": "png"}
+    }
+  ]
+}

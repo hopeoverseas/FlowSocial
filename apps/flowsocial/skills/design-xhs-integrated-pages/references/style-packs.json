@@ -1,0 +1,36 @@
+{
+  "schemaVersion": "1.0",
+  "library": "VisualStylePackLibrary",
+  "entries": [
+    {
+      "id": "friendly-handdrawn-tech",
+      "schemaVersion": "1.0",
+      "source": {"kind": "flowsocial_original", "workItem": "FS-V1-XHS-VISUAL-05B", "license": "FlowSocial-Proprietary-Original"},
+      "status": "experimental",
+      "applicability": {"pageRoles": ["cover", "problem", "method", "summary", "cta"], "density": ["low", "medium"], "tone": ["friendly", "explanatory"]},
+      "tokens": {"medium": "原创手绘线条与扁平几何", "composition": "松弛网格、清晰文字区、少量批注形状", "avoid": ["模仿具体艺术家", "拟真产品界面", "伪手写文字"]},
+      "failureModes": ["装饰线影响中文识别", "亲和感变成幼稚卡通"],
+      "remediation": ["减少装饰密度", "保留几何线条并改用确定性排字"]
+    },
+    {
+      "id": "editorial-metaphor",
+      "schemaVersion": "1.0",
+      "source": {"kind": "flowsocial_original", "workItem": "FS-V1-XHS-VISUAL-05B", "license": "FlowSocial-Proprietary-Original"},
+      "status": "experimental",
+      "applicability": {"pageRoles": ["cover", "problem", "method", "warning", "conclusion", "evidence", "case", "summary", "cta"], "density": ["low", "medium"], "tone": ["editorial", "conceptual"]},
+      "tokens": {"medium": "根据本页主题与情绪选择合适的原创视觉媒介，可使用场景、物件、摄影感、编辑设计、抽象隐喻、结构图形或文字主导表达", "composition": "构图从本页语义和阅读任务出发建立清晰焦点，不套固定信息卡、材质或封面模板", "avoid": ["无来源新闻截图", "真实品牌商标", "与内容无关的装饰", "把视觉识别手册示例当作页面模板", "隐喻替代事实"]},
+      "failureModes": ["视觉概念与内容无关", "固定模板压过本页语义"],
+      "remediation": ["回到本页主题重新选择视觉媒介", "减少无关元素并恢复阅读焦点"]
+    },
+    {
+      "id": "structured-infographic",
+      "schemaVersion": "1.0",
+      "source": {"kind": "flowsocial_original", "workItem": "FS-V1-XHS-VISUAL-05B", "license": "FlowSocial-Proprietary-Original"},
+      "status": "experimental",
+      "applicability": {"pageRoles": ["cover", "method", "evidence", "case", "warning", "summary", "cta"], "density": ["low", "medium", "high"], "tone": ["structured", "professional"]},
+      "tokens": {"medium": "原创信息图网格、线框与有限色块", "composition": "稳定列线、显式分组、优先可读性", "avoid": ["伪数据图", "装饰性仪表盘", "虚构指标"]},
+      "failureModes": ["信息图补写数据", "高密度导致小字"],
+      "remediation": ["只保留输入数字", "拆页或确定性布局"]
+    }
+  ]
+}

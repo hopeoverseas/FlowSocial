@@ -1,0 +1,47 @@
+{
+  "schemaVersion": "1.0",
+  "frozenAt": "2026-08-03T00:00:00.000Z",
+  "provider": "kie.ai",
+  "model": {
+    "id": "nano-banana-2",
+    "lifecycle": "experimental",
+    "documentationUrl": "https://docs.kie.ai/market/google/nanobanana2",
+    "pricingUrl": "https://kie.ai/",
+    "creditSourceUrl": "https://kie.ai/qwen/image-edit",
+    "fileUploadDocumentationUrl": "https://docs.kie.ai/file-upload-api/upload-file-base-64",
+    "priceUsdPerImage1K": 0.04,
+    "creditUsd": 0.005,
+    "estimatedCreditsPerRequest": 8,
+    "createEndpoint": "/api/v1/jobs/createTask",
+    "referenceUploadEndpoint": "https://kieai.redpandaai.co/api/file-base64-upload",
+    "requestFields": [
+      "model",
+      "input.prompt",
+      "input.image_input",
+      "input.aspect_ratio",
+      "input.resolution",
+      "input.output_format"
+    ],
+    "input": {
+      "image_input": [],
+      "aspect_ratio": "3:4",
+      "resolution": "1K",
+      "output_format": "png"
+    },
+    "referenceCapability": {
+      "status": "verified",
+      "field": "input.image_input",
+      "maxImages": 14,
+      "supportedFormats": ["jpeg", "png", "webp"]
+    }
+  },
+  "approvedPaidRequests": 4,
+  "candidatesPerRequest": 1,
+  "automaticRetries": 0,
+  "maxCreditsPerRequest": 8,
+  "maxTotalCredits": 32,
+  "expectedTotalCredits": 32,
+  "requiredDimensions": {"width": 1080, "height": 1440},
+  "polling": {"maxPolls": 180, "intervalMs": 3000},
+  "productionWrites": false
+}

@@ -1,0 +1,24 @@
+{
+  "schemaVersion": "1.0",
+  "id": "flowsocial-original-geometry-01",
+  "title": "FlowSocial 原创四色几何参考",
+  "source": "FlowSocial internal original fixture",
+  "license": "FlowSocial-original-testing-only",
+  "authorizedUse": "isolated_provider_reference_pilot",
+  "containsSensitiveInformation": false,
+  "containsExternalBrandOrIp": false,
+  "reviewedBy": "content-asset-thread",
+  "reviewedAt": "2026-08-03T00:00:00.000Z",
+  "decision": "experimental_authorized_for_05g_only",
+  "recipe": {
+    "width": 360,
+    "height": 480,
+    "background": [244, 241, 233, 255],
+    "rectangles": [
+      {"x": 24, "y": 28, "width": 116, "height": 182, "color": [130, 42, 52, 255]},
+      {"x": 162, "y": 72, "width": 174, "height": 92, "color": [24, 83, 70, 255]},
+      {"x": 66, "y": 258, "width": 228, "height": 146, "color": [226, 172, 64, 255]}
+    ]
+  },
+  "expectedPngSha256": "5fc9e21f0f64679da4fadee760e02f719a7396c5a59b95a12b2dbfb66bcc494f"
+}

@@ -1,0 +1,145 @@
+{
+  "schemaVersion": "0.1",
+  "cases": [
+    {
+      "id": "cold_start_b2b_ai",
+      "label": "B2B AI服务冷启动",
+      "platform": "xiaohongshu",
+      "expected": { "firstPillar": "岗位AI应用场景", "primaryRole": "trust" },
+      "strategySnapshot": {
+        "id": "mock_strategy_01", "schemaVersion": "1.0", "accountId": "mock_b2b_ai",
+        "business": { "businessModel": "企业AI项目制服务", "primaryOffers": ["企业知识库", "AI工作流"], "valueProposition": "让AI进入真实岗位承担任务", "conversionPath": "内容触达→咨询→诊断→交付" },
+        "audiences": [{ "id": "owner", "name": "制造企业老板", "priority": 100 }],
+        "accountStrategy": { "growthStage": "account_setup", "primaryGoal": "建立专业信任并获得咨询", "platformRoles": { "xiaohongshu": "场景触达", "wechat": "深度信任" }, "contentPillars": [{ "id": "ai_scene", "name": "岗位AI应用场景" }, { "id": "knowledge", "name": "企业知识库方法" }], "contentPortfolio": { "traffic": 20, "trust": 45, "product": 20, "conversion": 15 }, "tone": ["专业", "务实"], "forbiddenTopics": ["虚构客户案例"] },
+        "knowledgeScope": { "folderIds": ["kb_ai"] }, "confirmedClaimIds": ["claim_ai_01"]
+      },
+      "facts": [{ "id": "fact_ai_01", "factKey": "delivery.scope", "value": "试点通常从单一岗位开始", "visibility": "public", "contentUsage": "approved", "confidence": 0.95 }]
+    },
+    {
+      "id": "rapid_launch_fitness_coach",
+      "label": "健身教练快速起号",
+      "platform": "xiaohongshu",
+      "expected": { "firstPillar": "新手居家训练", "primaryRole": "traffic" },
+      "strategySnapshot": {
+        "id": "mock_strategy_02", "schemaVersion": "1.0", "accountId": "mock_fitness",
+        "business": { "businessModel": "私教与线上训练营", "primaryOffers": ["体态评估", "线上训练营"], "valueProposition": "帮助久坐上班族建立可持续训练习惯", "conversionPath": "内容→关注→评估→训练营" },
+        "audiences": [{ "id": "office", "name": "久坐上班族", "priority": 100 }],
+        "accountStrategy": { "growthStage": "rapid_launch", "primaryGoal": "快速获得首批精准关注", "platformRoles": { "xiaohongshu": "搜索获客和动作示范" }, "contentPillars": [{ "id": "home", "name": "新手居家训练" }, { "id": "posture", "name": "久坐体态改善" }], "contentPortfolio": { "traffic": 50, "trust": 25, "product": 15, "conversion": 10 }, "tone": ["直接", "鼓励"], "forbiddenTopics": ["医疗诊断", "保证减重效果"] },
+        "knowledgeScope": { "folderIds": [] }, "confirmedClaimIds": []
+      },
+      "facts": []
+    },
+    {
+      "id": "growth_pet_ecommerce",
+      "label": "宠物电商增长期",
+      "platform": "xiaohongshu",
+      "expected": { "firstPillar": "科学养宠知识", "primaryRole": "product" },
+      "strategySnapshot": {
+        "id": "mock_strategy_03", "schemaVersion": "1.0", "accountId": "mock_pet",
+        "business": { "businessModel": "宠物用品电商", "primaryOffers": ["猫咪饮水机", "清洁用品"], "valueProposition": "用易维护设计降低养宠负担", "conversionPath": "内容→商品页→购买" },
+        "audiences": [{ "id": "cat", "name": "城市养猫人", "priority": 100 }],
+        "accountStrategy": { "growthStage": "growing", "primaryGoal": "扩大品类认知并促进购买", "platformRoles": { "xiaohongshu": "使用场景种草" }, "contentPillars": [{ "id": "care", "name": "科学养宠知识" }, { "id": "scene", "name": "产品使用场景" }], "contentPortfolio": { "traffic": 25, "trust": 25, "product": 40, "conversion": 10 }, "tone": ["友好", "具体"], "forbiddenTopics": ["夸大健康效果"] },
+        "knowledgeScope": { "folderIds": ["kb_pet_products"] }, "confirmedClaimIds": ["claim_product_01"]
+      },
+      "facts": [{ "id": "fact_pet_01", "factKey": "product.cleaning", "value": "水箱支持拆卸清洗", "visibility": "public", "contentUsage": "allowed", "confidence": 1 }]
+    },
+    {
+      "id": "mature_saas_wechat",
+      "label": "成熟SaaS公众号",
+      "platform": "wechat",
+      "expected": { "firstPillar": "客户成功方法", "primaryRole": "trust" },
+      "strategySnapshot": {
+        "id": "mock_strategy_04", "schemaVersion": "1.0", "accountId": "mock_saas",
+        "business": { "businessModel": "企业SaaS订阅", "primaryOffers": ["客户服务系统"], "valueProposition": "统一企业客户问题与知识响应", "conversionPath": "文章→白皮书→产品演示→试用" },
+        "audiences": [{ "id": "cs", "name": "客户成功负责人", "priority": 100 }],
+        "accountStrategy": { "growthStage": "stable_operation", "primaryGoal": "沉淀行业方法论并支持销售转化", "platformRoles": { "wechat": "系统方法与案例沉淀" }, "contentPillars": [{ "id": "success", "name": "客户成功方法" }, { "id": "knowledge", "name": "服务知识管理" }], "contentPortfolio": { "traffic": 10, "trust": 45, "product": 25, "conversion": 20 }, "tone": ["理性", "系统"], "forbiddenTopics": ["泄露客户数据"] },
+        "knowledgeScope": { "folderIds": ["kb_saas", "kb_cases"] }, "confirmedClaimIds": ["claim_saas_01"]
+      },
+      "facts": [{ "id": "fact_saas_private", "factKey": "customer.name", "value": "未公开客户名称", "visibility": "private", "contentUsage": "do_not_use", "confidence": 1 }]
+    },
+    {
+      "id": "reposition_consultant",
+      "label": "咨询师账号转型",
+      "platform": "xiaohongshu",
+      "expected": { "firstPillar": "管理问题诊断", "primaryRole": "trust" },
+      "strategySnapshot": {
+        "id": "mock_strategy_05", "schemaVersion": "1.0", "accountId": "mock_consultant",
+        "business": { "businessModel": "管理咨询与顾问服务", "primaryOffers": ["组织诊断", "管理者陪跑"], "valueProposition": "把模糊管理问题转成可行动的组织方案", "conversionPath": "内容→问题自测→咨询→项目" },
+        "audiences": [{ "id": "manager", "name": "50至300人企业管理者", "priority": 100 }],
+        "accountStrategy": { "growthStage": "transformation", "primaryGoal": "从泛职场内容转向企业管理咨询", "platformRoles": { "xiaohongshu": "问题识别与专业筛选" }, "contentPillars": [{ "id": "diagnosis", "name": "管理问题诊断" }, { "id": "organization", "name": "组织协作方法" }], "contentPortfolio": { "traffic": 20, "trust": 50, "product": 15, "conversion": 15 }, "tone": ["克制", "有洞察"], "forbiddenTopics": ["虚构咨询项目"] },
+        "knowledgeScope": { "folderIds": ["kb_consulting"] }, "confirmedClaimIds": []
+      },
+      "facts": []
+    },
+    {
+      "id": "local_restaurant",
+      "label": "本地餐饮门店",
+      "platform": "xiaohongshu",
+      "expected": { "firstPillar": "当季菜品故事", "primaryRole": "conversion" },
+      "strategySnapshot": {
+        "id": "mock_strategy_06", "schemaVersion": "1.0", "accountId": "mock_restaurant",
+        "business": { "businessModel": "本地餐厅到店消费", "primaryOffers": ["季节菜单", "双人套餐"], "valueProposition": "提供适合朋友小聚的当季料理", "conversionPath": "内容→收藏→到店或预约" },
+        "audiences": [{ "id": "local", "name": "周末寻找聚餐地点的本地用户", "priority": 100 }],
+        "accountStrategy": { "growthStage": "growing", "primaryGoal": "提高到店预约", "platformRoles": { "xiaohongshu": "本地搜索与到店决策" }, "contentPillars": [{ "id": "season", "name": "当季菜品故事" }, { "id": "occasion", "name": "聚餐场景指南" }], "contentPortfolio": { "traffic": 25, "trust": 15, "product": 20, "conversion": 40 }, "tone": ["有食欲", "真实"], "forbiddenTopics": ["使用非本店图片"] },
+        "knowledgeScope": { "folderIds": ["kb_menu"] }, "confirmedClaimIds": ["claim_menu_01"]
+      },
+      "facts": [{ "id": "fact_menu_01", "factKey": "menu.availability", "value": "季节菜单供应至八月底", "visibility": "public", "contentUsage": "approved", "confidence": 1 }]
+    },
+    {
+      "id": "professional_law_wechat",
+      "label": "律师专业公众号",
+      "platform": "wechat",
+      "expected": { "firstPillar": "企业合同风险", "primaryRole": "trust" },
+      "strategySnapshot": {
+        "id": "mock_strategy_07", "schemaVersion": "1.0", "accountId": "mock_law",
+        "business": { "businessModel": "企业法律顾问服务", "primaryOffers": ["常年法律顾问", "合同审查"], "valueProposition": "帮助成长企业提前识别经营法律风险", "conversionPath": "文章→风险清单→预约咨询" },
+        "audiences": [{ "id": "founder", "name": "成长型企业负责人", "priority": 100 }],
+        "accountStrategy": { "growthStage": "stable_operation", "primaryGoal": "建立专业可信度", "platformRoles": { "wechat": "法规解读与风险教育" }, "contentPillars": [{ "id": "contract", "name": "企业合同风险" }, { "id": "labor", "name": "劳动用工合规" }], "contentPortfolio": { "traffic": 10, "trust": 60, "product": 15, "conversion": 15 }, "tone": ["严谨", "通俗"], "forbiddenTopics": ["把一般信息当作个案法律意见", "引用失效法规"] },
+        "knowledgeScope": { "folderIds": ["kb_law"] }, "confirmedClaimIds": []
+      },
+      "facts": []
+    },
+    {
+      "id": "creator_paid_course",
+      "label": "知识博主课程冷启动",
+      "platform": "xiaohongshu",
+      "expected": { "firstPillar": "自由职业获客", "primaryRole": "traffic" },
+      "strategySnapshot": {
+        "id": "mock_strategy_08", "schemaVersion": "1.0", "accountId": "mock_creator",
+        "business": { "businessModel": "知识内容与线上课程", "primaryOffers": ["自由职业起步课"], "valueProposition": "帮助专业人士获得第一个稳定服务客户", "conversionPath": "内容→关注→直播→课程" },
+        "audiences": [{ "id": "freelancer", "name": "准备成为自由职业者的专业人士", "priority": 100 }],
+        "accountStrategy": { "growthStage": "account_setup", "primaryGoal": "验证受众问题并积累关注", "platformRoles": { "xiaohongshu": "问题共鸣与方法清单" }, "contentPillars": [{ "id": "client", "name": "自由职业获客" }, { "id": "pricing", "name": "服务定价方法" }], "contentPortfolio": { "traffic": 45, "trust": 35, "product": 10, "conversion": 10 }, "tone": ["诚实", "可执行"], "forbiddenTopics": ["承诺轻松月入"] },
+        "knowledgeScope": { "folderIds": [] }, "confirmedClaimIds": []
+      },
+      "facts": []
+    },
+    {
+      "id": "mature_beauty_brand",
+      "label": "成熟护肤品牌",
+      "platform": "xiaohongshu",
+      "expected": { "firstPillar": "成分使用边界", "primaryRole": "product" },
+      "strategySnapshot": {
+        "id": "mock_strategy_09", "schemaVersion": "1.0", "accountId": "mock_beauty",
+        "business": { "businessModel": "护肤品牌零售", "primaryOffers": ["敏感肌面霜"], "valueProposition": "用简单配方服务容易不耐受的肤质", "conversionPath": "内容→商品了解→购买" },
+        "audiences": [{ "id": "sensitive", "name": "关注温和护理的敏感肌用户", "priority": 100 }],
+        "accountStrategy": { "growthStage": "stable_operation", "primaryGoal": "强化产品认知与复购", "platformRoles": { "xiaohongshu": "成分教育与真实使用场景" }, "contentPillars": [{ "id": "boundary", "name": "成分使用边界" }, { "id": "routine", "name": "日常护理方法" }], "contentPortfolio": { "traffic": 15, "trust": 25, "product": 45, "conversion": 15 }, "tone": ["温和", "有依据"], "forbiddenTopics": ["医疗功效宣称", "伪造测评"] },
+        "knowledgeScope": { "folderIds": ["kb_formula"] }, "confirmedClaimIds": ["claim_formula_01"]
+      },
+      "facts": [{ "id": "fact_beauty_01", "factKey": "product.claim", "value": "产品完成基础安全评估", "visibility": "public", "contentUsage": "approved", "confidence": 1 }]
+    },
+    {
+      "id": "nonprofit_public_education",
+      "label": "公益机构公众号",
+      "platform": "wechat",
+      "expected": { "firstPillar": "公众议题科普", "primaryRole": "trust" },
+      "strategySnapshot": {
+        "id": "mock_strategy_10", "schemaVersion": "1.0", "accountId": "mock_nonprofit",
+        "business": { "businessModel": "公益项目与公众倡导", "primaryOffers": ["公众教育项目"], "valueProposition": "让复杂社会议题变得可理解和可参与", "conversionPath": "文章→了解项目→志愿参与" },
+        "audiences": [{ "id": "public", "name": "关注社区议题的普通公众", "priority": 100 }],
+        "accountStrategy": { "growthStage": "stable_operation", "primaryGoal": "提升公众理解和行动参与", "platformRoles": { "wechat": "议题解释与项目进展" }, "contentPillars": [{ "id": "education", "name": "公众议题科普" }, { "id": "project", "name": "项目进展记录" }], "contentPortfolio": { "traffic": 20, "trust": 50, "product": 5, "conversion": 25 }, "tone": ["平实", "尊重"], "forbiddenTopics": ["消费受助者隐私", "夸大项目成果"] },
+        "knowledgeScope": { "folderIds": ["kb_public"] }, "confirmedClaimIds": []
+      },
+      "facts": [{ "id": "fact_private_person", "factKey": "beneficiary.name", "value": "真实姓名", "visibility": "private", "contentUsage": "forbidden", "confidence": 1 }]
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+{"caseId":"baklib_audience_001","pendingField":"audiences.primary","input":"Baklib最想优先影响的是SaaS和科技行业的成长期公司，核心决策人是客户成功VP","mustWrite":["audiences.primary"],"forbidden":["business.businessModel"],"mustContain":["SaaS","科技","成长期","客户成功VP"]}
+{"caseId":"saas_industry_not_model","pendingField":"audiences.primary","input":"我们优先面向SaaS行业的中型企业，决策者是客户成功负责人","mustWrite":["audiences.primary"],"forbidden":["business.businessModel"],"mustContain":["SaaS","中型","客户成功负责人"]}
+{"caseId":"digital_transformation_not_growth","pendingField":"business.primaryOffers","input":"我们提供帮助企业数字化转型的企业知识库和智能搜索","mustWrite":["business.primaryOffers"],"forbidden":["accountStrategy.growthStage"],"mustContain":["企业知识库"]}
+{"caseId":"conversion_direct","pendingField":"business.conversionPath","input":"小红书用户先私信领取清单，再添加企业微信预约产品演示","mustWrite":["business.conversionPath"],"forbidden":[],"mustContain":["私信","企业微信","产品演示"]}
+{"caseId":"resources_explicit_none","pendingField":"accountStrategy.contentResources","input":"没有","mustWrite":["accountStrategy.contentResources"],"forbidden":[],"mustContain":["none"]}
+{"caseId":"constraints_explicit_none","pendingField":"accountStrategy.constraints","input":"目前没有","mustWrite":["accountStrategy.constraints"],"forbidden":[],"mustContain":["none"]}
+{"caseId":"constraints_cross_field","pendingField":"audiences.primary","input":"我们面向制造业老板，另外不能公开客户名称，也不能承诺一定提升效率","mustWrite":["audiences.primary","accountStrategy.constraints"],"forbidden":[],"mustContain":["制造业","不能公开客户名称"]}
+{"caseId":"platform_roles","pendingField":"accountStrategy.platformRoles","input":"小红书负责场景触达和搜索曝光，公众号负责深度案例和咨询承接","mustWrite":["accountStrategy.platformRoles"],"forbidden":[],"mustContain":["小红书","公众号"]}

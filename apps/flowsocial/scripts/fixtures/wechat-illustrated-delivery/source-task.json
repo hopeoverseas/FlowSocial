@@ -1,0 +1,162 @@
+{
+  "schemaVersion": "1.0",
+  "provenance": {
+    "sourceWorkItem": "FS-V1-WECHAT-CONTENT-09",
+    "sourceContentTaskId": "content_68a13675",
+    "sourceContentVersion": 2,
+    "sourceEvidence": "manual-recovery-evidence.json",
+    "sourceEvidenceResult": "passed",
+    "sourceCharacters": 1879,
+    "sourceH2Count": 6,
+    "authorizedSourceIds": ["T1", "T2", "T3"],
+    "historicalPackageSha256": "68ba2f8f14d2975b5199c0d49f837b85d3a7fbe2b0d3d590df1a084a175cc27d"
+  },
+  "task": {
+    "id": "content_68a13675_illustrated",
+    "sourceContentTaskId": "content_68a13675",
+    "platform": "wechat",
+    "version": 3,
+    "ideaTitle": "企业资料很多，为什么AI仍然进不了业务流程？",
+    "confirmedOutline": {
+      "outline_id": "outline_CM001_wechat_001",
+      "schema_version": "1.0",
+      "sections": [
+        { "section_id": "S1", "heading": "问题：资料堆积如山，但AI仍未进入业务流程", "claim_ids": ["F003"] },
+        { "section_id": "S2", "heading": "判断：资料多不等于知识，用AI不等于进入业务", "claim_ids": [] },
+        { "section_id": "S3", "heading": "症结：AI落地为何是系统性工程", "claim_ids": ["F001"] },
+        { "section_id": "S4", "heading": "框架：判断AI是否真正进入业务的三个视角", "claim_ids": ["F001"] },
+        { "section_id": "S5", "heading": "边界：避免陷入的误区与对AI的合理预期", "claim_ids": [] },
+        { "section_id": "S6", "heading": "互动：你的企业是否也遇到这些AI落地难题？", "claim_ids": [] }
+      ]
+    },
+    "currentContent": {
+      "platform": "wechat",
+      "article_promise": "给出有依据的判断和可执行的判断框架，帮助读者理解AI落地所需的系统性条件",
+      "core_argument": "资料很多不等于形成企业知识，使用AI不等于AI进入真实业务；AI落地需要从企业智慧资产库、数智业务官和AI智能体共建等系统性工程入手。",
+      "recommended_title": "企业资料很多，为什么AI仍然进不了业务流程？",
+      "abstract": "很多企业积累了海量资料，但AI始终未能真正进入业务流程。本文指出资料多不等于形成企业知识，使用AI也不等于AI进入真实业务，并给出判断AI是否真正进入业务的三个视角：企业智慧资产库是否结构化、有无数智业务官推动融合、AI智能体是否与业务场景绑定。同时明确避免陷入的误区与合理预期，帮助读者理解AI落地所需的系统性条件。",
+      "cta": "欢迎在评论区分享你遇到的最大AI落地障碍，关注我们，后续将深入拆解企业智慧资产库与数智业务官的实际路径。",
+      "claim_map": [
+        { "claim_id": "F001", "claim": "大卖数智提供 AI 数智官、B2B 独立站增长全案和海外社媒运营；AI 数智官交付包括企业智慧资产库、数智业务官和 AI 智能体共建。", "source_ids": ["T1"] },
+        { "claim_id": "F002", "claim": "服务场景包括外贸工厂、工业制造企业、工贸一体品牌、跨境卖家与出海品牌。", "source_ids": ["T2"] },
+        { "claim_id": "F003", "claim": "目标受众常见问题包括：产品资料多但查找困难、AI 不知如何进入业务、独立站转化差、社媒无方向、各环节割裂。", "source_ids": ["T3"] }
+      ],
+      "source_list": [
+        { "source_id": "T1", "source_type": "user_temporary_material", "visibility": "publishable", "usage": "usable", "content_hash": "6b353be27a3de238a35f93e5bb896d1a9f86d5b84bb4aacadea5ba0113629544" },
+        { "source_id": "T2", "source_type": "user_temporary_material", "visibility": "publishable", "usage": "usable", "content_hash": "9227c3b7d9dadc672f14335a120e6c1075251a9e65adbe57c0c5751a84b5bee3" },
+        { "source_id": "T3", "source_type": "user_temporary_material", "visibility": "publishable", "usage": "usable", "content_hash": "5a8973f92adb2375578535271e122505c7bbfe72add7c51d858ea11c8da7b756" }
+      ],
+      "image_plan": {
+        "schemaVersion": "1.0",
+        "status": "success",
+        "plan_id": "WIP_content_68a13675_v3",
+        "cover": {
+          "slot_id": "cover",
+          "role": "cover",
+          "purpose": "mood",
+          "strategy": "html_chart",
+          "asset_id": "wechat-cover-ai-workflow",
+          "claim_ids": [],
+          "caption": "从资料堆积到业务闭环：AI落地需要一条完整路径"
+        },
+        "slots": [
+          {
+            "slot_id": "WS01",
+            "after_section_id": "S1",
+            "purpose": "explain",
+            "strategy": "html_chart",
+            "claim_ids": ["F003"],
+            "asset_id": "wechat-symptom-map",
+            "caption": "资料很多但难调用，往往同时表现为查找难、流程断和AI难进入"
+          },
+          {
+            "slot_id": "WS02",
+            "after_section_id": "S2",
+            "purpose": "compare",
+            "strategy": "html_chart",
+            "claim_ids": [],
+            "asset_id": "wechat-material-knowledge-compare",
+            "caption": "资料只有经过结构化、关联和验证，才会成为可行动的知识"
+          },
+          {
+            "slot_id": "WS03",
+            "after_section_id": "S3",
+            "purpose": "explain",
+            "strategy": "html_chart",
+            "claim_ids": ["F001"],
+            "asset_id": "wechat-system-triad",
+            "caption": "AI落地的三个协同层：智慧资产库、数智业务官和AI智能体共建"
+          },
+          {
+            "slot_id": "WS04",
+            "after_section_id": "S4",
+            "purpose": "prove",
+            "strategy": "html_chart",
+            "claim_ids": ["F001"],
+            "asset_id": "wechat-readiness-checklist",
+            "caption": "用三个问题检查AI是否真的进入业务，而不是停留在工具层"
+          }
+        ]
+      }
+    },
+    "wechatDeterministicAssets": {
+      "wechat-cover-ai-workflow": {
+        "kind": "cover",
+        "kicker": "AI 落地判断框架",
+        "title": "企业资料很多，为什么 AI 仍然进不了业务流程？",
+        "subtitle": "真正的分水岭，不是资料数量，而是知识是否可调用、流程是否能闭环。",
+        "items": [
+          { "label": "01", "title": "资料", "detail": "散落、难找、缺少更新责任" },
+          { "label": "02", "title": "知识", "detail": "结构化、有关联、能够被验证" },
+          { "label": "03", "title": "业务", "detail": "任务清楚、有人复核、持续反馈" }
+        ]
+      },
+      "wechat-symptom-map": {
+        "kind": "grid",
+        "kicker": "先识别症状",
+        "title": "资料越积越多，调用却越来越难",
+        "subtitle": "问题通常不是“没有内容”，而是内容没有进入统一的知识与流程结构。",
+        "items": [
+          { "label": "查找", "title": "资料散落", "detail": "文件、聊天记录和系统各自为政" },
+          { "label": "协作", "title": "环节割裂", "detail": "责任、版本和反馈无法连续传递" },
+          { "label": "应用", "title": "AI难进入", "detail": "输入边界和合格输出没有定义" },
+          { "label": "结果", "title": "价值难验证", "detail": "没有稳定任务，也没有验收闭环" }
+        ]
+      },
+      "wechat-material-knowledge-compare": {
+        "kind": "grid",
+        "kicker": "资料 ≠ 知识",
+        "title": "从“存着”到“能行动”，中间差了四步",
+        "subtitle": "资料要先成为可检索、可理解、可验证、可更新的知识，AI才有稳定输入。",
+        "items": [
+          { "label": "01", "title": "清洗", "detail": "去掉重复、过期和冲突内容" },
+          { "label": "02", "title": "结构化", "detail": "建立分类、标签和对象关系" },
+          { "label": "03", "title": "验证", "detail": "标注来源、权限与适用边界" },
+          { "label": "04", "title": "更新", "detail": "明确负责人和持续维护机制" }
+        ]
+      },
+      "wechat-system-triad": {
+        "kind": "grid",
+        "kicker": "系统性工程",
+        "title": "AI落地不能只买一个工具",
+        "subtitle": "底层知识、中间业务桥梁和上层智能体，需要围绕同一业务目标协同。",
+        "items": [
+          { "label": "基础", "title": "企业智慧资产库", "detail": "让资料成为可调用、可更新的知识资产" },
+          { "label": "桥梁", "title": "数智业务官", "detail": "把业务需求翻译成可执行、可验收的任务" },
+          { "label": "落地", "title": "AI智能体共建", "detail": "进入具体场景，执行任务并反馈结果" }
+        ]
+      },
+      "wechat-readiness-checklist": {
+        "kind": "grid",
+        "kicker": "三项自检",
+        "title": "AI是否真正进入业务？看这三个信号",
+        "subtitle": "三个答案都明确，才说明AI从偶尔使用走向了稳定业务能力。",
+        "items": [
+          { "label": "知识", "title": "资产库可调用吗？", "detail": "资料有结构、有权限，也有人持续更新" },
+          { "label": "角色", "title": "有人推动融合吗？", "detail": "业务需求能被转成任务、规则与验收标准" },
+          { "label": "流程", "title": "智能体绑定场景吗？", "detail": "能够执行、协同、复核并形成反馈" }
+        ]
+      }
+    }
+  }
+}

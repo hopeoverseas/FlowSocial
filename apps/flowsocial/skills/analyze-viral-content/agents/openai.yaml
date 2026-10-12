@@ -1,0 +1,6 @@
+interface:
+  display_name: "爆款内容拆解"
+  short_description: "深度拆解参考内容并提炼可审核、可验证、可复用的内容规律"
+  default_prompt: "Use $analyze-viral-content to analyze these reference posts and propose a reviewable content blueprint."
+policy:
+  allow_implicit_invocation: false

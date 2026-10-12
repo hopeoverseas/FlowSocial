@@ -1,0 +1,22 @@
+{
+  "schemaVersion": "1.0",
+  "canvas": {"width": 1080, "height": 1440},
+  "safeArea": {"x": 72, "y": 72, "width": 936, "height": 1296},
+  "fixedOfflineReplay": {
+    "P2": {"issue": "three-card copy geometry", "headline": "三类风险逐项核对", "bodyItems": ["来源范围必须明确", "敏感字段必须脱敏", "发布动作必须确认"], "expected": "measured_dom_pass_or_hard_block"},
+    "P3": {"issue": "definition title wrapping", "headline": "确定性精确画布是什么", "bodyItems": ["最终文字由本地 Renderer 叠加", "宽高必须精确", "质量状态必须可审计"], "expected": "measured_dom_pass_or_hard_block"},
+    "P4": {"issue": "process-card content geometry", "headline": "从内容真值走到安全交付", "bodyItems": ["冻结内容", "渲染页面", "执行门禁"], "expected": "measured_dom_pass_or_hard_block"},
+    "P7": {"issue": "summary and footer safe area", "headline": "四项结果必须分别保存", "bodyItems": ["画布精确", "局部对比达标", "内容不溢出", "安全区不越界"], "expected": "measured_dom_pass_or_hard_block"}
+  },
+  "cases": [
+    {"id":"normal","backgroundRegions":[{"x":0,"y":0,"width":1080,"height":1440,"color":"#f4f1e9"}],"expected":{"blocked":false,"presetTextTone":"dark_text"}},
+    {"id":"bright","backgroundRegions":[{"x":0,"y":0,"width":1080,"height":1440,"color":"#ffffff"}],"expected":{"blocked":false,"presetTextTone":"dark_text"}},
+    {"id":"dark","backgroundRegions":[{"x":0,"y":0,"width":1080,"height":1440,"color":"#142c24"}],"expected":{"blocked":false,"presetTextTone":"light_text"}},
+    {"id":"split","backgroundRegions":[{"x":0,"y":0,"width":540,"height":1440,"color":"#ffffff"},{"x":540,"y":0,"width":540,"height":1440,"color":"#142c24"}],"expected":{"blocked":false,"cardFill":"light_card"}},
+    {"id":"dense","backgroundRegions":[{"x":0,"y":0,"width":1080,"height":1440,"color":"#ffffff"}],"body":"这是一段超过固定紧凑容量的信息。这里不允许通过无限缩小字号或自由生成布局密度来绕过容量门禁。此段内容会重复以构成确定性的超容量样例。这是一段超过固定紧凑容量的信息。这里不允许通过无限缩小字号或自由生成布局密度来绕过容量门禁。此段内容会重复以构成确定性的超容量样例。这是一段超过固定紧凑容量的信息。","expected":{"blocker":"INFORMATION_CAPACITY_EXCEEDED"}},
+    {"id":"cropped","backgroundRegions":[{"x":0,"y":0,"width":1080,"height":1440,"color":"#ffffff"}],"cropDetected":true,"expected":{"blocker":"CANVAS_CROPPED"}},
+    {"id":"tampered-size","canvas":{"width":1086,"height":1448},"backgroundRegions":[{"x":0,"y":0,"width":1086,"height":1448,"color":"#ffffff"}],"expected":{"blocker":"CANVAS_NOT_EXACT_1080X1440"}},
+    {"id":"legacy-adapter","legacy":{"pageId":"P2","width":1080,"height":1440,"status":"succeeded"},"expected":{"deliveryEligibility":"legacy_quality_unknown"}},
+    {"id":"explicit-fallback","renderSource":"explicit_deterministic_fallback","backgroundRegions":[{"x":0,"y":0,"width":1080,"height":1440,"color":"#f4f1e9"}],"expected":{"blocked":false,"providerCalls":0}}
+  ]
+}

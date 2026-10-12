@@ -1,0 +1,724 @@
+openapi: 3.1.0
+info:
+  title: FlowSocial Workbench API
+  version: 0.3.0
+  description: Partial API contract for the local social content workbench. API document version is independent of the application package version; unified atomic routes are not exhaustively documented.
+servers:
+  - url: http://127.0.0.1:4273/api/v1
+paths:
+  /content-agent/strategy-runs:
+    post:
+      deprecated: true
+      summary: Retired legacy ContentRun strategy entry
+      description: Legacy ContentRun writes are retired. Use the unified prerequisite and staged bootstrap APIs.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [accountId, platform, recommendationId, expectedStrategySnapshotId, expectedDirectionCardId]
+              properties:
+                accountId: { type: string }
+                companyId: { type: string }
+                socialAccountId: { type: string }
+                platform: { type: string, enum: [xiaohongshu, wechat] }
+                recommendationId: { type: string }
+                expectedStrategySnapshotId: { type: string }
+                expectedDirectionCardId: { type: string }
+                limit: { type: integer, minimum: 1, maximum: 5, default: 3 }
+                userRequest: { type: object }
+      responses:
+        "410": { description: LEGACY_CONTENT_RUN_COMPATIBILITY_REMOVED }
+  /health:
+    get:
+      summary: Check service health
+      responses:
+        "200": { description: Healthy }
+  /dashboard:
+    get:
+      summary: Get today's workbench summary
+      responses:
+        "200": { description: Dashboard data }
+  /accounts:
+    get:
+      summary: List social accounts
+      responses:
+        "200": { description: Account list }
+    post:
+      summary: Create a platform account with writing and visual style
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name, platform]
+              properties:
+                name: { type: string }
+                platform: { type: string }
+                audience: { type: string }
+                tone: { type: string }
+                contentPillars: { type: array, items: { type: string } }
+                visualStyle:
+                  type: object
+                  properties:
+                    name: { type: string }
+                    description: { type: string }
+                    viFiles: { type: array, items: { type: object } }
+                    templateFiles: { type: array, items: { type: object } }
+      responses:
+        "201": { description: Created account }
+  /accounts/{accountId}:
+    patch:
+      summary: Update account attributes, writing style, and visual style
+      parameters:
+        - in: path
+          name: accountId
+          required: true
+          schema: { type: string }
+      responses:
+        "200": { description: Updated account }
+  /collections/run:
+    post:
+      summary: Start a hotspot collection run
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                sourceIds: { type: array, items: { type: string } }
+                accountIds: { type: array, items: { type: string } }
+      responses:
+        "201": { description: Collection run result }
+  /content-directions:
+    get:
+      summary: List company business themes used for hotspot discovery
+      responses:
+        "200": { description: Business theme list }
+    post:
+      summary: Create a business theme with keywords and refresh policy
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name]
+              properties:
+                name: { type: string }
+                shortName: { type: string }
+                description: { type: string }
+                keywords: { type: array, items: { type: string } }
+                coreKeywords: { type: array, items: { type: string } }
+                platformKeywords: { type: array, items: { type: string } }
+                scenarioKeywords: { type: array, items: { type: string } }
+                excludeKeywords: { type: array, items: { type: string } }
+                refreshSchedule: { type: string, default: daily }
+      responses:
+        "201": { description: Created business theme }
+  /keyword-profiles/expand:
+    post:
+      summary: Expand a theme into editable core, platform, scenario, and exclusion keywords
+      responses:
+        "200": { description: Structured keyword profile }
+  /content-directions/{directionId}:
+    patch:
+      summary: Update a business theme and its discovery rules
+      parameters:
+        - in: path
+          name: directionId
+          required: true
+          schema: { type: string }
+      responses:
+        "200": { description: Updated business theme }
+  /content-directions/{directionId}/library:
+    get:
+      summary: Get the account-neutral hotspot and idea library for one theme
+      parameters:
+        - in: path
+          name: directionId
+          required: true
+          schema: { type: string }
+      responses:
+        "200": { description: Theme, hotspots, source evidence, and content ideas }
+  /content-directions/{directionId}/refresh:
+    post:
+      summary: Run a discovery-only refresh for one business theme
+      parameters:
+        - in: path
+          name: directionId
+          required: true
+          schema: { type: string }
+      responses:
+        "201": { description: Completed refresh and generated hotspot card }
+  /hotspot-runs:
+    get:
+      summary: List hotspot collection runs for both hotspot pools
+      responses:
+        "200": { description: Hotspot run list }
+    post:
+      summary: Search, normalize, relevance-filter, dedupe, cluster, and score a preview without committing it
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [poolType]
+              properties:
+                poolType: { type: string, enum: [global, keyword] }
+                keywords: { type: array, items: { type: string } }
+                directionId: { type: string }
+                platforms: { type: array, items: { type: string } }
+                globalSources: { type: array, items: { type: string, enum: [baidu, toutiao, zhihu, google_hk, google_tw, google_us, google_gb, google_jp] } }
+                timeWindowDays: { type: integer, minimum: 1, maximum: 90 }
+                limit: { type: integer, minimum: 5, maximum: 50 }
+                maxOpportunities: { type: integer, minimum: 1, maximum: 30 }
+                targetOpportunityCount: { type: integer, minimum: 1, maximum: 30 }
+                relevanceThreshold: { type: integer, minimum: 50, maximum: 95 }
+      responses:
+        "201": { description: Completed run with opportunities, evidence, scores, warnings, and stage statistics }
+  /hotspot-runs/{previewId}/commit:
+    post:
+      summary: Commit all or selected preview hotspots into the cumulative hotspot library
+      responses:
+        "200": { description: Added, updated, duplicate, ignored, and source-failure counts }
+  /hotspot-library:
+    get:
+      summary: List cumulative active or ignored hotspots
+      responses:
+        "200": { description: Hotspot library }
+  /hotspot-library/{hotspotId}:
+    patch:
+      summary: Ignore or restore one hotspot
+      responses:
+        "200": { description: Updated hotspot }
+  /hotspots:
+    get:
+      summary: Read the global or keyword hotspot pool
+      parameters:
+        - in: query
+          name: poolType
+          required: true
+          schema: { type: string, enum: [global, keyword] }
+        - in: query
+          name: directionId
+          schema: { type: string }
+      responses:
+        "200": { description: Current hotspot pool and its latest collection run }
+  /hotspot-runs/{runId}:
+    get:
+      summary: Get one hotspot radar run with stage statuses
+      parameters:
+        - in: path
+          name: runId
+          required: true
+          schema: { type: string }
+      responses:
+        "200": { description: Hotspot run }
+  /manual-signals:
+    get:
+      deprecated: true
+      summary: Removed; manual signals were not traceably connected to discovery
+      responses:
+        "410": { description: Feature removed }
+    post:
+      deprecated: true
+      summary: Removed
+      responses:
+        "410": { description: Feature removed }
+  /opportunities:
+    get:
+      summary: List source-backed hotspots, optionally filtered by business theme
+      parameters:
+        - in: query
+          name: directionId
+          schema: { type: string }
+      responses:
+        "200": { description: Opportunity list }
+  /content-ideas/select:
+    post:
+      summary: Save an idea selection before account and platform configuration
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [ideaId, directionId, title]
+              properties:
+                ideaId: { type: string }
+                opportunityId: { type: string }
+                directionId: { type: string }
+                title: { type: string }
+                whyNow: { type: string }
+                keywords: { type: array, items: { type: string } }
+                sourceCount: { type: integer }
+                opportunityScore: { type: number }
+      responses:
+        "201": { description: Idea selection snapshot }
+  /opportunities/{opportunityId}/topics:
+    post:
+      deprecated: true
+      summary: Deprecated single-hotspot demo endpoint; use POST /topics/generate
+      parameters:
+        - in: path
+          name: opportunityId
+          required: true
+          schema: { type: string }
+      responses:
+        "410": { description: Endpoint retired }
+  /topics:
+    get:
+      summary: List approved mother topics and platform topic pairs
+      parameters:
+        - in: query
+          name: directionId
+          schema: { type: string }
+        - in: query
+          name: category
+          schema: { type: string, enum: [keyword, cross_trend] }
+      responses:
+        "200": { description: Topic list }
+  /topics/generate:
+    post:
+      summary: Generate keyword or cross-trend mother topics, gate them, and adapt approved topics to Xiaohongshu and WeChat
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [directionId, category]
+              properties:
+                directionId: { type: string }
+                category: { type: string, enum: [keyword, cross_trend, all] }
+                topicCount: { type: integer, minimum: 1, maximum: 8 }
+                accountId: { type: string }
+                thresholds: { type: object }
+      responses:
+        "201": { description: Topic run, approved topics, platform topic pairs, and rejected candidates }
+  /topics/{topicId}/select:
+    post:
+      summary: Freeze one Xiaohongshu or WeChat platform topic before content-purpose selection
+      parameters:
+        - in: path
+          name: topicId
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [platform]
+              properties:
+                platform: { type: string, enum: [xiaohongshu, wechat] }
+                force: { type: boolean, default: false }
+      responses:
+        "201": { description: Immutable platform-topic selection snapshot }
+        "409": { description: Platform fit below threshold or no usable platform topic }
+  /source-configs:
+    get:
+      summary: List hotspot source adapters
+      responses:
+        "200": { description: Source configurations }
+  /source-configs/{sourceId}:
+    patch:
+      summary: Enable, disable, or update a source adapter
+      parameters:
+        - in: path
+          name: sourceId
+          required: true
+          schema: { type: string }
+      responses:
+        "200": { description: Updated source }
+  /integrations:
+    get:
+      summary: Check model, search, image, and publishing provider status
+      responses:
+        "200": { description: Provider status }
+  /provider-config:
+    get:
+      summary: Read non-secret provider configuration and key status
+      responses:
+        "200": { description: Provider names, endpoints, model names, and keyConfigured flags; never returns API keys }
+    post:
+      summary: Save LLM, RedFox, and Kie.ai configuration to the server-local .env.local
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                modelProvider: { type: string, description: Display name used to select a specialized or compatible adapter }
+                modelApiKey: { type: string, writeOnly: true }
+                modelBaseUrl: { type: string, format: uri }
+                modelName: { type: string }
+                modelProtocol: { type: string, enum: [openai, anthropic] }
+                redfoxApiKey: { type: string, writeOnly: true }
+                redfoxBaseUrl: { type: string, format: uri }
+                kieApiKey: { type: string, writeOnly: true }
+                kieBaseUrl: { type: string, format: uri }
+                kieImageModel: { type: string }
+      responses:
+        "200": { description: Saved configuration with keyConfigured flags }
+  /provider-config/model/test:
+    post:
+      summary: Test the configured LLM through the live model gateway
+      responses:
+        "200": { description: Live connection result, model identity, and non-secret telemetry }
+  /reference-posts/analyze:
+    post:
+      summary: Analyze a high-performing reference post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [url, platform]
+              properties:
+                url: { type: string, format: uri }
+                platform: { type: string }
+                usageRights: { type: string, enum: [owned, licensed, public-analysis] }
+      responses:
+        "201": { description: Base metrics, click/read/save/conversion analysis, risks, and style blueprint }
+  /reference-posts/analyses:
+    get:
+      summary: List saved viral-post analyses
+      responses:
+        "200": { description: Analysis list }
+  /reference-posts/analyses/{analysisId}:
+    get:
+      summary: Get a complete viral-post analysis
+      parameters:
+        - in: path
+          name: analysisId
+          required: true
+          schema: { type: string }
+      responses:
+        "200": { description: Complete analysis }
+  /reference-posts/analyses/{analysisId}/remix:
+    post:
+      summary: Create an original content brief from a style blueprint
+      parameters:
+        - in: path
+          name: analysisId
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [accountId, newTopic]
+              properties:
+                accountId: { type: string }
+                platform: { type: string }
+                newTopic: { type: string }
+                knowledgeIds: { type: array, items: { type: string } }
+                knowledgeFolderIds: { type: array, items: { type: string } }
+                promotionMode: { type: string, enum: [none, soft, focused] }
+      responses:
+        "201": { description: Original content brief ready for generation }
+  /knowledge/entities:
+    get:
+      summary: Search knowledge, talent, product, service, and campaign entities
+      parameters:
+        - in: query
+          name: q
+          schema: { type: string }
+      responses:
+        "200": { description: Knowledge entity list }
+    post:
+      summary: Create a knowledge entity
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [type, name]
+              properties:
+                type: { type: string, enum: [company, talent, product, service, campaign, case] }
+                name: { type: string }
+                tags: { type: array, items: { type: string } }
+      responses:
+        "201": { description: Created entity }
+  /knowledge/folders:
+    get:
+      summary: List user-defined knowledge folders
+      responses:
+        "200": { description: Folder list with file counts }
+    post:
+      summary: Create a knowledge folder
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name]
+              properties:
+                name: { type: string }
+                description: { type: string }
+                icon: { type: string }
+      responses:
+        "201": { description: Created folder }
+  /knowledge/files:
+    get:
+      summary: List or search tagged files in a knowledge folder
+      parameters:
+        - in: query
+          name: folderId
+          schema: { type: string }
+        - in: query
+          name: q
+          schema: { type: string }
+      responses:
+        "200": { description: Tagged knowledge file list }
+    post:
+      summary: Upload, store, parse, chunk, and index a knowledge file
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required: [folderId, file, tags]
+              properties:
+                folderId: { type: string }
+                file: { type: string, format: binary }
+                tags: { type: string, description: JSON array containing at least one tag }
+                description: { type: string }
+      responses:
+        "201": { description: Stored file with parse status, text size, and chunk count }
+  /knowledge/files/{fileId}:
+    delete:
+      summary: Delete a stored knowledge file and its search chunks
+      parameters:
+        - in: path
+          name: fileId
+          required: true
+          schema: { type: string }
+      responses:
+        "200": { description: File and chunks deleted }
+  /knowledge/search:
+    get:
+      summary: Retrieve relevant knowledge chunks for a topic
+      parameters:
+        - in: query
+          name: q
+          required: true
+          schema: { type: string }
+        - in: query
+          name: folderIds
+          description: Comma-separated folder IDs
+          schema: { type: string }
+      responses:
+        "200": { description: Ranked chunks with stable K1/K2 citation IDs }
+  /content-tasks/generate:
+    post:
+      deprecated: true
+      summary: Retired legacy ContentRun content generation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [accountId, platform, contentPurposeId, promotionMode]
+              properties:
+                sourceType: { type: string, enum: [idea, custom] }
+                topicId: { type: string }
+                ideaSelectionId: { type: string }
+                ideaTitle: { type: string }
+                customBrief: { type: string }
+                uploadedImageNames: { type: array, items: { type: string } }
+                accountId: { type: string }
+                platform: { type: string }
+                hookEnabled: { type: boolean }
+                hookType: { type: string }
+                contentPurposeId:
+                  type: string
+                  enum: [hotspot_industry_explainer, knowledge_howto, professional_opinion, product_service_promotion, case_result_showcase, brand_story, interactive_discussion, event_announcement]
+                contentPurposeLabel: { type: string }
+                contentPurposeDescription: { type: string }
+                promotionMode: { type: string, enum: [none, soft, focused] }
+                knowledgeIds: { type: array, items: { type: string } }
+                knowledgeFolderIds: { type: array, items: { type: string } }
+      responses:
+        "410": { description: LEGACY_CONTENT_RUN_COMPATIBILITY_REMOVED }
+  /content-tasks/{contentTaskId}/revise:
+    post:
+      deprecated: true
+      summary: Retired legacy paid text and image revision
+      description: Rejected before body parsing, storage reads or provider calls. Create an immutable successor through the unified atomic content chain; the old payload is not compatible with the replacement.
+      parameters:
+        - in: path
+          name: contentTaskId
+          required: true
+          schema: { type: string }
+      responses:
+        "410": { description: LEGACY_PAID_CONTENT_GENERATION_REMOVED }
+  /content-revisions/{revisionId}/start-upstream-run:
+    post:
+      deprecated: true
+      summary: Retired legacy upstream ContentRun creation
+      parameters:
+        - in: path
+          name: revisionId
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [overrides]
+              properties:
+                overrides:
+                  type: object
+                  description: Updated topic, purpose, evidence, fact snapshot, source plan or knowledge selection
+      responses:
+        "410": { description: LEGACY_CONTENT_RUN_COMPATIBILITY_REMOVED }
+  /content-agent/runs/{runId}/execution-plan:
+    get:
+      deprecated: true
+      summary: Removed legacy ContentRun execution-plan endpoint
+      parameters:
+        - in: path
+          name: runId
+          required: true
+          schema: { type: string }
+      responses:
+        "410": { description: LEGACY_CONTENT_RUN_COMPATIBILITY_REMOVED }
+  /content-agent/runs/{runId}/trace:
+    get:
+      deprecated: true
+      summary: Removed legacy ContentRun trace endpoint
+      parameters:
+        - in: path
+          name: runId
+          required: true
+          schema: { type: string }
+      responses:
+        "410": { description: LEGACY_CONTENT_RUN_COMPATIBILITY_REMOVED }
+  /content-tasks/{contentTaskId}:
+    get:
+      summary: Read one content task including its current package, generated assets and delivery state
+      parameters:
+        - in: path
+          name: contentTaskId
+          required: true
+          schema: { type: string }
+      responses:
+        "200": { description: Current content task }
+        "404": { description: Content task not found }
+  /content-tasks/{contentTaskId}/versions:
+    get:
+      summary: List immutable versions for a content task
+      parameters:
+        - in: path
+          name: contentTaskId
+          required: true
+          schema: { type: string }
+      responses:
+        "200": { description: Version list and current version }
+  /content-tasks/{contentTaskId}/restore:
+    post:
+      summary: Restore an old version by creating a new immutable version
+      parameters:
+        - in: path
+          name: contentTaskId
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [version, baseVersion]
+              properties:
+                version: { type: integer, minimum: 1 }
+                baseVersion: { type: integer, minimum: 1 }
+      responses:
+        "201": { description: Restored content as a new version }
+        "409": { description: Base version conflict }
+  /content-tasks/{contentTaskId}/assets/generate:
+    post:
+      deprecated: true
+      summary: Retired legacy paid asset generation
+      description: Rejected before body parsing, storage reads or provider calls. Use unified XHS provider plans, exact authority, human approval and budgeted provider-executions; do not retry this route.
+      parameters:
+        - in: path
+          name: contentTaskId
+          required: true
+          schema: { type: string }
+      responses:
+        "410": { description: LEGACY_PAID_CONTENT_GENERATION_REMOVED }
+  /content-tasks/{contentTaskId}/visual-candidates/{pageId}/retry:
+    post:
+      deprecated: true
+      summary: Retired legacy paid page retry
+      description: Rejected before body parsing, storage reads or provider calls. Use an exact unified XHS light-revision-plan and its human approval and budgeted execution. Unknown effects require reconciliation, never an automatic retry.
+      parameters:
+        - in: path
+          name: contentTaskId
+          required: true
+          schema: { type: string }
+        - in: path
+          name: pageId
+          required: true
+          schema: { type: string }
+      responses:
+        "410": { description: LEGACY_PAID_CONTENT_GENERATION_REMOVED }
+  /content-tasks/{contentTaskId}/render:
+    post:
+      summary: Render XHS HTML and 1080x1440 PNG or WeChat Markdown and compatible HTML
+      parameters:
+        - in: path
+          name: contentTaskId
+          required: true
+          schema: { type: string }
+      responses:
+        "201": { description: Delivery artifacts rendered and validated }
+        "202": { description: Rendered with validation issues }
+  /content-tasks/{contentTaskId}/deliver:
+    post:
+      summary: Build a ZIP delivery package with manifest and audit trail
+      parameters:
+        - in: path
+          name: contentTaskId
+          required: true
+          schema: { type: string }
+      responses:
+        "201": { description: ZIP prepared with download URL }
+        "409": { description: Content is blocked from export }
+  /content-tasks/{contentTaskId}/download:
+    get:
+      summary: Download the prepared ZIP delivery package
+      parameters:
+        - in: path
+          name: contentTaskId
+          required: true
+          schema: { type: string }
+      responses:
+        "200": { description: ZIP file, content: { application/zip: {} } }
+        "404": { description: Delivery ZIP not prepared }
+  /images/generate:
+    post:
+      deprecated: true
+      summary: Retired ungoverned image generation
+      description: Rejected before body parsing, storage reads or provider calls. Use unified XHS provider plans, exact content authority, human approval and budgeted provider-executions; client-supplied approval fields cannot restore this route.
+      responses:
+        "410": { description: UNGOVERNED_IMAGE_GENERATION_REMOVED }

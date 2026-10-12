@@ -1,0 +1,6 @@
+interface:
+  display_name: "生成双平台子选题"
+  short_description: "把母选题改编为小红书图文题与公众号深度题"
+  default_prompt: "Use $adapt-topic-to-platforms to create platform-native Xiaohongshu and WeChat topic adaptations from this approved mother topic."
+policy:
+  allow_implicit_invocation: false

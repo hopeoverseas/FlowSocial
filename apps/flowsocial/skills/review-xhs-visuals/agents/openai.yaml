@@ -1,0 +1,6 @@
+interface:
+  display_name: "审核小红书视觉"
+  short_description: "Review rendered Xiaohongshu pages without scope drift"
+  default_prompt: "Use $review-xhs-visuals to review these rendered Xiaohongshu pages without rewriting the topic."
+policy:
+  allow_implicit_invocation: false

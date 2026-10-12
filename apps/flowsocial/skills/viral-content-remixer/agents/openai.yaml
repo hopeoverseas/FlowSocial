@@ -1,0 +1,6 @@
+interface:
+  display_name: "爆款拆解与原创重构"
+  short_description: "Analyze references and create an original safe blueprint"
+  default_prompt: "Use $viral-content-remixer to analyze this authorized reference and create an original blueprint."
+policy:
+  allow_implicit_invocation: false

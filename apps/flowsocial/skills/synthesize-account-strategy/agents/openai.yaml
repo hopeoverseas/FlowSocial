@@ -1,0 +1,4 @@
+interface:
+  display_name: "生成账号策略"
+  short_description: "生成含账号矩阵、增长打法、热点边界与实验计划的可追溯策略草案"
+  default_prompt: "Use $synthesize-account-strategy to create a traceable account portfolio and long-term growth strategy draft."

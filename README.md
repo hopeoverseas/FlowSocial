@@ -6,7 +6,7 @@ FlowSocial 是面向小红书和微信公众号的本地社媒运营工作台，
 
 ## 接手入口
 
-先读 [接手说明](docs/HANDOVER.md)、[工程进度](docs/PROGRESS.md)和 [下一步任务](docs/NEXT_STEPS.md)，再按模块阅读合同、Skill 与迁移记录。业务验收前填写[验收输入清单](docs/operations/business-acceptance.md)。长期工作规则见 [AGENTS.md](AGENTS.md)。
+跨电脑或更换 IDE 前先读[共创指南](CONTRIBUTING.md)，按其中步骤核对 GitHub 最新 main。首次接手再读 [接手说明](docs/HANDOVER.md)、[工程进度](docs/PROGRESS.md)和 [下一步任务](docs/NEXT_STEPS.md)，按模块查看合同、Skill 与迁移记录。业务验收前填写[验收输入清单](docs/operations/business-acceptance.md)。AI 工作规则见 [AGENTS.md](AGENTS.md)。
 
 本项目从不含原 Git 历史的交接源码建立新的 `main` 历史。公开发行只含源码、文档、离线测试与新建的 `defaults/store.json` 空种子，不包含原机器的业务数据或授权。原始交接清单作为本地旁证保留，不进入公开仓库。
 
@@ -103,6 +103,7 @@ npm run test:offline
 
 | 文件 | 唯一职责 |
 | --- | --- |
+| [CONTRIBUTING.md](CONTRIBUTING.md) | 跨电脑/IDE 环境、GitHub 同步和共创收尾流程 |
 | [HANDOVER.md](docs/HANDOVER.md) | 接手事实、边界与尚待确认的输入 |
 | [PROGRESS.md](docs/PROGRESS.md) | 已完成/进行中/未开始和实测状态 |
 | [NEXT_STEPS.md](docs/NEXT_STEPS.md) | P0/P1/P2 任务与验收标准 |

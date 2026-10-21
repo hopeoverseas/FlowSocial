@@ -117,3 +117,10 @@
 - 修复提交 [21f52dd](https://github.com/hopeoverseas/FlowSocial/commit/21f52ddcc9496479b3d4b77dd2d1274cc3b23c68) 补入测试前的 `npx --no-install playwright install --with-deps chromium`；安装与离线回归独立，未跳过断言或改动业务代码。
 - [修复后 Actions](https://github.com/hopeoverseas/FlowSocial/actions/runs/38269293209) 于 2026-10-12 15:22 UTC 完成并成功：Ubuntu 24.04、Node 24.18.0，锁定依赖与 Chromium/系统依赖安装成功，完整 `npm run test:offline` 通过；218 个正式源码、架构和外网 guard 检查通过，输出 `product-tests: ok (45 tests)`。
 - 本机 Git HTTPS 传输遇到 HTTP/2/连接失败；通过已登录 gh 的 Git Data API 同步修复。先核实远端父提交，再逐项比对文件树和完整提交 SHA，最后执行非强制的 fast-forward 更新。修复同步后核验本地/远端 main 均为 21f52dd；后续发行文档更新不改动该次验证的业务源码和 CI。
+
+## 2026-10-22 跨电脑与 IDE 共创说明
+
+- 起始基线：开工前本地 main 与 GitHub origin/main 均为 6e4c2b7673c31eac01fca7e136f0ceb840d5d8da，工作区干净；远程核验成功。
+- 文档：新增根目录 CONTRIBUTING.md，说明公开仓库、跨平台环境、IDE/Skill 要求、模块地图、启动、每次共创前同步核对、分支方式和收尾文档；同步更新 README、AGENTS、PROJECT_STRUCTURE、docs 索引和协作说明。
+- 验证：重新读取和审阅本次文档差异；未安装依赖，未运行 npm run check 或产品测试，因为本次只改文档。既有 CI 结果仍以 2026-10-12 的历史记录为准。
+- 记录时的工作分支：docs/cross-ide-contributing。是否已并入主线以 GitHub main 和提交历史为准。

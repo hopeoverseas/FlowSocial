@@ -1,10 +1,18 @@
 # FlowSocial development rules
 
+## GitHub source of truth and preflight
+
+- Canonical repository: https://github.com/hopeoverseas/FlowSocial; main is the source of truth for merged code and docs.
+- Before editing, verify origin with git remote get-url origin and inspect git status --short --branch. Preserve and understand existing changes before switching branches or pulling.
+- On a clean main, run git fetch origin and git pull --ff-only origin main. Verify HEAD and origin/main have the same full SHA and the worktree is clean. If the remote is wrong, auth fails, changes are unexplained, or fast-forward is impossible, stop and report; never reset or overwrite local work to force alignment.
+- Create a task branch from the verified main. Do not develop directly on main. Each computer should have its own clone; do not let multiple computers edit one cloud-synced Git working tree.
+- Do not push or merge unless the user explicitly authorizes that action. If GitHub auth is unavailable, ask the owner to configure gh auth login or SSH; never request or process tokens.
+
 ## Collaboration mode
 
 Use Codex's native workflow with Git as the source of truth:
 
-1. Start from a clean attached branch and inspect only the files relevant to the request.
+1. Start from a clean task branch based on the verified current origin/main and inspect only the files relevant to the request.
 2. Use one active writer and the current working tree by default. Do not create a worktree unless the user requests parallel development or isolation is materially necessary.
 3. If a temporary worktree is necessary, give it a bounded purpose, keep it clean, and remove it immediately after its branch is integrated or the attempt is abandoned.
 4. Use a short written plan only for multi-step or high-risk work. Ordinary bounded fixes do not require a separate task registry, evidence object, or governance decision.
@@ -45,7 +53,7 @@ Do not weaken user selection, publication confirmation, provider call/retry budg
 - When a handover snapshot has no `.git`, report that original history cannot be independently verified. Wait for the owner's history/repository decision before initialization, commits, or pushes; preserve original handover metadata as provenance.
 - Use Node.js 24.18.0 and `npm run test:offline` for ordinary full product regression. Keep installation separate from offline execution. Tests must use synthetic fixtures, isolated runtime directories, and fake transports; never copy active databases or bypass assertions to make tests pass.
 - `start:product:offline` only skips startup model preflight. It is not an external-network guard. Never claim local health, offline tests, HTML, ZIP, or recorded publication facts as real provider/platform acceptance.
-- Maintain fixed documentation responsibilities: `docs/HANDOVER.md` for takeover facts and open inputs, `docs/PROGRESS.md` for verified status, `docs/NEXT_STEPS.md` for actionable priorities and acceptance, and `docs/operations/business-acceptance.md` for real-business inputs and evidence. Keep historical roadmap decisions clearly marked as history.
+- Maintain fixed documentation responsibilities: `docs/HANDOVER.md` for takeover facts and open inputs, `docs/PROGRESS.md` for verified status, `docs/NEXT_STEPS.md` for actionable priorities and acceptance, and `docs/operations/business-acceptance.md` for real-business inputs and evidence. For each completed substantive contribution, add a concise dated entry to PROGRESS.md with the starting commit, actual changes, commands/results, and unresolved items. Update other fixed docs only when their facts change; do not create duplicate diaries. Keep historical roadmap decisions clearly marked as history.
 - If the user requests staged execution, stop at each requested stage boundary. Later authorization may expand the permitted work, but does not authorize publication, deployment, or pushing by implication.
 - User-authorized subagents may work in parallel on disjoint files. Declare ownership before editing; one writer owns each strongly coupled file. Integrate and run the representative checks before handing off.
 - Serve browser files only through the explicit public static asset list. New local UI resources require an allowlist entry and HTTP tests. Use existing scoped, versioned APIs for artifact preview/download; never reopen runtime/source directories or retired ungoverned paid routes for compatibility.

@@ -7,6 +7,7 @@
 
 ```text
 apps/flowsocial/             唯一可运行应用
+CONTRIBUTING.md               跨电脑/IDE 环境、GitHub 同步和共创收尾
 docs/HANDOVER.md              接手事实与待确认输入
 docs/PROGRESS.md              工程进度与实测状态
 docs/NEXT_STEPS.md            P0/P1/P2 任务与验收
@@ -46,6 +47,7 @@ artifacts/                   本地生成产物
 
 | 主题 | 固定文件 |
 | --- | --- |
+| 跨电脑/IDE 共创与 GitHub 同步 | CONTRIBUTING.md |
 | 项目入口 | `README.md` |
 | 接手事实与待确认输入 | `docs/HANDOVER.md` |
 | 当前工程进度和实测结果 | `docs/PROGRESS.md` |
@@ -72,7 +74,7 @@ artifacts/                   本地生成产物
 6. 策略 Agent 与内容 Agent 只通过 `contracts/` 中的版本化合同协作。
 7. 源码目录迁移必须独立提交，不与文档清理或业务功能混在一起。
 8. 删除文件前必须确认无运行引用、无活动任务依赖，并在 Git 差异中可恢复。
-9. 开始开发前先确认 Git 工作区；源码快照缺少 `.git` 时说明历史不可验证，未经所有者决定不凭空初始化或替换原历史。默认当前工作区；用户明确允许子 agent 时按文件分工，保持每个强耦合文件只有一位写者。临时 worktree 仅在必要时创建并及时清理。
+9. 开始开发前确认 GitHub origin、工作区状态，并按 CONTRIBUTING.md 获取和核对最新 origin/main；有未解释改动或分支分叉时先保留现场。源码快照缺少 `.git` 时说明历史不可验证，未经所有者决定不凭空初始化或替换原历史。默认当前工作区；用户明确允许子 agent 时按文件分工，保持每个强耦合文件只有一位写者。临时 worktree 仅在必要时创建并及时清理。
 10. 本机 `research/`、调研附件、交接导出清单与报告不随公开源码分发；长期公开架构和产品说明维护在 `docs/`。保留本机材料，不自动删除。
 11. `contracts/` 是稳定内核，不得反向依赖 `strategy-agent/`、`content-agent/`、`http/` 或 `ui/`。
 12. `strategy-agent/` 与 `content-agent/` 不得直接互相导入；协作必须经过合同、快照或显式 Adapter。
